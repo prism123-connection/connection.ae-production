@@ -1,0 +1,102 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String  @id @default(uuid())
+  firstName   String
+  lastName    String
+  email       String  @unique
+  password    String
+  referralId  String  @unique
+  verified    Boolean @default(false)
+  createdAt   DateTime @default(now())
+  walletBalance Float     @default(0)
+  role          Role      @default(SETUP_PENDING)
+
+  phoneNumber      String?
+  occupation       String?
+  emiratesId       String?
+  zipCode          String?
+  state            String?
+  city             String?
+  address          String?
+  gender           String?
+  dateOfBirth      DateTime?
+  referralSource   String?  // how did user hear about the app
+  joinReason       String?
+
+  tokens Token[]
+  transactions Transaction[]
+
+  referralsGiven Referral[] @relation("UserReferrer")
+  referralsReceived Referral[] @relation("UserReferred")
+}
+
+enum Role {
+  FREE_USER
+  PAID_USER
+  ADMIN
+  SETUP_PENDING
+  PAYMENT_PENDING
+}
+
+model Referral {
+  id          String   @id @default(uuid()) 
+  referrerId  String   @map("referrer_id")   
+  referredId  String   @map("referred_id") 
+  createdAt   DateTime @default(now())    
+  updatedAt   DateTime @updatedAt      
+  conversion  Boolean @default(false)
+
+  referrer    User     @relation("UserReferrer", fields: [referrerId], references: [id], onDelete: Cascade)
+  referred    User     @relation("UserReferred", fields: [referredId], references: [id], onDelete: Cascade)
+
+  @@unique([referredId])
+}
+
+
+
+model Token {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id") // Foreign key reference
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token      String   @unique
+  type       TokenType
+  expiresAt  DateTime 
+  createdAt  DateTime @default(now())
+}
+
+enum TokenType {
+  EMAIL_VERIFICATION
+  PASSWORD_RESET
+}
+
+model Transaction {
+  id            String   @id @default(uuid()) 
+  userId        String   @map("user_id") 
+  transactionId String   @unique 
+  amount        Float    
+  currency      String   
+  status        TransactionStatus @default(PENDING)  
+  createdAt     DateTime @default(now()) 
+
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
