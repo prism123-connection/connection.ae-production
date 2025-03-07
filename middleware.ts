@@ -8,13 +8,20 @@ export const config = {
   ],
 };
 
-const protectedRoutes = ["/dashboard", "/downline", "/direct-members"];
+const protectedRoutes = ["/dashboard", "/downline", "/direct-members", "/about-us"];
+const unProtectedRoutes = ["/about-us", "/pricing"]
 
 export async function middleware(request: NextRequest) {
   console.log("Reached middlewware");
 
   try {
     const { pathname } = request.nextUrl;
+
+    const isUnprotectedRoute = unProtectedRoutes.some((route) => pathname.startsWith(route));
+
+    if (isUnprotectedRoute) {
+      return NextResponse.next();
+    }
 
     if (
       pathname === "/" ||
