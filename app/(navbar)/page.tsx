@@ -13,6 +13,7 @@ export default function Home() {
       <Features />
       <Testimonial />
       <Footer />
+      {process.env.TEST_ENV}
     </div>
   );
 }

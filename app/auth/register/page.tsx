@@ -10,6 +10,7 @@ import { z } from "zod";
 import { register } from "@/lib/helper";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { log } from "node:console";
 
 const RegisterSchema = z.object({
   firstName: z.string().min(1, "First Name is required"),
@@ -60,6 +61,7 @@ const RegisterPage = () => {
 
     if (!response.success) {
       toast.error("Whoops! Something went wrong.");
+      console.log(errors)
     } else {
       router.push(`/auth/confirm?email=${encodeURIComponent(formData.email)}`);
     }
