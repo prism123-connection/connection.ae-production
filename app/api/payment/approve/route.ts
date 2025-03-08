@@ -3,6 +3,21 @@ import { prisma } from "@/lib/prisma";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { Role, TransactionStatus } from "@prisma/client";
+import paypal from '@paypal/checkout-server-sdk';
+
+// Initialize PayPal SDK
+const environment =
+  process.env.PAYPAL_ENVIRONMENT === "live"
+    ? new paypal.core.LiveEnvironment(
+        process.env.PAYPAL_CLIENT_ID!,
+        process.env.PAYPAL_CLIENT_SECRET!
+      )
+    : new paypal.core.SandboxEnvironment(
+        process.env.PAYPAL_CLIENT_ID!,
+        process.env.PAYPAL_CLIENT_SECRET!
+    );
+
+const client = new paypal.core.PayPalHttpClient(environment);
 
 export async function POST(req: Request) {
   try {
@@ -25,15 +40,39 @@ export async function POST(req: Request) {
 
     const userId = decoded.id;
 
-    const { transactionId, amount, currency } = await req.json();
+    // const { transactionId, amount, currency } = await req.json();
 
-    if (!transactionId || !amount || !currency) {
+    // if (!transactionId || !amount || !currency) {
+    //   return NextResponse.json(
+    //     { error: "Missing transaction details" },
+    //     { status: 400 }
+    //   );
+    // }
+
+    const { transactionId } = await req.json();
+
+    if (!transactionId) {
       return NextResponse.json(
-        { error: "Missing transaction details" },
+        { error: "Missing transaction ID" },
         { status: 400 }
       );
     }
 
+     // ✅ Verify transaction with PayPal
+     const request = new paypal.orders.OrdersGetRequest(transactionId);
+     const order = await client.execute(request);
+ 
+     if (!order.result || order.result.status !== "COMPLETED") {
+       return NextResponse.json(
+         { error: "Transaction not completed or invalid" },
+         { status: 400 }
+       );
+     }
+ 
+     const amount = order.result.purchase_units[0].amount.value;
+     const currency = order.result.purchase_units[0].amount.currency_code;
+
+    // ✅ Check if user exists
     const user = await prisma.user.findUnique({
       where: { id: userId },
     });
@@ -60,6 +99,7 @@ export async function POST(req: Request) {
       });
     });
 
+    // ✅ Generate a new token with updated role
     const newToken = jwt.sign(
       { id: user.id, email: user.email, role: updatedUser.role },
       process.env.JWT_SECRET!,
