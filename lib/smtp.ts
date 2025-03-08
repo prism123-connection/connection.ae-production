@@ -22,7 +22,7 @@ export async function sendConfirmationEmail(
   const html = generateEmailTemplate(confirmationLink);
 
   const mailOptions = {
-    from: `${process.env.SMTP_NAME} <${process.env.SMTP_EMAIL}>`,
+    from: `<${process.env.SMTP_EMAIL}>`,
     to,
     subject,
     text,
