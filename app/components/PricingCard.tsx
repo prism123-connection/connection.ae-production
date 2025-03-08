@@ -1,5 +1,6 @@
 import React from "react";
 import { PricingFeature } from "./PricingFeature";
+import Image from "next/image";
 
 interface PricingCardProps {
   variant?: "default" | "pro";
@@ -25,8 +26,8 @@ export const PricingCard: React.FC<PricingCardProps> = ({
   const isPro = variant === "pro";
   const cardClasses = `
     flex flex-col w-[394px] relative pt-10 pb-12 px-10 rounded-3xl 
-    max-md:w-full max-md:max-w-[500px] max-sm:p-5 max-sm:rounded-2xl
-    ${isPro ? "bg-[#06B079] text-white" : "bg-white"}
+    max-md:w-full max-md:max-w-[500px] max-sm:p-5 max-sm:rounded-2xl 
+    ${isPro ? "bg-[#06B079] text-white min-w-[500px]!" : "bg-white min-w-[450px]!"}
   `;
 
   const buttonClasses = `
@@ -46,8 +47,25 @@ export const PricingCard: React.FC<PricingCardProps> = ({
           Popular
         </div>
       )}
-      <div className="flex flex-col gap-[18px] mb-8">
-        <div>{logo}</div>
+      <div className="flex flex-col gap-[18px] mb-8 ">
+        {/* card header  */}
+        <div className="w-full  flex gap-4">
+        
+        <div className="bg-[#ECEBFF] p-2 rounded-2xl">
+        <Image src={"/logo.svg"} alt={"logo"} width={50} height={50} />
+        </div>
+
+          <div className="pt-1  ">
+            <div  className={`text-base font-semibold leading-[30px] ${isPro ? "text-[rgba(255,255,255,0.86)]" : "text-[#6F6C90]"} max-w-[307px] max-sm:text-sm max-sm:leading-6`}>
+              {subtitle}
+            </div>
+            <div
+                className={`text-xl font-bold  ${isPro ? "text-white" : "text-[#170F49]"} `}
+            >
+              {title}
+            </div>
+          </div>
+        </div>
         <div
           className={`text-lg leading-[30px] ${isPro ? "text-[rgba(255,255,255,0.86)]" : "text-[#6F6C90]"} max-w-[307px] max-sm:text-sm max-sm:leading-6`}
         >

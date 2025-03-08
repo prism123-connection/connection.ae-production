@@ -1,5 +1,5 @@
 {
-  "name": "connection-deploy-wo-lint",
+  "name": "connection.ae-production",
   "version": "0.1.0",
   "private": true,
   "scripts": {

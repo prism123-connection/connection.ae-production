@@ -27,7 +27,7 @@ export const PricingContainer: React.FC = () => {
         subtitle="For demo"
         description="Lorem ipsum dolor sit amet doloroli sitiol conse ctetur adipiscing elit."
         price="$0"
-        features={["All view only features", "Referrals", "Normal support"]}
+        features={["All view only features", "Referrals", "Normal support", ""]}
         logo={<BasicLogo />}
       />
       <PricingCard

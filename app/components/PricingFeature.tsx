@@ -6,16 +6,17 @@ interface PricingFeatureProps {
   variant?: "default" | "pro";
 }
 
-const CheckCircleIcon: React.FC<{ className?: string }> = ({
-    className,
-  }) => (
+const CheckCircleIcon: React.FC<{ iconColorClass?: string; logoColorClass?: string }> = ({
+  iconColorClass,
+  logoColorClass,
+}) => (
     <svg
       width="26"
       height="26"
       viewBox="0 0 26 26"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
+      className={iconColorClass}
     >
       <g clipPath="url(#clip0_1_262)">
         <path
@@ -24,7 +25,7 @@ const CheckCircleIcon: React.FC<{ className?: string }> = ({
         />
         <path
           d="M7.11682 13.8405L10.4786 17.2023L18.8832 8.79773"
-          stroke="white"
+          stroke={logoColorClass}
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -32,7 +33,7 @@ const CheckCircleIcon: React.FC<{ className?: string }> = ({
       </g>
       <defs>
         <clipPath id="clip0_1_262">
-          <rect width="26" height="26" fill="white" />
+          <rect width="26" height="26" fill="black" />
         </clipPath>
       </defs>
     </svg>
@@ -43,12 +44,20 @@ export const PricingFeature: React.FC<PricingFeatureProps> = ({
   variant = "default",
 }) => {
   const iconColorClass = variant === "pro" ? "text-white" : "text-[#0C87D6]";
-  const textColorClass =
-    variant === "pro" ? "text-[rgba(255,255,255,0.78)]" : "text-[#170F49]";
+  const textColorClass = variant === "pro" ? "text-[rgba(255,255,255,0.78)]" : "text-[#170F49]";
+  const logoColorClass = variant === "pro" ? "#06B079" : "#ffffff";
 
   return (
     <div className="flex items-center gap-3.5">
-      <CheckCircleIcon className={iconColorClass} />
+      {
+        text.length === 0 && 
+        <div className="w-[26px] h-[26px]"></div>
+      }
+      {
+        text.length > 0 &&
+        <CheckCircleIcon iconColorClass={iconColorClass} logoColorClass={logoColorClass} />
+        }
+      
       <div className={`text-lg leading-5 max-sm:text-base ${textColorClass}`}>
         {text}
       </div>

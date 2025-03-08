@@ -42,9 +42,7 @@ const PricingPage = () => {
       <div className="w-full ml-auto flex justify-center items-center -white text-black overflow-y-auto bg-white flex-col
       ">
        {/* Add next component here */}
-       <h1 className="text-4xl  font-bold text-center mb-12 text-[#170F49]">
-          Simple, transparent pricing
-        </h1>
+ 
         <PricingContainer/>
       </div>
     </div>
