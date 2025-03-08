@@ -9,7 +9,7 @@ export const config = {
 };
 
 const protectedRoutes = ["/dashboard", "/downline", "/direct-members", "/about-us"];
-const unProtectedRoutes = ["/about-us", "/pricing"]
+const unProtectedRoutes = ["/about-us", "/pricing", "/secret-page101"]
 
 export async function middleware(request: NextRequest) {
   console.log("Reached middlewware");
