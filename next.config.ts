@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  env: {
+    DATABASE_URL: process.env.DATABASE_URL, // Expose DATABASE_URL for frontend if needed
+  },
 };
 
 export default nextConfig;
