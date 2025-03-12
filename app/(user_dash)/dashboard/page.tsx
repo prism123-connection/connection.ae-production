@@ -1,4 +1,5 @@
-import React from "react";
+"use client"
+import React, { useEffect } from "react";
 import TopStatistics from "./components/top_stats";
 import MonthlyRevenue from "./components/monthly_revenue";
 import CardStats from "./components/card_stats";

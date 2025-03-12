@@ -52,7 +52,8 @@ const LoginPage = () => {
     }
 
     setUser(response.data.user);
-    router.push("/dashboard");
+    router.push("/");
+    window.location.reload()
   };
 
   return (

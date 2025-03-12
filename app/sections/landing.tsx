@@ -63,7 +63,7 @@ const Landing = () => {
       <Image
         src={"/land_circ.svg"}
         alt="Icon"
-        className="w-1/2 aspect-square absolute top-1/2 left-0 -translate-y-1/2 rotate-animation"
+        className="w-1/2 aspect-square absolute top-2/2 left-0 -translate-y-1/2 rotate-animation"
         width={200}
         height={200}
       />

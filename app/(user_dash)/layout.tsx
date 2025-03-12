@@ -7,13 +7,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>
+
         <div className="flex">
           <VerticalNavbar />
           <div className="flex-1">{children}</div>
         </div>
-      </body>
-    </html>
+
   );
 }
