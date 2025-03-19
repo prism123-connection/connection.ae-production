@@ -30,8 +30,8 @@ export async function sendConfirmationEmail(
     html,
     attachments: [
       {
-        filename: "logo.svg",
-        path: path.resolve("public/logo.svg"), // Ensure the logo is in the public folder
+        filename: "logo.png",
+        path: `${process.cwd()}/public/logo.png`, // Ensure the logo is in the public folder
         cid: "logo_cid", // Content ID to reference the image in the email
       },
     ],
