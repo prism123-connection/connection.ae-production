@@ -32,7 +32,7 @@ export async function sendConfirmationEmail(
         filename: "logo.png",
         href: "https://connection-ae-production.vercel.app/logo.png", 
         cid: "logo_cid",
-        contentDisposition: "inline" as const 
+        contentDisposition: "inline" as "inline"
       },
     ],
   };
