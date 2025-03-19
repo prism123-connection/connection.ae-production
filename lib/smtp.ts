@@ -30,8 +30,8 @@ export async function sendConfirmationEmail(
     attachments: [
       {
         filename: "logo.png",
-        path: `${process.env.DEPLOYED_URL}/logo.png`, // Ensure the logo is in the public folder
-        cid: "logo_cid", // Content ID to reference the image in the email
+        href: `${process.env.DEPLOYED_URL}/logo.png`,
+        cid: "logo_cid",
       },
     ],
   };
