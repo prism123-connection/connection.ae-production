@@ -50,7 +50,7 @@ const Features = () => {
   return (
     <div
       id="features"
-      className="relative bg-[#021032] flex flex-col overflow-hidden min-h-screen w-screen"
+      className="relative bg-[#021032] flex flex-col overflow-hidden min-h-screen h-screen w-screen"
     >
       <div className="py-6 flex-1 flex flex-col items-center pt-20">
         <Image src={"/divider.svg"} alt="divider" width={100} height={100} />
