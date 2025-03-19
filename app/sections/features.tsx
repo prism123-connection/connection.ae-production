@@ -66,7 +66,7 @@ const Features = () => {
           {featuresData.map((feature, index) => (
             <div
               key={index}
-              className={`w-full h-[90%] p-1 text-white backdrop-blur rounded-[24px] cursor-pointer transition-all duration-300 ${
+              className={`w-full h-[90%] min-h-[290px]! p-1 text-white backdrop-blur rounded-[24px] cursor-pointer transition-all duration-300 ${
                 index === activeFeature
                   ? "bg-blue-500/90 shadow-[16px_16px_15px_rgba(0,0,0,0.8)]"
                   : "bg-slate-500/20"
@@ -77,7 +77,7 @@ const Features = () => {
               onMouseEnter={() => setActiveFeature(index)}
             >
               <div
-                className={`w-full h-full rounded-[24px] backdrop-blur flex flex-col p-6 ${
+                className={`w-full h-full min-h-[280px]! rounded-[24px] backdrop-blur flex flex-col p-6 ${
                   index === activeFeature
                     ? "bg-[#2248E2]"
                     : "bg-gradient-to-br from-slate-500/70 to-slate-900/50"
