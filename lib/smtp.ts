@@ -1,5 +1,4 @@
 import nodemailer from "nodemailer";
-import path from "path";
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -31,7 +30,7 @@ export async function sendConfirmationEmail(
     attachments: [
       {
         filename: "logo.png",
-        path: `${process.cwd()}/public/logo.png`, // Ensure the logo is in the public folder
+        path: `${process.env.DEPLOYED_URL}/logo.png`, // Ensure the logo is in the public folder
         cid: "logo_cid", // Content ID to reference the image in the email
       },
     ],
