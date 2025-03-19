@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import path from "path";
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -27,6 +28,13 @@ export async function sendConfirmationEmail(
     subject,
     text,
     html,
+    attachments: [
+      {
+        filename: "logo.svg",
+        path: path.resolve("public/logo.svg"), // Ensure the logo is in the public folder
+        cid: "logo_cid", // Content ID to reference the image in the email
+      },
+    ],
   };
 
   await transporter.sendMail(mailOptions);
@@ -89,7 +97,7 @@ function generateEmailTemplate(confirmationLink: string) {
       </head>
       <body>
           <div class="container">
-              <img src="${process.env.DEPLOYED_URL}/logo.svg" alt="Logo" class="logo">
+             <img src="cid:logo_cid" alt="Logo" class="logo">
               <h2>Confirm Your Email</h2>
               <p>Thank you for signing up! Please confirm your email address by clicking the button below.</p>
               <a href="${confirmationLink}" class="button" target="_blank" style="text-decoration: none;">Confirm Email</a>

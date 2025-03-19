@@ -8,8 +8,8 @@ export const config = {
   ],
 };
 
-const protectedRoutes = ["/dashboard", "/downline", "/direct-members", "/about-us"];
-const unProtectedRoutes = ["/about-us", "/pricing"]
+const protectedRoutes = ["/dashboard", "/downline", "/direct-members"];
+const unProtectedRoutesSet = new Set(["/about-us", "/pricing" ]);
 
 export async function middleware(request: NextRequest) {
   console.log("Reached middlewware");
@@ -17,12 +17,12 @@ export async function middleware(request: NextRequest) {
   try {
     const { pathname } = request.nextUrl;
 
-    const isUnprotectedRoute = unProtectedRoutes.some((route) => pathname.startsWith(route));
-
-    if (isUnprotectedRoute) {
+    // Skip this through matcher
+    if (unProtectedRoutesSet.has(pathname)) {
       return NextResponse.next();
     }
 
+    // Skip these through the matcher 
     if (
       pathname === "/" ||
       pathname.startsWith("/_next") ||
@@ -43,10 +43,11 @@ export async function middleware(request: NextRequest) {
     console.log("Printed cookie in middleware: ", token);
 
     if (!token) {
+      // This checks if user doesn't have token but wanted to go on auth page they can process
       if (pathname.startsWith("/auth")) {
         return NextResponse.next();
       }
-
+      // but in case they are accessing someother page and they don't have token, redirect to auth page
       return NextResponse.redirect(new URL("/auth/login", request.url));
     }
 
