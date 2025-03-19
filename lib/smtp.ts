@@ -30,7 +30,7 @@ export async function sendConfirmationEmail(
     attachments: [
       {
         filename: "logo.png",
-        href: `${process.env.DEPLOYED_URL}/logo.png`,
+        href: "https://connection-ae-production.vercel.app/logo.png", 
         cid: "logo_cid",
       },
     ],
