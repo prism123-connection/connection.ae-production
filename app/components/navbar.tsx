@@ -49,8 +49,8 @@ export default function Navbar() {
         visible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
-      <div className="container flex items-center justify-between py-1">
-        <div className="logo lg:ml-4">
+      <div className="container flex items-center justify-between py-1 min-w-full! ">
+        <div className="logo lg:ml-4 ">
           <Image
             src="/word_logo.svg"
             alt="Logo"

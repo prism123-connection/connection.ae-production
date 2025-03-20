@@ -11,8 +11,6 @@ export default function Home() {
       <Landing />
       <Services />
       <Features />
-      <Testimonial />
-      <Footer />
     </div>
   );
 }

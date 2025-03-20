@@ -2,7 +2,6 @@
   "name": "connection.ae-production",
   "version": "0.1.0",
   "private": true,
-  
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
@@ -12,6 +11,7 @@
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
+    "@headlessui/react": "^2.2.0",
     "@paypal/checkout-server-sdk": "^1.0.3",
     "@paypal/paypal-server-sdk": "^0.6.1",
     "@paypal/react-paypal-js": "^8.8.2",

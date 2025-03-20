@@ -12,7 +12,7 @@ import { login } from "@/lib/helper";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
-import { PricingContainer } from "../components/PricingContainer";
+import { PricingContainer } from "../../components/PricingContainer";
 
 const LoginSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
