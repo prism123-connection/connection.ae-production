@@ -1,16 +1,24 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useUser } from "@/context/UserContext";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 const HorizontalNavbar = () => {
   const { user, loading } = useUser();
+  const [refLink, setRefLink] = useState('')
+
+  useEffect(() => {
+    if (user?.referralId) {
+      setRefLink(`${process.env.NEXT_PUBLIC_DEPLOYED_URL}/auth/register?rid=${user.referralId}`);
+    }
+  }, [user])
+  
 
   const handleCopy = () => {
     if (user?.referralId) {
-      navigator.clipboard.writeText(user.referralId);
+      navigator.clipboard.writeText(refLink);
       toast.info("Referral ID copied!");
     }
   };
@@ -27,7 +35,7 @@ const HorizontalNavbar = () => {
       }
       {!loading && user?.referralId && (
         <div className="flex items-center gap-2">
-          <span className="text-gray-600">Referral ID: {user.referralId}</span>
+          <span className="text-gray-600">Referral Link: { `${process.env.NEXT_PUBLIC_DEPLOYED_URL}/auth/register?rid=${user.referralId}` }</span>
           <button
             onClick={handleCopy}
             className="px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"

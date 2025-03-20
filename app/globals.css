@@ -60,6 +60,20 @@
   }
 }
 
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+/* Hide scrollbar for Edge/IE */
+.no-scrollbar {
+  -ms-overflow-style: none;
+}
+
 
 
 @layer base {

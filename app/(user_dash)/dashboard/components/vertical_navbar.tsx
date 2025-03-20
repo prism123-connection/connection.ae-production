@@ -105,7 +105,7 @@ const VerticalNavbar = () => {
 
   return (
     <div
-      className={`fixed z-20 left-0 top-0 h-full bg-white text-black flex flex-col p-2 py-4 overflow-x-hidden space-y-2 transition-all duration-300 ease-in-out ${
+      className={`fixed z-20 left-0 top-0 h-full bg-white text-black flex flex-col p-2 py-4 overflow-x-hidden space-y-2 transition-all duration-300 ease-in-out no-scrollbar ${
         expanded ? "w-64 shadow-lg shadow-gray-400" : "w-12"
       }`}
       onMouseEnter={() => setExpanded(true)}

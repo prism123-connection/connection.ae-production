@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import ImageCarouselProgress from "../components/image_carousel";
 import { BiCheckCircle, BiChevronLeft } from "react-icons/bi";
@@ -66,6 +66,17 @@ const RegisterPage = () => {
       router.push(`/auth/confirm?email=${encodeURIComponent(formData.email)}`);
     }
   };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const rid = urlParams.get("rid");
+    if (rid) {
+      setFormData((prevData) => ({
+        ...prevData, 
+        referralCode: rid,
+      }));
+    }
+  }, []); 
 
   return (
     <div className="min-h-screen w-full flex">
