@@ -25,7 +25,7 @@ const secondaryButtons = [
 ];
 
   return (
-    <div>FAQ
+    <div>
  
         <SectionHeader classes="my-30">
           <H1> Frequently asked questions </H1>
