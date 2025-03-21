@@ -41,7 +41,7 @@ export async function POST(req: Request) {
       });
     });
 
-    const confirmationLink = `${process.env.DEPLOYED_URL}/auth/verify?token=${verificationToken}`;
+    const confirmationLink = `${process.env.NEXT_PUBLIC_DEPLOYED_URL}/auth/verify?token=${verificationToken}`;
     console.log("Confirmation mail: ", confirmationLink)
     await sendConfirmationEmail(email, confirmationLink);
 

@@ -16,6 +16,28 @@
   background-size: 120% 120%;
   animation: gradientAnimation 15s ease infinite;
 }
+.animated-bg-testimonial {
+  background: linear-gradient(
+    145deg,
+    rgba(0, 0, 0, 1) 15%,
+    #006C68 65%, 
+    #00D700 105%
+  );
+  background-size: 150% 150%;
+  animation: gradientAnimation 10s ease infinite;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
 
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
@@ -46,18 +68,6 @@
 
 .rotate-animation {
   animation: slow-rotate 120s linear infinite;
-}
-
-@keyframes gradientAnimation {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
 }
 
 .no-scrollbar::-webkit-scrollbar {

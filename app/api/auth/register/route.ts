@@ -105,7 +105,7 @@ export async function POST(req: Request) {
       return { userId: user.id, token: verificationToken };
     });
 
-    const confirmationLink = `${process.env.DEPLOYED_URL}/auth/verify?token=${result.token}`;
+    const confirmationLink = `${process.env.NEXT_PUBLIC_DEPLOYED_URL}/auth/verify?token=${result.token}`;
     await sendConfirmationEmail(email, confirmationLink);
 
     return NextResponse.json(
