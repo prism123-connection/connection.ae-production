@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from 'react'
 import { Disclosure } from "@headlessui/react";
-// import { ChevronUpIcon } from "@heroicons/react/solid";
+import { HiChevronDown  } from "react-icons/hi2";
 
 // Define FAQ item type
 interface FAQItem {
@@ -25,7 +25,7 @@ const FaqContent: React.FC<FaqContentProps> = ({ faqData }) => {
           <div className=' transition-transform duration-1000 border-b-1 border-[#C8D5DE]/70 mb-10 pb-2'>
             <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-left bg-white text-lg font-semibold ">
               {faq.question}
-              {/* <ChevronUpIcon className={`w-5 h-5 transition-transform ${open ? "rotate-180" : ""}`} /> */}
+              <HiChevronDown size={20}/>
             </Disclosure.Button>
             <Disclosure.Panel className="p-4 text-[#001625] text-base">{faq.answer}</Disclosure.Panel>
           </div>

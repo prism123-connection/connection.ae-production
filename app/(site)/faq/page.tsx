@@ -97,7 +97,7 @@ function FAQ() {
           ))}
         </div>
 
-        <FaqContent faqData={faqContent} />
+        <FaqContent key={activeId} faqData={faqContent} />
       </SectionHeader>
     </div>
   );
