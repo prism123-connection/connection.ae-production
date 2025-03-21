@@ -41,7 +41,7 @@ function ServicesSteps() {
   return (
     <SectionHeader  classes=" px-20 py-20  ">
       <H1 classes='text-4xl! text-[#181818]! mb-5'>Make every step user-centric</H1>
-      <span className='text-lg text-[#181818] '>Lorem ipsum dolor sit amet, consectetur adipis elit</span>
+      <span className='text-lg text-[#181818] w-1/2 text-center '>From 24/7 assistance to sales optimization and seamless onboarding, we provide everything you need to succeed in a trusted global marketplace.</span>
 
       <div className='grid grid-cols-3 w-full  mt-10 '>
         {

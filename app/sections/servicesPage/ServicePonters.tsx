@@ -1,9 +1,26 @@
+"use client"
 import SectionHeader from '@/app/components/SectionHeader'
 import H1 from '@/app/components/ui/H1'
 import Image from 'next/image';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 function ServicePonters() {
+    const [activeId, setActiveId] = useState<number>(0);
+    const [fade, setFade] = useState(true);
+    
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setFade(false); // Start fade-out effect
+    
+        setTimeout(() => {
+          setActiveId((prevId) => (prevId + 1) % 3); // Update image after fade-out
+          setFade(true); // Fade in new image
+        }, 1000); // Half a second for fade-out
+      }, 3000); // Switch images every 2 seconds
+    
+      return () => clearInterval(interval);
+    }, []);
+
     const features = [
         {
           title: "Connect with Ready Buyers & Sellers",
@@ -18,7 +35,13 @@ function ServicePonters() {
           description: "Learn how to use Connection for maximum benefit."
         }
       ];
-
+    
+    const imagesLink = [
+      {link : "/services/service-pointer-1.png", style : "scale-120" },
+      {link : "/services/service-pointer-2.png", style : "scale-115" },
+      {link : "/services/service-pointer-3.png", style : "object-bottom scale-y-120" }
+      
+    ]
       
   return (
     <SectionHeader classes=" px-20 py-20 ">
@@ -34,8 +57,12 @@ function ServicePonters() {
         })
     }
     </div>
-    <div className='relative w-96! shrink-0 h-96 bg-white rounded-4xl mx-5'>
-      <Image src={'/services/user-image.svg'} fill className='object-contain scale-150' alt='users image' />
+    <div className={`relative w-96! shrink-0 h-96  rounded-4xl mx-5  ${activeId === 1 ? 'bg-[#D0E7F7]' : activeId === 2 ? 'bg-[#F7E3D0]' : 'bg-white'}`}>
+      <Image src={imagesLink[activeId].link} fill className={`object-contain ${imagesLink[activeId].style}
+        transition-opacity duration-1000   ${fade ? "opacity-100" : "opacity-0"}
+        `}
+        onLoadingComplete={(img) => img.classList.remove("opacity-0")} 
+         alt='users image' />
     </div>
    
 
