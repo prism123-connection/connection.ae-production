@@ -1,5 +1,6 @@
 import SectionHeader from '@/app/components/SectionHeader'
 import H1 from '@/app/components/ui/H1'
+import Image from 'next/image';
 import React from 'react'
 
 function ServicePonters() {
@@ -33,7 +34,9 @@ function ServicePonters() {
         })
     }
     </div>
-    <div className='w-96! shrink-0 h-96 bg-white rounded-4xl mx-5'></div>
+    <div className='relative w-96! shrink-0 h-96 bg-white rounded-4xl mx-5'>
+      <Image src={'/services/user-image.svg'} fill className='object-contain scale-150' alt='users image' />
+    </div>
    
 
     </div>

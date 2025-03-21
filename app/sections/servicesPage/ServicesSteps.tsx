@@ -4,38 +4,39 @@ import Image from 'next/image'
 import React from 'react'
 
 function ServicesSteps() {
-    const steps = [
-        {
-          title: "Support",
-          description: "Lorem ipsum dolor sit amet, consectetur adipis elit. Sit enim nec, proin faucibus nibh et sagittis a. Lacinia purus ac amet.",
-          image: "/services/step1.svg"
-        },
-        {
-          title: "Sales",
-          description: "Lorem ipsum dolor sit amet, consectetur adipis elit. Sit enim nec, proin faucibus nibh et sagittis a. Lacinia purus ac amet.",
-          image: "/services/step2.svg"
-        },
-        {
-          title: "Onboarding",
-          description: "Lorem ipsum dolor sit amet, consectetur adipis elit. Sit enim nec, proin faucibus nibh et sagittis a. Lacinia purus ac amet.",
-          image: "/services/step3.svg"
-        },
-        {
-          title: "Product",
-          description: "Lorem ipsum dolor sit amet, consectetur adipis elit. Sit enim nec, proin faucibus nibh et sagittis a. Lacinia purus ac amet.",
-          image: "/services/step4.svg"
-        },
-        {
-          title: "Quality",
-          description: "Lorem ipsum dolor sit amet, consectetur adipis elit. Sit enim nec, proin faucibus nibh et sagittis a. Lacinia purus ac amet.",
-          image: "/services/step5.svg"
-        },
-        {
-          title: "Result",
-          description: "Lorem ipsum dolor sit amet, consectetur adipis elit. Sit enim nec, proin faucibus nibh et sagittis a. Lacinia purus ac amet.",
-          image: "/services/step6.svg"
-        }
-      ];
+  const steps = [
+    {
+        title: "Support",
+        description: "We are committed to your success. Our dedicated support team is available 24/7 to assist you with business growth, networking, and expansion.",
+        image: "/services/step1.svg"
+    },
+    {
+        title: "Sales",
+        description: "Boost your revenue with direct access to a high-value marketplace.",
+        image: "/services/step2.svg"
+    },
+    {
+        title: "Onboarding",
+        description: "We make it easy to get started and start profiting quickly.",
+        image: "/services/step3.svg"
+    },
+    {
+        title: "Product",
+        description: "Lorem ipsum dolor sit amet, consectetur adipis elit. Sit enim nec, proin faucibus nibh et sagittis a. Lacinia purus ac amet.",
+        image: "/services/step4.svg"
+    },
+    {
+        title: "Quality",
+        description: "Our platform ensures only verified businesses and trusted individuals are allowed to trade.",
+        image: "/services/step5.svg"
+    },
+    {
+        title: "Result",
+        description: "We prioritise results-driven business growth.",
+        image: "/services/step6.svg"
+    }
+];
+
       
   return (
     <SectionHeader  classes=" px-20 py-20  ">

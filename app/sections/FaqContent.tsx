@@ -1,38 +1,24 @@
-import React from 'react'
+"use client"
+import React, { useState } from 'react'
 import { Disclosure } from "@headlessui/react";
 // import { ChevronUpIcon } from "@heroicons/react/solid";
 
-function FaqContent() {
-    const faqs = [
-        {
-            question: "1. What is Connection Dubai Network?",
-            answer: "Connection Dubai Network is a trusted business platform that connects entrepreneurs, traders, and professionals worldwide."
-        },
-        {
-            question: "2. How much does the membership cost?",
-            answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        },
-        {
-            question: "3. Is the membership valid globally?",
-            answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        },
-        {
-            question: "4. Do I need a Dubai trade license to use the platform?",
-            answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        },
-        {
-            question: "5. Can I cancel my membership?",
-            answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        },
-        {
-            question: "6. Can I upgrade my membership?",
-            answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        }
-    ];
-    
+// Define FAQ item type
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+// Define props type for FaqContent component
+interface FaqContentProps {
+  faqData: FAQItem[];
+}
+
+const FaqContent: React.FC<FaqContentProps> = ({ faqData }) => {
+
   return (
     <div className="w-full max-w-5xl mx-auto space-y-4 ">
-    {faqs.map((faq, index) => (
+    {faqData.map((faq, index) => (
         <>
       <Disclosure key={index}>
         {({ open }) => (
