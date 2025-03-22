@@ -56,7 +56,7 @@ const TestimonialCarousel = () => {
     <div className="flex flex-col items-center justify-center w-full overflow-hidden ">
       {/* Carousel Wrapper */}
       <div className="w-full flex items-center justify-center  gap-5">
-        <HiArrowLongLeft size={30} onClick={() => setActiveIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1))} />
+        <HiArrowLongLeft className="cursor-pointer" size={30} onClick={() => setActiveIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1))} />
 
         {/* Slide Container */}
         <div className="relative w-full h-96 overflow-hidden">
@@ -72,7 +72,7 @@ const TestimonialCarousel = () => {
           </div>
         </div>
 
-        <HiArrowLongRight size={30} onClick={() => setActiveIndex((prev) => (prev + 1) % testimonials.length)} />
+        <HiArrowLongRight  className="cursor-pointer" size={30} onClick={() => setActiveIndex((prev) => (prev + 1) % testimonials.length)} />
       </div>
 
       {/* Progress Bar */}

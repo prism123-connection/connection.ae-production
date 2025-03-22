@@ -27,13 +27,13 @@ const testimonials = [
 function TestimonialHeader() {
   return (
     <SectionHeader classes="py-30 w-full h-[100vh] bg-black animated-bg-testimonial ">
-      <H1 classes='text-white mt-60'>Over 1000+ people trust us</H1>
+      <H1 classes='text-white mt-96'>Over 1000+ people trust us</H1>
       <span className='text-white text-lg text-center opacity-60 mt-5'>Connection gives you the blocks & components you need to create a truly professional website,<br/> landing page or admin panel for your SaaS.</span>
 
     <div className='flex gap-10 mt-20'>
     {
         testimonials.map((testimonial, index)=>(
-        <div key={index} className='w-90 min-h-[560px] bg-gray-400 rounded-3xl flex flex-col items-start justify-end gap-2 p-5 relative overflow-hidden group '>
+        <div key={index} className='w-80 min-h-[500px] bg-gray-400 rounded-3xl flex flex-col items-start justify-end gap-2 p-5 relative overflow-hidden group '>
         <Image src={testimonial.image} className='object-cover ' fill alt='user'/>
         <span className='text-white text-base opacity-0 group-hover:opacity-60 transition-opacity duration-1000 z-10'>{testimonial.quote}</span>
         <span className='text-white text-lg font-semibold z-10'>{testimonial.name}</span>
