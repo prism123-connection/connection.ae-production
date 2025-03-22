@@ -27,7 +27,7 @@ const testimonials = [
 function TestimonialHeader() {
   return (
     <SectionHeader classes="py-30 w-full h-[100vh] bg-black animated-bg-testimonial ">
-      <H1 classes='text-white mt-96'>Over 1000+ people trust us</H1>
+      <H1 classes='text-white mt-96 text-4xl!'>Over 1000+ people trust us</H1>
       <span className='text-white text-lg text-center opacity-60 mt-5'>Connection gives you the blocks & components you need to create a truly professional website,<br/> landing page or admin panel for your SaaS.</span>
 
     <div className='flex gap-10 mt-20'>
