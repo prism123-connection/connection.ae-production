@@ -27,21 +27,21 @@ const testimonials = [
   
 const TestimonialCarousel = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const duration = 5;
+  const duration = 0;
   const carouselRef = useRef(null);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
-    }, duration * 1000);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setActiveIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
+  //   }, duration * 1000);
 
-    return () => clearInterval(interval);
-  }, []);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   useEffect(() => {
     gsap.to(carouselRef.current, {
       x: `-${activeIndex * 100}%`,
-      duration: 1,
+      duration: 0.5,
       ease: "power2.inOut",
     });
 

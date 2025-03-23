@@ -22,7 +22,7 @@ function ServicesSteps() {
     },
     {
         title: "Product",
-        description: "Lorem ipsum dolor sit amet, consectetur adipis elit. Sit enim nec, proin faucibus nibh et sagittis a. Lacinia purus ac amet.",
+        description: "Showcase and sell your products with confidence and ease. Gain visibility in the global marketplace.",
         image: "/services/step4.svg"
     },
     {

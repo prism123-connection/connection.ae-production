@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { useUser } from "@/context/UserContext";
@@ -22,6 +22,7 @@ const navLinks: NavLink[] = [
 export default function Navbar() {
   const { user, loading } = useUser();
   const pathname = usePathname();
+  const router = useRouter()
 
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
@@ -50,7 +51,7 @@ export default function Navbar() {
       }`}
     >
       <div className="container flex items-center justify-between py-1 min-w-full! ">
-        <div className="logo lg:ml-4 ">
+        <div onClick={()=>router.push('/')} className="logo lg:ml-4 cursor-pointer ">
           <Image
             src="/word_logo.svg"
             alt="Logo"

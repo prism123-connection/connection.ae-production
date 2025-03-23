@@ -1,6 +1,8 @@
+"use client"
 import React from "react";
 import Marquee from "../components/marquee";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const SERVICE_ITEMS = [
   { image: "/services/estate.svg", text: "Real Estate" },
@@ -12,6 +14,7 @@ const SERVICE_ITEMS = [
 ];
 
 const Services = () => {
+  const router = useRouter()
   return (
     <div id="services" className="flex flex-col w-screen">
       <div className="bg-white py-6 flex flex-col items-center pt-16">
@@ -66,7 +69,8 @@ const Services = () => {
                 are encrypted
               </span>
               <button
-                className="login mt-4 px-[40px] py-[10px] text-sm rounded-[6px] transition"
+                onClick={()=>router.push('/faq?cid=4')}
+                className="login mt-4 px-[40px] py-[10px] text-sm rounded-[6px] transition cursor-pointer"
                 style={{
                   backgroundColor: "rgba(255, 255, 255, 0.16)",
                   color: "white",
@@ -86,7 +90,8 @@ const Services = () => {
                 We provide unique member cards to all our registered members
               </span>
               <button
-                className="login mt-4 w-max px-[40px] py-[10px] text-sm rounded-[6px] transition"
+              onClick={()=>router.push('/faq?cid=0')}
+                className="login mt-4 w-max px-[40px] py-[10px] text-sm rounded-[6px] transition cursor-pointer"
                 style={{
                   backgroundColor: "rgba(255, 255, 255, 0.16)",
                   color: "white",
@@ -106,7 +111,9 @@ const Services = () => {
                 <br />
                 the world
               </h3>
-              <button className="login mt-4 mb-6 px-[40px] bg-white py-[10px] text-md rounded-[6px] text-black hover:bg-gray-200 transition">
+              <button
+              onClick={()=>router.push('/faq?cid=3')}
+              className="login mt-4 mb-6 px-[40px] bg-white py-[10px] text-md rounded-[6px] text-black hover:bg-gray-200 transition cursor-pointer">
                 Know more
               </button>
             </div>
@@ -126,7 +133,8 @@ const Services = () => {
                 international shipping & multi-currency payments.
               </span>
               <button
-                className="login mt-4 w-max px-[40px] py-[10px] text-sm rounded-[6px] transition"
+              onClick={()=>router.push('/faq?cid=1')}
+                className="login mt-4 w-max px-[40px] py-[10px] text-sm rounded-[6px] transition cursor-pointer"
                 style={{
                   backgroundColor: "rgba(255, 255, 255, 0.16)",
                   color: "white",

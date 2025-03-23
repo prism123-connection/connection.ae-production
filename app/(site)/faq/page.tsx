@@ -1,7 +1,7 @@
 "use client"
 import SectionHeader from '@/app/components/SectionHeader'
 import H1 from '@/app/components/ui/H1'
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import clsx from "clsx"; 
 import FaqContent from '@/app/sections/FaqContent';
 
@@ -63,6 +63,7 @@ const faqCategories: FAQItem[][] = [
 
 function FAQ() {
   const [activeId, setActiveId] = useState<number>(0);
+  const [loadingState, setLoadingState] = useState<boolean>(true)
 
   // Optimize with useMemo to prevent unnecessary calculations
   const faqContent = useMemo(() => faqCategories[activeId], [activeId]);
@@ -73,6 +74,19 @@ function FAQ() {
   const primaryButtons = ["Membership", "Business Setup", "Referrals & Passive Income"];
   const secondaryButtons = ["Networking & Business Growth", "Security & Verification", "Platform Usage & Additional Features"];
 
+    useEffect(() => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const cid = urlParams.get("cid");
+      if (cid) {
+        const parsedCid = parseInt(cid, 10);
+        if (!isNaN(parsedCid)) {
+          setActiveId(parsedCid);
+          setLoadingState(false)
+        }
+      }
+      setLoadingState(false)
+    }, []);
+
   return (
     <div>
       <SectionHeader classes="my-30">
@@ -81,7 +95,10 @@ function FAQ() {
           These are the most frequently asked questions. If you have any specific queries, feel free to contact our customer-friendly support.
         </span>
 
-        <div className='flex gap-5 mt-10'>
+        {
+          !loadingState && 
+          <>
+          <div className='flex gap-5 mt-10'>
           {primaryButtons.map((btn, index) => (
             <button key={index} onClick={() => setActiveId(index)} className={clsx(activeId === index ? activeBtnClass : btnClass)}>
               {btn}
@@ -98,6 +115,10 @@ function FAQ() {
         </div>
 
         <FaqContent key={activeId} faqData={faqContent} />
+        </>
+        }
+
+    
       </SectionHeader>
     </div>
   );
