@@ -11,7 +11,7 @@ import { Role } from "@prisma/client";
 
 export const config = {
   matcher: [
-    "/((?!api|_next|assets|favicon.ico|sw.js|$|pricing|about-us|services|faq|testimonials|terms|privacy|.*\\.(?:png|jpg|jpeg|gif|svg|webp)$).*)",
+    "/((?!api|_next|assets|favicon.ico|sw.js|$|pricing|about-us|services|faq|testimonials|terms|privacy|test|.*\\.(?:png|jpg|jpeg|gif|svg|webp)$).*)",
   ],
 };
 
