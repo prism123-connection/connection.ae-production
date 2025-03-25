@@ -538,7 +538,7 @@ const AccountSetupPage = () => {
       {
         activeCount === 1 && 
       <div className="w-full gap-5  flex flex-col items-end px-40 mt-5">
-      <div className="flex w-full flex-1 gap-5">
+      <div className="flex w-full flex-1 gap-5 ">
 
       <SpecialInputs 
       name="firstName" 
@@ -547,6 +547,7 @@ const AccountSetupPage = () => {
       value={formData.firstName || ""}
       onChange={handleChange}
       disabled={true}
+      classes="bg-gray-300!"
       />
       <SpecialInputs 
       name="lastName" 
@@ -555,6 +556,7 @@ const AccountSetupPage = () => {
       value={formData.lastName || ""}
       onChange={handleChange}
       disabled={true}
+      classes="bg-gray-300!"
       
       />
       </div>
@@ -602,6 +604,7 @@ const AccountSetupPage = () => {
       value={formData.email || ""}
       onChange={handleChange}
       disabled={true}
+      classes="bg-gray-300!"
        />
       <ProceedButtons onClickFunc={handleNext} >
         Next 
