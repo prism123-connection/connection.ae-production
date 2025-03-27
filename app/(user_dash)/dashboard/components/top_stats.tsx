@@ -66,7 +66,7 @@ const TopStatistics = () => {
     <div className="w-full bg-white rounded-lg flex p-4 px-8 items-end">
       <div className="flex flex-col flex-[6] pr-16">
         <div className="flex gap-4 p-4 m-2">
-          <Image src={"/logo.svg"} height={40} width={40} alt={"avatar"} />
+          <Image src={"/dash/avatar.png"} height={50} width={50} alt={"avatar"} className="scale-120" />
           <div className="flex flex-col text-black text-sm font-novaLight">
             Welcome back
             <br />

@@ -65,11 +65,21 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/auth/setup", request.url));
     }
 
-    if (decodedToken?.role === Role.PAYMENT_PENDING) {
-      if (pathname === "/auth/payment") {
+    if (decodedToken?.role === Role.ONBOARDING) {
+      if (pathname === "/auth/onboard") {
         return NextResponse.next();
       }
-      return NextResponse.redirect(new URL("/auth/payment", request.url));
+      return NextResponse.redirect(new URL("/auth/onboard", request.url));
+    }
+
+    if (decodedToken?.role === Role.PAYMENT_PENDING) {
+      const allowedPages = ["/auth/pricing", "/auth/payment"];
+    
+      if (allowedPages.includes(pathname)) {
+        return NextResponse.next();
+      }
+    
+      return NextResponse.redirect(new URL("/auth/pricing", request.url));
     }
 
     if (pathname.startsWith("/auth")) {

@@ -9,19 +9,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     console.log("Came here with: ", body);
 
-    const {
-      dateOfBirth,
-      gender,
-      address,
-      city,
-      state,
-      zipCode,
-      emiratesId,
-      phoneNumber,
-      occupation,
-      referralSource,
-      joinReason,
-    } = body;
+    const { role } = body;
 
     const cookiesStore = await cookies();
     const token = cookiesStore.get("auth_token")?.value;
@@ -50,33 +38,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "User not found" }, { status: 400 });
     }
 
-    const formattedDateOfBirth =
-      dateOfBirth && !isNaN(Date.parse(dateOfBirth))
-        ? new Date(dateOfBirth)
-        : null;
 
     const updateData: Record<string, any> = {};
 
-    if (formattedDateOfBirth) updateData.dateOfBirth = formattedDateOfBirth;
-    if (gender) updateData.gender = gender;
-    if (address) updateData.address = address;
-    if (city) updateData.city = city;
-    if (state) updateData.state = state;
-    if (zipCode) updateData.zipCode = zipCode;
-    if (emiratesId) updateData.emiratesId = emiratesId;
-    if (phoneNumber) updateData.phoneNumber = phoneNumber;
-    if (occupation) updateData.occupation = occupation;
-    if (referralSource) updateData.referralSource = referralSource;
-    if (joinReason) updateData.joinReason = joinReason;
-
-    updateData.role = Role.ONBOARDING;
-
-    console.log(
-      "updateData.role: ",
-      updateData.role,
-      " ",
-      Role.ONBOARDING
-    );
+    if (role === 'FREE') {
+        updateData.role = Role.FREE_USER;
+    }
 
     console.log("Updating user info with: ", updateData);
 
@@ -109,13 +76,13 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json(
-      { message: "User data successfully updated" },
+      { message: "User Successfully Created to use free version" },
       { status: 200 }
     );
   } catch (error) {
     console.error("Error updating user data:", error);
     return NextResponse.json(
-      { error: "Failed to update user data" },
+      { error: "Failed to create user" },
       { status: 500 }
     );
   }

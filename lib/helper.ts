@@ -169,6 +169,41 @@ export const updateAccount = async (
     };
   }
 };
+export const updateOnboardRole = async (
+imgLink : string
+) => {
+  try {
+    const response = await fetch(`/api/user/onboard`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({ imgLink }),
+    });
+
+    const data = await response.json();
+    console.log("Response in setup: ", data);
+
+    if (!response.ok) {
+      return {
+        success: false,
+        message: data.message || "Failed to update user data",
+      };
+    }
+
+    return {
+      success: true,
+      message: "User data successfully updated",
+    };
+  } catch (error) {
+    console.error("Error updating user data:", error);
+    return {
+      success: false,
+      message: "Something went wrong. Please try again.",
+    };
+  }
+};
 
 export async function getUserProfile() {
   try {

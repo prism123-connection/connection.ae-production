@@ -9,19 +9,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     console.log("Came here with: ", body);
 
-    const {
-      dateOfBirth,
-      gender,
-      address,
-      city,
-      state,
-      zipCode,
-      emiratesId,
-      phoneNumber,
-      occupation,
-      referralSource,
-      joinReason,
-    } = body;
+    const { imgLink } = body;
 
     const cookiesStore = await cookies();
     const token = cookiesStore.get("auth_token")?.value;
@@ -50,48 +38,33 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "User not found" }, { status: 400 });
     }
 
-    const formattedDateOfBirth =
-      dateOfBirth && !isNaN(Date.parse(dateOfBirth))
-        ? new Date(dateOfBirth)
-        : null;
-
     const updateData: Record<string, any> = {};
 
-    if (formattedDateOfBirth) updateData.dateOfBirth = formattedDateOfBirth;
-    if (gender) updateData.gender = gender;
-    if (address) updateData.address = address;
-    if (city) updateData.city = city;
-    if (state) updateData.state = state;
-    if (zipCode) updateData.zipCode = zipCode;
-    if (emiratesId) updateData.emiratesId = emiratesId;
-    if (phoneNumber) updateData.phoneNumber = phoneNumber;
-    if (occupation) updateData.occupation = occupation;
-    if (referralSource) updateData.referralSource = referralSource;
-    if (joinReason) updateData.joinReason = joinReason;
+    if (imgLink) updateData.imgLink = imgLink;
 
-    updateData.role = Role.ONBOARDING;
+    updateData.role = Role.PAYMENT_PENDING;
 
     console.log(
       "updateData.role: ",
       updateData.role,
       " ",
-      Role.ONBOARDING
+      Role.PAYMENT_PENDING
     );
 
     console.log("Updating user info with: ", updateData);
 
-    try {
-      await prisma.user.update({
-        where: { id: decoded.id },
-        data: updateData,
-      });
-    } catch (prismaError) {
-      console.error("Prisma update failed:", prismaError);
-      return NextResponse.json(
-        { error: "Failed to update user data" },
-        { status: 500 }
-      );
-    }
+    // try {
+    //   await prisma.user.update({
+    //     where: { id: decoded.id },
+    //     data: updateData,
+    //   });
+    // } catch (prismaError) {
+    //   console.error("Prisma update failed:", prismaError);
+    //   return NextResponse.json(
+    //     { error: "Failed to update user data" },
+    //     { status: 500 }
+    //   );
+    // }
 
     cookiesStore.delete("auth_token");
 

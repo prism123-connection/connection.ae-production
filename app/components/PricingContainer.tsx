@@ -18,23 +18,29 @@ const ProLogo = () => (
   />
 );
 
-export const PricingContainer: React.FC = () => {
+interface PricingContainerProps {
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const PricingContainer: React.FC<PricingContainerProps> = ({ setLoading }) => {
   return (
-    <div className="flex gap-[30px] justify-center items-start max-w-[1200px] mx-auto my-0 p-5 max-md:flex-col max-md:items-center max-md:gap-5">
+    <div className="flex gap-10 justify-center items-start w-full  mx-auto my-0 p-5 ">
       <PricingCard
+        setLoading={setLoading}
         variant="default"
         title="Basic"
         subtitle="For demo"
-        description="Lorem ipsum dolor sit amet doloroli sitiol conse ctetur adipiscing elit."
+        description="Get these features from the Basic plan build for you"
         price="$0"
-        features={["All view only features", "Referrals", "Normal support", ""]}
+        features={["All view only features","Normal support", "",""]}
         logo={<BasicLogo />}
       />
       <PricingCard
+        setLoading={setLoading}
         variant="pro"
         title="Pro"
         subtitle="For business"
-        description="Lorem ipsum dolor sit amet doloroli sitiol conse ctetur adipiscing elit."
+        description="Serious about your business? Our Pro plan is built for you."
         price="$100"
         features={[
           "All analytics features",

@@ -50,6 +50,7 @@ enum Role {
   ADMIN
   SETUP_PENDING
   PAYMENT_PENDING
+  ONBOARDING
 }
 
 model Referral {

@@ -9,6 +9,7 @@ export interface User {
   lastName: string;
   email: string;
   referralId?: string;
+  userRole?:string;
 }
 
 interface UserContextType {
@@ -34,6 +35,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
             lastName: userData.lastName,
             email: userData.email,
             referralId: userData.referralId,
+            userRole: userData.role
           });
         }
       } catch (error) {

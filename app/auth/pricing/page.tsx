@@ -3,30 +3,32 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
-import { HiEye, HiEyeOff } from "react-icons/hi";
-// import ImageCarouselProgress from "../components/image_carousel";
-import { RiFingerprint2Line } from "react-icons/ri";
 import { BiChevronLeft } from "react-icons/bi";
-import { z } from "zod";
-import { login } from "@/lib/helper";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { useUser } from "@/context/UserContext";
 import { PricingContainer } from "../../components/PricingContainer";
-
-const LoginSchema = z.object({
-  email: z.string().email({ message: "Invalid email address" }),
-  password: z.string().min(1, { message: "Password is required" }),
-});
+import Loader from "@/app/components/loader";
 
 const PricingPage = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({ email: "", password: "" });
-  const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
-  const { setUser } = useUser();
 
+      
+  if (loading) {
+    return (
+      <div className="min-h-screen w-full flex justify-center items-center ">
+        <div className="w-1/2 h-screen overflow-y-auto p-6 custom-scrollbar flex justify-center items-center">
+          <Loader/>
+        </div>
+        <div className="w-1/2 overflow-hidden">
+          <Image
+            src="/logo.svg"
+            alt="Account Setup"
+            width={500}
+            height={500}
+            className="w-full h-full object-contain rounded-md k"
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen w-full flex">
@@ -43,7 +45,7 @@ const PricingPage = () => {
       ">
        {/* Add next component here */}
  
-        <PricingContainer/>
+        <PricingContainer setLoading={setLoading}/>
       </div>
     </div>
   );

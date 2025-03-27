@@ -58,7 +58,7 @@ export const PricingFeature: React.FC<PricingFeatureProps> = ({
         <CheckCircleIcon iconColorClass={iconColorClass} logoColorClass={logoColorClass} />
         }
       
-      <div className={`text-lg leading-5 max-sm:text-base ${textColorClass}`}>
+      <div className={`text-base leading-5 max-sm:text-base ${textColorClass}`}>
         {text}
       </div>
     </div>
