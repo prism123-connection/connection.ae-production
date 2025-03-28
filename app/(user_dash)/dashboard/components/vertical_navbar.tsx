@@ -43,13 +43,13 @@ const VerticalNavbar = () => {
       name: "Commission Overview",
       icon: <RxGrid />,
       href: "/commission-overview",
-      disabled: true,
+      disabled: false,
     },
     {
       name: "My Commissions",
       icon: <GoHeart />,
-      href: "/my-commissions",
-      disabled: true,
+      href: "/commission-overview?vmc=true",
+      disabled: false,
     },
     {
       name: "E-Commerce",

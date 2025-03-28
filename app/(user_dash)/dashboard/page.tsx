@@ -9,8 +9,7 @@ import HorizontalNavbar from "./components/horiz_navbar";
 
 const Dashboard = () => {
   return (
-    <div className="bg-[#E2ECF2] flex flex-col gap-4 min-h-screen w-full pl-16 p-6">
-      <HorizontalNavbar />
+    <div className="bg-[#F5F6FA] flex flex-col gap-4 min-h-screen w-full ">
       <TopStatistics />
       <div className="flex w-full gap-4 h-auto">
         <MonthlyRevenue className="flex-1" />

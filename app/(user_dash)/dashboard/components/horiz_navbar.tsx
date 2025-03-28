@@ -26,7 +26,7 @@ const HorizontalNavbar = () => {
   };
 
   return (
-    <div className="w-full bg-white p-4 flex justify-between items-center shadow-md">
+    <div className="w-full bg-white p-4 flex justify-between items-center shadow-md rounded-lg">
 
       {
         loading && (
