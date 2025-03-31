@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 interface StatsCardProps {
@@ -10,6 +11,7 @@ interface StatsCardProps {
   };
   actionLabel: string;
   link: string; 
+  navLink : string; 
 }
 
 export const StatsCardsCommission: React.FC<StatsCardProps> = ({
@@ -17,8 +19,10 @@ export const StatsCardsCommission: React.FC<StatsCardProps> = ({
   value,
   trend,
   actionLabel,
-  link
+  link, 
+  navLink
 }) => {
+  const router = useRouter()
   return (
     <div className="bg-white shadow-lg cursor-pointer p-8 rounded-xl relative hover:shadow-xl transition-shadow duration-500 w-full">
          <Image
@@ -58,7 +62,9 @@ export const StatsCardsCommission: React.FC<StatsCardProps> = ({
           </div>
         </div>
       </div>
-      <div className="text-sm text-[#001625] underline cursor-pointer border bg-[#F6F8FA] p-6 rounded-xl border-[#E0E8F1]">
+      <div
+      onClick={() => router.push(navLink)}
+      className="text-sm text-[#001625] underline cursor-pointer border bg-[#F6F8FA] p-6 rounded-xl border-[#E0E8F1]">
         {actionLabel}
       </div>
    

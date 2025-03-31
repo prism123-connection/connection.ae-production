@@ -18,7 +18,7 @@ const CustomSelect: React.FC<SelectProps> = ({
   className = "" 
 }) => {
   return (
-    <div className="w-full">
+    <div className="w-full ">
       <label htmlFor={name} className="block mb-2 text-md font-medium text-[#1F587C]">
         {name}
       </label>
@@ -27,7 +27,7 @@ const CustomSelect: React.FC<SelectProps> = ({
         name={name}
         value={value}
         onChange={(e) => onValueChange(e.target.value)} // Fix: Added onChange handler
-        className={`bg-gray-50 text-[#333]/50 text-sm rounded-lg block w-full p-2.5 focus:ring-2 focus:ring-[#1F587C] outline-none ${className}`}
+        className={`bg-gray-50 text-[#333]/50 text-sm rounded-lg w-full p-2.5 focus:ring-2 focus:ring-[#1F587C] outline-none ${className}`}
       >
         {placeholder && <option value="">{placeholder}</option>}
         {options.map((option) => (

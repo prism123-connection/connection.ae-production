@@ -16,7 +16,6 @@ import { useSearchParams } from "next/navigation";
 
 function CommissionOverviewContent() {
   const [activeTab, setActiveTab] = useState(0);
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -29,7 +28,7 @@ function CommissionOverviewContent() {
       <CommissionHeader />
       <CommissionNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
       {
-        activeTab === 0 ? <CommissionDashbaord /> :
+        activeTab === 0 ? <CommissionDashbaord setActiveTab={setActiveTab}  /> :
         activeTab === 1 ? <AffiliateSection /> :
         activeTab === 2 ? <MyCommission /> :
         <WithdrawlPayout />

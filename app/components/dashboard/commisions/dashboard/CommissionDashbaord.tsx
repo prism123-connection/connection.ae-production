@@ -4,7 +4,11 @@ import { StatsCardsCommission } from './StatsCardsCommission'
 import TotalEarningCommission from './TotalEarningCommission'
 import AnalyticsChartCommission from './AnalyticsChartCommission'
 
-function CommissionDashbaord() {
+interface CommissionDashbaordProps {
+  setActiveTab: (tabIndex: number) => void;
+}
+
+const CommissionDashbaord : React.FC<CommissionDashbaordProps> = ({ setActiveTab }) => {
   return (
     <>
     <Filterbox/>
@@ -15,23 +19,26 @@ function CommissionDashbaord() {
           trend={{ value: "8.38%", positive: true }}
           actionLabel="View all joined members"
           link='/dash/commission/members.svg'
+          navLink='/downline'
         />
         <StatsCardsCommission
           title="Referrals Commission"
           value="$600"
           trend={{ value: "8.38%", positive: false }}
-          actionLabel="View all commissions"
+          actionLabel="View all Referral Commission"
           link='/dash/commission/referrals.svg'
+          navLink='/commission-overview/commission-history'
         />
         <StatsCardsCommission
           title="Deals Commission"
           value="$500"
           trend={{ value: "8.38%", positive: true }}
-          actionLabel="View all joined members"
+          actionLabel="View all Deals Commission"
           link='/dash/commission/members.svg'
+          navLink='/commission-overview/commission-history'
         />
       </div>
-      <TotalEarningCommission/>
+      <TotalEarningCommission setActiveTab={setActiveTab}/>
       <AnalyticsChartCommission/>
     </>
   )

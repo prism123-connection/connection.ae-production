@@ -1,6 +1,17 @@
+import ProceedButtons from '@/app/components/ui/ProceedButtons'
 import React from 'react'
 
-function TotalEarningCommission() {
+
+interface CommissionDashbaordProps {
+  setActiveTab: (tabIndex: number) => void;
+}
+
+
+const  TotalEarningCommission: React.FC<CommissionDashbaordProps> = ({ setActiveTab }) => {
+  const onClickFunc = () => {
+    setActiveTab(2); // Change tab
+    window.scrollTo({ top: 0, behavior: "instant" }); // Scroll to top smoothly
+  };
   return (
     <div className="bg-white shadow-md mb-5 p-8 rounded-xl w-full">
     <div className="text-sm text-[#001625] mb-2">Total Earnings</div>
@@ -28,21 +39,12 @@ function TotalEarningCommission() {
       <div className="text-sm text-[#001625] underline cursor-pointer">
         View total earnings
       </div>
-      <button className="flex items-center gap-2 bg-[#0C87D6] text-white shadow-[0px_6px_12px_0px_rgba(12,135,214,0.20)] px-6 py-3 rounded-xl border-2 border-[rgba(255,255,255,0.24)]">
-        <span>Withdraw earnings</span>
-        <svg
-          className="w-[20px] h-[20px] stroke-current"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
-          />
-        </svg>
-      </button>
+
+      <ProceedButtons onClickFunc={onClickFunc} classes='bg-[#001625] gap-2!  py-3! text-base!'>
+      Cashout Earning
+    
+      </ProceedButtons>
+
     </div>
   </div>
   )

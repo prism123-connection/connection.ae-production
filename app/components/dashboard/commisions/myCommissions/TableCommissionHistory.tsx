@@ -1,45 +1,50 @@
 import React from "react";
-import { PayoutRow } from "./PayoutRow";
+import { CommissionHistoryRow } from "./RowCommissionHistory";
 
-const payoutData = [
+const CommissionHistory = [
   {
     slNo: "01",
     name: "Arshad",
     email: "arshad@gmail.com",
+    commissionType : "Referral",
     referralEarned: "$10",
-    joinedDate: "Feb 23, 2025",
+    dateAdded: "Feb 23, 2025",
   },
   {
     slNo: "02",
     name: "saif",
     email: "saif@gmail.com",
-    referralEarned: "$10",
-    joinedDate: "Feb 23, 2025",
+    commissionType : "Deal",
+    referralEarned: "$2000",
+    dateAdded: "Feb 23, 2025",
   },
   {
     slNo: "03",
     name: "daiyaan",
     email: "daiyaan@gmail.com",
+    commissionType : "Referral",
     referralEarned: "$10",
-    joinedDate: "Feb 23, 2025",
+    dateAdded: "Feb 23, 2025",
   },
   {
     slNo: "04",
     name: "saif",
     email: "saif@gmail.com",
-    referralEarned: "$10",
-    joinedDate: "Feb 23, 2025",
+    commissionType : "Deal",
+    referralEarned: "$3000",
+    dateAdded: "Feb 23, 2025",
   },
   {
     slNo: "05",
     name: "daiyaan",
     email: "daiyaan@gmail.com",
+    commissionType : "Referral",
     referralEarned: "$10",
-    joinedDate: "Feb 23, 2025",
+    dateAdded: "Feb 23, 2025",
   },
 ];
 
-export const PayoutTable: React.FC = () => {
+export const CommissionHistoryTable: React.FC = () => {
   return (
     <div className="w-full bg-white overflow-hidden rounded-lg border-[0.6px] border-[#D5D5D5]">
       <div className="bg-[#FCFDFD] p-4 border-[0.6px] border-[#D5D5D5]">
@@ -52,19 +57,19 @@ export const PayoutTable: React.FC = () => {
             email
           </div>
           <div className="text-[#202224] text-base font-semibold ">
-            Account type
+            Commission Type
           </div>
           <div className="text-[#202224] text-base font-semibold ">
-            Referral earned
+            Commission earned
           </div>
           <div className="text-[#202224] text-base font-semibold ">
-            Joined date
+            Date Added
           </div>
         </div>
       </div>
       <div className="p-4">
-        {payoutData.map((payout) => (
-          <PayoutRow key={payout.slNo} {...payout} />
+        {CommissionHistory.map((payout) => (
+          <CommissionHistoryRow key={payout.slNo} {...payout} />
         ))}
       </div>
     </div>
