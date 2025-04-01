@@ -1,7 +1,7 @@
 import React from 'react'
   interface ActionButtonProps {
     children: React.ReactNode;
-    variant?: "primary" | "secondary" | "success";
+    variant?: "primary" | "secondary" | "success" | "proceed";
     onClick?: () => void;
     className?: string;
     type?: "button" | "submit";
@@ -20,7 +20,8 @@ import React from 'react'
     const variants = {
       primary: "bg-[#001625] text-white border-[rgba(0,22,37,0.08)]",
       secondary: "bg-white text-[rgba(0,22,37,1)] border-[#001625]/50 border-2",
-      success : "bg-[#06B079] shadow-[6px_6px_10px_rgba(0,0,0,0.2)] text-white"
+      success : "bg-[#06B079] shadow-[6px_6px_10px_rgba(0,0,0,0.2)] text-white",
+      proceed : "bg-[rgba(244,128,32,1)] shadow-[6px_6px_10px_rgba(0,0,0,0.2)] text-white",
     };
   
     return (

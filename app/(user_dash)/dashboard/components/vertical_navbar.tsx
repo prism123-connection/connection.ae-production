@@ -55,7 +55,7 @@ const VerticalNavbar = () => {
       name: "E-Commerce",
       icon: <BsCart2 />,
       href: "/ecommerce",
-      disabled: true,
+      disabled: false,
     },
     { name: "Downline", icon: <VscChecklist />, href: "/downline" },
     {
