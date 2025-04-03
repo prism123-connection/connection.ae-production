@@ -30,14 +30,14 @@ function EcomHeader() {
     </button>
     
     <div className='flex gap-5'>
-      <ActionButton onClick={()=>router.push('/ecommerce/cart')} variant='secondary' className="border-[#000]/30! border-1.5!">
+      <ActionButton onClick={()=>router.push('/ecommerce/cart')} variant='secondary' className="border-[#000]/30! border-1.5! hover:shadow-xl! ">
         <img
           src="/ecommerce/cart-icon.svg"
           alt=""
           className=" w-5! h-5! object-cover "
         />
       </ActionButton>
-      <ActionButton onClick={()=>router.push('/ecommerce/details')} variant='secondary' className="border-[#000]/30! border-1.5!">
+      <ActionButton onClick={()=>router.push('/ecommerce/details')} variant='secondary' className="border-[#000]/30! border-1.5! hover:shadow-xl! ">
         Your wishlist
         <img
           src="/ecommerce/wishlist.svg"
@@ -47,7 +47,8 @@ function EcomHeader() {
       </ActionButton>
 
       <ActionButton
-      className='bg-[#02070C]'
+      onClick={()=>router.push('/listproducts')}
+      className='bg-[#02070C] '
         variant="primary"
       >
         List your products

@@ -1,6 +1,6 @@
-
 import { WishlistHeader } from "./WishlistHeader";
 import { WishlistItem } from "./WishlistItem";
+
 
 export const WishlistContainer = () => {
   const wishlistItems = [

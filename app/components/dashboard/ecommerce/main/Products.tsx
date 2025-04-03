@@ -211,9 +211,9 @@ function EcommerceProductsSection() {
     <section className='w-full'>
       <div className="flex justify-between items-center mb-10">
         <h2 className="text-xl font-semibold text-black">
-          Best Selling Products
+          Latest Products
         </h2>
-        <button className="text-neutral-50 rounded text-sm cursor-pointer bg-[#111] px-12 py-2 max-sm:px-6 max-sm:py-2 hover:bg-[#333] transition-colors">
+        <button className="text-neutral-50 rounded text-sm cursor-pointer bg-[#111] px-12 py-2 max-sm:px-6 max-sm:py-2 hover:bg-[#333] transition-colors hidden">
           View All
         </button>
       </div>

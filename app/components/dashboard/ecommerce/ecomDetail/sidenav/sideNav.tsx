@@ -2,12 +2,16 @@ import React from 'react'
 import { EcommerceUserProfile } from './userProfile';
 import { EcommerceSideNavOptions } from './navOptions';
 
-function EcommerceSideNavbar() {
+interface EcommerceSideNavbarProps {
+  activeSetup: number;
+  setActiveSetup: React.Dispatch<React.SetStateAction<number>>;
+}
+
+function EcommerceSideNavbar({ activeSetup, setActiveSetup }: EcommerceSideNavbarProps) {
     const menuItems = [
-        { label: "Account" },
         { label: "Address" },
         { label: "Orders history" },
-        { label: "Wishlist" , isActive: true },
+        { label: "Wishlist" },
       ];
   return (
     <nav
@@ -19,7 +23,7 @@ function EcommerceSideNavbar() {
       name="Salim"
       memberSince="Member since 2025"
     />
-    <EcommerceSideNavOptions items={menuItems} />
+    <EcommerceSideNavOptions activeSetup={activeSetup} setActiveSetup={setActiveSetup}  items={menuItems} />
   </nav>
   )
 }

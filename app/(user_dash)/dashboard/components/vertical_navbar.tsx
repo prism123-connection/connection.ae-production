@@ -67,8 +67,8 @@ const VerticalNavbar = () => {
     {
       name: "Live Webinars",
       icon: <CiGift />,
-      href: "/ecommerce",
-      disabled: true,
+      href: "/live-webinar",
+      disabled: false,
     },
     {
       name: "Leaderboard",
@@ -85,15 +85,15 @@ const VerticalNavbar = () => {
     {
       name: "List your products",
       icon: <FaRegArrowAltCircleUp />,
-      href: "/direct-affiliates",
-      disabled: true,
+      href: "/listproducts",
+      disabled: false,
     },
     { type: "divider" },
     {
       name: "Settings",
       icon: <IoSettingsOutline />,
-      href: "/direct-affiliates",
-      disabled: true,
+      href: "/settings",
+      disabled: false,
     },
     {
       name: "Logout",
