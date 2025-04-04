@@ -65,7 +65,7 @@ export const resendConfirmationMail = async (email: string) => {
     return await response.json();
   } catch (error) {
     console.error("Resend confirmation error:", error);
-    return { success: false, message: "Something went wrong!" };
+    return { success: false, message: "Something went wrong!" }; 
   }
 };
 
