@@ -34,7 +34,7 @@ interface WithdrawFormProps {
       options={[
         { value: "payPal", label: "Paypal" },
       ]}
-      placeholder="Select Gender"
+      placeholder="Select Payment Method"
       className='mx-1 max-w-[95%]! focus:ring-[#001625] text-[rgba(102,102,102,1)]!'  
     /> 
 

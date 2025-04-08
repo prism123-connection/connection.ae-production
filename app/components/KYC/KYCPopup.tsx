@@ -14,9 +14,7 @@ const KYCPopup: React.FC<KYCPopupProps> = ({ onNext, onPrev }) => {
        subtitle="Please provide the required details to proceed with the withdrawal."
        onPrev={onPrev}
      >
-       <div className="flex w-full flex-col  text-xs text-[rgba(31,88,124,1)] px-5 py-10  max-md:max-w-full  max-md:px-5  min-h-60 items-center justify-center">
-        <span className='text-6xl'>KYC</span>
-       </div>
+      <span className="text-2xl mb-5 tracking-[-1.28px] max-md:max-w-full"> Complete KYC</span>
 
       <div className='w-full px-10 my-10 overflow-hidden'>
        <ActionButton onClick={onNext} className="mt-10 max-md:mt-10 w-full">

@@ -8,6 +8,7 @@ import Image from "next/image";
 import ProceedButtons from "@/app/components/ui/ProceedButtons";
 import { NotificationFeed } from "@/app/components/dashboard/notification/NotificationFeed";
 import { AccountMenu } from "@/app/components/dashboard/accountMenu/AccountMenu";
+import ActionButton from "@/app/components/ui/ActionButton";
 
 const HorizontalNavbar = () => {
   const { user, loading } = useUser();
@@ -75,8 +76,8 @@ const HorizontalNavbar = () => {
             className="ml-2 opacity-50 cursor-pointer"
             /></div>
           }
-        
           </div>
+
 
           {/* right side  */}
           <div className="flex justify-center items-center gap-2 ">
@@ -123,6 +124,8 @@ const HorizontalNavbar = () => {
         null
 
         }
+
+    <ActionButton onClick={()=>router.push('/seller-portal')} variant="success" className="px-8! py-2! mr-5">Sales Portal</ActionButton>
       
        
         {

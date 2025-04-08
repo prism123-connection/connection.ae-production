@@ -9,7 +9,7 @@ function EcomHeader() {
   return (
     <div className="flex gap-5 w-full items-center justify-between">
     <button
-      // onClick={() => navigate(-1)}
+      onClick={() => router.back()}
       className="flex items-center gap-2 text-base text-black opacity-50 cursor-pointer"
       aria-label="Go back"
     >
@@ -30,6 +30,13 @@ function EcomHeader() {
     </button>
     
     <div className='flex gap-5'>
+    <ActionButton onClick={()=>router.push('/ecommerce/details')} variant='secondary' className="border-[#000]/30! border-1.5! hover:shadow-xl! px-5! ">
+        <img
+          src="/ecommerce/settings-icon.svg"
+          alt=""
+          className=" w-5! h-5! object-cover "
+        />
+      </ActionButton>
       <ActionButton onClick={()=>router.push('/ecommerce/cart')} variant='secondary' className="border-[#000]/30! border-1.5! hover:shadow-xl! ">
         <img
           src="/ecommerce/cart-icon.svg"

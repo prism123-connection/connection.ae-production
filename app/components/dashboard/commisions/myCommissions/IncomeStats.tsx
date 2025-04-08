@@ -3,9 +3,9 @@ import Image from 'next/image'
 import React from 'react'
 import IncomeStatCards from './IncomeStatCards'
 import WithdrawFundForm from './WithdrawFundForm'
-import BankDetailInputs from './BankDetailInputs'
-import KYCPopup from './KYCPopup'
-import SubmitPopup from './SubmitPopup'
+import BankDetailInputs from '../../../KYC/BankDetailInputs'
+import KYCPopup from '../../../KYC/KYCPopup'
+import SubmitPopup from '../../../KYC/SubmitPopup'
 
 interface IncomeStatsProps {
     onNext: () => void;

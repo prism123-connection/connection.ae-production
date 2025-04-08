@@ -1,6 +1,7 @@
 "use client"
 import { AddressForm } from '@/app/components/dashboard/ecommerce/ecomDetail/address/AddressForm'
 import UserAddressManager from '@/app/components/dashboard/ecommerce/ecomDetail/address/AddressManager'
+import AllAdressess from '@/app/components/dashboard/ecommerce/ecomDetail/address/AllAdressess'
 import OrderHistorySection from '@/app/components/dashboard/ecommerce/ecomDetail/orderHistory/OrderHistorySection'
 import EcommerceSideNavbar from '@/app/components/dashboard/ecommerce/ecomDetail/sidenav/sideNav'
 import { WishlistContainer } from '@/app/components/dashboard/ecommerce/ecomDetail/wishlist/WishlistContainer'
@@ -21,7 +22,7 @@ function EcommerceDetails() {
     <EcomHeader/>
     <div className='flex w-full  items-start justify-start gap-5'>
         <EcommerceSideNavbar activeSetup={activeSetup} setActiveSetup={setActiveSetup}/>
-        {activeSetup === 0 && <AddressForm  /> }
+        {activeSetup === 0 && <AllAdressess/> }
         {activeSetup === 1 && <OrderHistorySection/> }
         {activeSetup === 2 && <WishlistContainer/> }
     </div>

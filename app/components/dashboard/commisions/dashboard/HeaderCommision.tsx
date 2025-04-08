@@ -1,10 +1,13 @@
+"use client"
+import { useRouter } from 'next/navigation'
 import React from 'react'
 
 function CommissionHeader() {
+  const router = useRouter()
   return (
     <>
       <button
-        // onClick={() => navigate(-1)}
+        onClick={() => router.back()}
         className="flex items-center gap-2 text-base text-black opacity-50 cursor-pointer mb-5 "
         aria-label="Go back"
       >

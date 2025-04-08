@@ -1,7 +1,10 @@
+"use client"
 import ActionButton from '@/app/components/ui/ActionButton'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 
 function ProductActions() {
+  const router = useRouter()
   return (
     <div className="flex w-full items-stretch gap-3 text-base font-semibold mt-10 pr-20">
     <ActionButton variant='secondary' className='border-[rgba(157,157,157,1)]! border-1! rounded-[46px]! w-full!'>
@@ -12,7 +15,7 @@ function ProductActions() {
       />
       <span className="self-stretch my-auto">Add To Cart</span>
     </ActionButton>
-    <ActionButton variant='proceed' className='rounded-[46px]! w-full!'>
+    <ActionButton onClick={()=>router.push('/live-stream')} variant='proceed' className='rounded-[46px]! w-full!'>
     Join the live
     </ActionButton >
    

@@ -13,6 +13,9 @@ import { BsPeople } from "react-icons/bs";
 import { FiClipboard } from "react-icons/fi";
 import { IoSettingsOutline } from "react-icons/io5";
 import { CiPower } from "react-icons/ci";
+import { MdOutlineDashboard } from "react-icons/md";
+import { MdOutlineReplay } from "react-icons/md";
+
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -46,6 +49,12 @@ const VerticalNavbar = () => {
       disabled: false,
     },
     {
+      name: "Sales Portal",
+      icon: <MdOutlineDashboard/>,
+      href: "/seller-portal",
+      disabled: false,
+    },
+    {
       name: "My Commissions",
       icon: <GoHeart />,
       href: "/commission-overview?vmc=true",
@@ -68,6 +77,12 @@ const VerticalNavbar = () => {
       name: "Live Webinars",
       icon: <CiGift />,
       href: "/live-webinar",
+      disabled: false,
+    },
+    {
+      name: "Webinars Replays",
+      icon: <MdOutlineReplay />,
+      href: "/webinars-replays",
       disabled: false,
     },
     {

@@ -19,7 +19,7 @@ const SubmitPopup: React.FC<KYCPopupProps> = ({  onPrev }) => {
             />
             <p className="mt-3.5 max-md:max-w-full text-center">
               Thank you for submitting your details. <br/> Please wait while your
-              withdrawal request is approved.
+              KYC request is approved.
             </p>
           </div>
     

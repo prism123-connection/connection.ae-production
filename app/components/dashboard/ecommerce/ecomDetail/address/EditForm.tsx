@@ -8,7 +8,7 @@ import { ChevronDown, X } from "lucide-react";
 interface AddressFormProps {
 //   onClose: () => void;
 //   onSubmit: () => void;
-cancelAdd: () => void;
+cancelEdit: () => void;
 }
 
 export interface AddressFormData {
@@ -21,10 +21,10 @@ export interface AddressFormData {
   vatNumber: string;
 }
 
-export const AddressForm: React.FC<AddressFormProps> = ({
+export const UpdateAddressForm: React.FC<AddressFormProps> = ({
 //   onClose,
 //   onSubmit,
-cancelAdd
+cancelEdit
 }) => {
     // const { register, handleSubmit, watch, } = useForm<AddressFormData>();
 
@@ -34,7 +34,7 @@ cancelAdd
         <div className="w-full max-md:max-w-full   ">
           <div className="flex w-full items-center gap-2  max-md:max-w-full">
             <h2 className="text-[rgba(53,53,53,1)] text-base font-semibold leading-7 self-stretch flex-1 shrink basis-[0%] my-auto max-md:max-w-full">
-              Add Your Address:
+              Update Your Address:
             </h2>
             <button
               type="button"
@@ -139,10 +139,10 @@ cancelAdd
           </div>
         </div>
         <div className="flex items-center justify-center gap-5 ">
-        <ActionButton onClick={cancelAdd} className="px-5! mt-5 max-h-[40px] rounded-lg! " variant="secondary">Cancel</ActionButton>
+        <ActionButton onClick={cancelEdit} className="px-5! mt-5 max-h-[40px] rounded-lg! " variant="secondary">Cancel</ActionButton>
         <Button
           
-          onClick={cancelAdd}
+          onClick={cancelEdit}
           className="w-full bg-[rgba(12,135,214,1)] text-sm text-white font-normal mt-5 px-5 py-4 rounded-lg"
         >
           Save

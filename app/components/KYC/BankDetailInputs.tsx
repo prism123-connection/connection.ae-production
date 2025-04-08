@@ -4,54 +4,54 @@ import { FormSection } from '@/app/components/ui/FormSection';
 import React, { useState } from 'react'
 
 interface BankDetailInputsProps {
+  iban: string;
+  accountNumber: string;
+  swiftCode: string;
+  routingNumber: string;
+  handleInputChange: (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => void;
   onNext: () => void;
   onPrev: () => void;
 }
 
-const BankDetailInputs: React.FC<BankDetailInputsProps> = ({ onNext, onPrev }) => {
-  const [formData, setFormData] = useState({
-    iban: "",
-    accountNumber: "",
-    currency: "",
-    swiftCode: "",
-    routingNumber: "",
-  });
 
-  const handleInputChange = (field: string) => (value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
+const BankDetailInputs: React.FC<BankDetailInputsProps> = ({ 
+  iban,
+  accountNumber,
+  swiftCode,
+  routingNumber,
+  handleInputChange, 
+  onNext,
+  onPrev,
+ }) => {
+
 
 
   return (
     <FormSection
-    title="Withdraw your earnings to your account"
-    subtitle="Please provide the required details to proceed with the withdrawal."
+    title="KYC Details"
+    subtitle="Please provide the required KYC details to proceed with the withdrawal."
     onPrev={onPrev}
   >
-    <div className="flex w-full flex-col items-stretch text-xs text-[rgba(31,88,124,1)]  py-10  max-md:max-w-full  max-md:px-5 px-20 ">
+    <div className="flex w-full flex-col items-stretch text-xs gap-5 text-[rgba(31,88,124,1)]  py-10  max-md:max-w-full  max-md:px-5 px-20 ">
+    <span className="text-2xl mb-5 tracking-[-1.28px] max-md:max-w-full"> Bank Details </span>
       <FormInput
         label="IBAN"
-        value={formData.iban}
-        onChange={handleInputChange("iban")}
+        value={iban}
+        onChange={handleInputChange("iban")} 
       />
       <FormInput
         label="Account number"
-        value={formData.accountNumber}
+        value={accountNumber}
         onChange={handleInputChange("accountNumber")}
       />
       <FormInput
-        label="Currency"
-        value={formData.currency}
-        onChange={handleInputChange("currency")}
-      />
-      <FormInput
         label="Swift code"
-        value={formData.swiftCode}
+        value={swiftCode}
         onChange={handleInputChange("swiftCode")}
       />
       <FormInput
         label="Routing number"
-        value={formData.routingNumber}
+        value={routingNumber}
         onChange={handleInputChange("routingNumber")}
       />
 
