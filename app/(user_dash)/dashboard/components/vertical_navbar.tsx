@@ -15,6 +15,8 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { CiPower } from "react-icons/ci";
 import { MdOutlineDashboard } from "react-icons/md";
 import { MdOutlineReplay } from "react-icons/md";
+import { MdOutlineAdminPanelSettings } from "react-icons/md";
+
 
 
 import Image from "next/image";
@@ -104,6 +106,12 @@ const VerticalNavbar = () => {
       disabled: false,
     },
     { type: "divider" },
+    {
+      name: "Admin",
+      icon: <MdOutlineAdminPanelSettings />,
+      href: "/admin",
+      disabled: false,
+    },
     {
       name: "Settings",
       icon: <IoSettingsOutline />,
