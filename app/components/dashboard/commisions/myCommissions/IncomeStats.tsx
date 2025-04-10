@@ -9,14 +9,23 @@ import SubmitPopup from '../../../KYC/SubmitPopup'
 
 interface IncomeStatsProps {
     onNext: () => void;
+    referralBonus : string | number;
   }
 
 
-  export const IncomeStats: React.FC<IncomeStatsProps> = ({ onNext }) => {
+  export const IncomeStats: React.FC<IncomeStatsProps> = ({ onNext, referralBonus }) => {
+    const handleReqButton = () => {
+      if (referralBonus === 0) {
+        alert("Earning can be withdrawn only more than $100");
+      }
+      else {
+        onNext();
+      } 
+    }
   return (
     <div className='w-full max-w-4xl flex flex-col'>
-    <IncomeStatCards/>
-    <ProceedButtons onClickFunc={onNext} classes='bg-[#001625] w-full! text-center! justify-center! mt-5!'>Request Withdrawl</ProceedButtons>
+    <IncomeStatCards referralBonus={referralBonus}/>
+    <ProceedButtons onClickFunc={handleReqButton} classes='bg-[#001625] w-full! text-center! justify-center! mt-5!'>Request Withdrawl</ProceedButtons>
 </div>
   )
 }

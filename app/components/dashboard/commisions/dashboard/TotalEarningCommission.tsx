@@ -4,10 +4,11 @@ import React from 'react'
 
 interface CommissionDashbaordProps {
   setActiveTab: (tabIndex: number) => void;
+  totalEarning : string | number;
 }
 
 
-const  TotalEarningCommission: React.FC<CommissionDashbaordProps> = ({ setActiveTab }) => {
+const  TotalEarningCommission: React.FC<CommissionDashbaordProps> = ({ setActiveTab , totalEarning}) => {
   const onClickFunc = () => {
     setActiveTab(2); // Change tab
     window.scrollTo({ top: 0, behavior: "instant" }); // Scroll to top smoothly
@@ -16,7 +17,7 @@ const  TotalEarningCommission: React.FC<CommissionDashbaordProps> = ({ setActive
     <div className="bg-white shadow-md mb-5 p-8 rounded-xl w-full">
     <div className="text-sm text-[#001625] mb-2">Total Earnings</div>
     <div className="flex items-center gap-3 mb-8">
-      <div className="text-[32px] text-[#001625]">100,00</div>
+      <div className="text-[32px] text-[#001625]">${totalEarning}</div>
       <div className="bg-[#F2FCF8] rounded px-3 py-1.5">
         <div className="flex items-center gap-1.5 text-sm text-[#22A77E]">
           <svg

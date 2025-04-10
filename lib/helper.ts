@@ -229,6 +229,7 @@ export async function fetchData(endpoint: string) {
       method: "GET",
       credentials: "include",
     });
+    console.log(endpoint, 'from the fetchData function');
     if (!response.ok) throw new Error("Failed to fetch data");
     const data = await response.json();
     console.log("Came here with: ", data);

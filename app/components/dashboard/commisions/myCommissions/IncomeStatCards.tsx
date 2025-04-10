@@ -1,7 +1,11 @@
 import Image from 'next/image'
 import React from 'react'
 
-function IncomeStatCards() {
+interface IncomeStatsProps {
+  referralBonus : string | number;
+}
+
+const IncomeStatCards: React.FC<IncomeStatsProps> = ({  referralBonus }) => {
   return (
     <div className='w-full flex gap-10'>
     <div className="h-40 rounded-lg relative p-4 bg-[#EAFCE8] text-[#256A1D] w-full flex flex-col justify-start max-w-[450px]">
@@ -13,7 +17,7 @@ function IncomeStatCards() {
                 className="absolute top-4 right-4"
               />
               <h2 className="text-sm font-novaLight">Total earnings</h2>
-              <p className="font-novaSB text-4xl mt-5 font-semibold">$ 60,000.00</p>
+              <p className="font-novaSB text-4xl mt-5 font-semibold">${referralBonus}</p>
             </div>
             <div className="h-40 rounded-lg relative p-4 bg-[#E8F6FC] text-[#256A1D] w-full flex flex-col justify-start max-w-[450px]">
               <Image
@@ -24,7 +28,7 @@ function IncomeStatCards() {
                 className="absolute top-4 right-4"
               />
               <h2 className="text-sm font-novaLight">Wallet balance</h2>
-              <p className="font-novaSB text-4xl mt-5 font-semibold">10,0000 AED</p>
+              <p className="font-novaSB text-4xl mt-5 font-semibold">${referralBonus}</p>
             </div>
 
 </div>

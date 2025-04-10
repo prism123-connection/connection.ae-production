@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { prisma } from "@/lib/prisma";
+import { cookies } from "next/headers";
 
 export async function GET(req: NextRequest) {
   try {
-    const token = req.headers.get("Authorization")?.split(" ")[1];
+    // const token = req.headers.get("Authorization")?.split(" ")[1];
+    const cookiesStore = await cookies();
+    const token = cookiesStore.get("auth_token")?.value;
 
     if (!token) {
       return NextResponse.json(
@@ -16,7 +19,7 @@ export async function GET(req: NextRequest) {
     const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
     const userId = decoded.id;
 
-    console.log("userID: ", userId)
+    console.log("userID from downline: ", userId)
 
     // Fetch downline referrals up to 3 levels deep (level 0, level 1, and level 2)
     const downlineReferrals = await prisma.$queryRaw`
@@ -27,6 +30,7 @@ export async function GET(req: NextRequest) {
           u.firstName,
           u.lastName,
           u.email,
+          u.role, 
           r.conversion,
           r.updatedAt AS convertedAt,
           0 AS level
@@ -45,6 +49,7 @@ export async function GET(req: NextRequest) {
           u.lastName,
           u.email,
           r.conversion,
+          u.role, 
           r.updatedAt AS convertedAt,
           d.level + 1
         FROM 
@@ -70,6 +75,7 @@ export async function GET(req: NextRequest) {
       level: referral.level.toString(),
       conversion: referral.conversion,
       convertedAt: referral.convertedAt,
+      role : referral.role,
     }));
 
     console.log("Formatted Referrals: ", formattedReferrals)

@@ -13,25 +13,64 @@ import SectionHeader from '@/app/components/SectionHeader';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from "next/navigation";
+import { fetchData } from '@/lib/helper';
 
 function CommissionOverviewContent() {
   const [activeTab, setActiveTab] = useState(0);
   const searchParams = useSearchParams();
+  const [loading, setLoading] = useState(true);
+  const [referralBonus, setReferralBonus] = useState<number>(0);
+  const [totalMembers, setTotalMembers] = useState<number>(0);
+
+  const fetchAllData = async () => {
+    setLoading(true);
+
+    try {
+      const [referralData] = await Promise.all([
+        // fetchData("dashboard/stats/wallet"),
+        fetchData("dashboard/stats/referral"),
+      ]);
+
+      // if (walletData) setWalletBalance(walletData.amount);
+      if (referralData) {
+        setReferralBonus(referralData.referralBonus);
+        setTotalMembers(referralData.totalMembers);
+      }
+    } catch {
+      console.log(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   useEffect(() => {
     const vmc = searchParams.get("vmc");
     setActiveTab(vmc ? 2 : 0);
   }, [searchParams]);
 
+  useEffect(() => {
+    fetchAllData()
+  }, [])
+
+
   return (
     <SectionHeader classes='min-h-screen! w-full! items-start justify-start gap-5! mt-10'>
+      {
+        loading && (
+          <div className="w-full bg-white rounded-lg flex p-16 flex-col px-8 items-end">
+          <div className="animate-spin h-5 w-5 border-4 border-black self-center border-t-transparent rounded-full"></div>
+        </div>
+        )
+      }
       <CommissionHeader />
       <CommissionNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
       {
-        activeTab === 0 ? <CommissionDashbaord setActiveTab={setActiveTab}  /> :
-        activeTab === 1 ? <AffiliateSection /> :
-        activeTab === 2 ? <MyCommission /> :
-        <WithdrawlPayout />
+        activeTab === 0 ? <CommissionDashbaord setActiveTab={setActiveTab} referralBonus={referralBonus}
+        totalMembers={totalMembers} /> :
+          activeTab === 1 ? <AffiliateSection /> :
+            activeTab === 2 ? <MyCommission referralBonus={referralBonus}/> :
+              <WithdrawlPayout />
       }
     </SectionHeader>
   );

@@ -35,6 +35,7 @@ export async function GET(req: NextRequest) {
             email: true,
             walletBalance: true,
             createdAt: true,
+            role: true,
           },
         },
       },
@@ -54,6 +55,7 @@ export async function GET(req: NextRequest) {
         email: referral.referred.email,
         conversion: referral.conversion,
         convertedAt: referral.updatedAt,
+        role : referral.referred.role,
       })),
     });
   } catch (error) {

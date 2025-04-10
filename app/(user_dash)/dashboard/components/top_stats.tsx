@@ -85,7 +85,8 @@ const TopStatistics = () => {
               className="absolute top-4 right-4"
             />
             <h2 className="text-sm font-novaLight">Total earnings</h2>
-            <p className="font-novaSB text-xl">0 $</p>
+            <p className="font-novaSB text-xl">{referralBonus}  $</p>
+            {/* <p className="font-novaSB text-xl">0 $</p> */}
           </div>
           <div className="h-28 rounded-lg relative p-4 bg-[#E8F6FC] text-[#256A1D] w-full flex flex-col justify-end">
             <Image
@@ -96,7 +97,8 @@ const TopStatistics = () => {
               className="absolute top-4 right-4"
             />
             <h2 className="text-sm font-novaLight">Wallet balance</h2>
-            <p className="font-novaSB text-xl">{walletBalance} $</p>
+            <p className="font-novaSB text-xl">{referralBonus} $</p>
+            {/* <p className="font-novaSB text-xl">{walletBalance} $</p> */}
           </div>
           <div className="h-28 rounded-lg relative p-4 bg-[#F1EDFF] text-[#463191] w-full flex flex-col justify-end">
             <Image
@@ -123,10 +125,10 @@ const TopStatistics = () => {
         </div>
       </div>
       <Image
-        src={"/dash/man_on_chair.svg"}
-        height={100}
-        width={100}
-        className="h-full flex-[1] p-4"
+        src={"/logo.svg"}
+        height={150}
+        width={150}
+        className="h-full  p-4"
         alt={"avatar"}
       />
     </div>

@@ -14,13 +14,13 @@ type Affiliate = {
   email: string;
   conversion: boolean;
   convertedAt: string | null;
+  role: string;
 };
 
 const DirectAffiliates = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [affiliates, setAffiliates] = useState<Affiliate[]>([]);
-
   const fetchAffiliates = async () => {
     setLoading(true);
     setError(false);
@@ -73,7 +73,8 @@ const DirectAffiliates = () => {
   }
 
   return (
-    <div className="bg-[#E2ECF2] flex flex-col gap-4 min-h-screen w-full pl-16 p-6">
+    <div className=" flex flex-col gap-4 min-h-screen w-full ">
+      {/* <div className="w-screen h-screen fixed top-0 left-0 bg-black/10"/> */}
       <div className="w-full bg-white rounded-lg p-6">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl text-gray-800">
@@ -140,7 +141,7 @@ const DirectAffiliates = () => {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {affiliate.conversion ? (
+                      {affiliate.role === 'PAID_USER' ? (
                         <span className="px-2 inline-flex items-center text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                           <FiUserCheck size={14} className="mr-1" /> Premium
                         </span>
@@ -151,7 +152,7 @@ const DirectAffiliates = () => {
                       )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {affiliate.conversion && affiliate.convertedAt
+                      {affiliate.role === 'PAID_USER' && affiliate.convertedAt
                         ? format(
                             new Date(affiliate.convertedAt),
                             "MMM dd, yyyy"

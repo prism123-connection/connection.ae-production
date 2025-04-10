@@ -39,10 +39,11 @@ function WithdrawlTable() {
             </div>
           </div>
         </div>
-        <div className="p-4">
-          {payoutData.map((payout) => (
+        <div className="p-4 flex items-center justify-center py-10">
+          <span>You haven't withdrawn yet!</span>
+          {/* {payoutData.map((payout) => (
             <WithdrawlRow key={payout.slNo} {...payout} />
-          ))}
+          ))} */}
         </div>
       </div>
   )

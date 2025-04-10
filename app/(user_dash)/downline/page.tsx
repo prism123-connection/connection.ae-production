@@ -15,6 +15,7 @@ type DownlineAffiliate = {
   level: string;
   conversion: boolean;
   convertedAt: string | null;
+  role: string;
 };
 
 const Downline = () => {
@@ -42,6 +43,8 @@ const Downline = () => {
     }
   };
 
+  console.log("Downline Affiliates: ", downlineAffiliates);
+
   useEffect(() => {
     fetchDownlineAffiliates();
   }, []);
@@ -59,7 +62,7 @@ const Downline = () => {
 
   if (error) {
     return (
-      <div className="bg-[#E2ECF2] flex flex-col gap-4 min-h-screen w-full pl-16 p-6">
+      <div className=" flex flex-col gap-4 min-h-screen w-full pl-16 p-6">
         <div className="w-full bg-white rounded-lg p-8 flex flex-col items-center">
           <p className="text-red-600 mb-4">Failed to load downline data</p>
           <button
@@ -75,7 +78,8 @@ const Downline = () => {
   }
 
   return (
-    <div className="bg-[#E2ECF2] flex flex-col gap-4 min-h-screen w-full pl-16 p-6">
+    <div className=" flex flex-col gap-4 min-h-screen w-full ">
+      {/* <div className="w-screen h-screen fixed top-0 left-0 bg-black/10"/> */}
       <div className="w-full bg-white rounded-lg p-6">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl text-gray-800">
@@ -150,12 +154,12 @@ const Downline = () => {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
                         className={`px-3 inline-flex items-center text-xs leading-5 font-semibold rounded-full ${
-                          dAffiliate.conversion
+                          dAffiliate.role === "PAID_USER"
                             ? "bg-green-100 text-green-800"
                             : "bg-gray-100 text-gray-800"
                         }`}
                       >
-                        {dAffiliate.conversion ? (
+                        {dAffiliate.role === 'PAID_USER' ? (
                           <>
                             <FiUserCheck size={14} className="mr-1" />
                             Premium
@@ -174,7 +178,7 @@ const Downline = () => {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {dAffiliate.conversion && dAffiliate.convertedAt
+                      {dAffiliate.role ==="PAID_USER" && dAffiliate.convertedAt
                         ? format(
                             new Date(dAffiliate.convertedAt),
                             "MMM dd, yyyy"
