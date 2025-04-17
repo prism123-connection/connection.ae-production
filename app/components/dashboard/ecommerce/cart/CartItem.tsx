@@ -4,7 +4,6 @@ import { QuantityButton } from "./CartQuantityButton";
 export interface CartItemProps {
   image: string;
   name: string;
-  color: string;
   quantity: number;
   price: number;
   onQuantityChange?: (quantity: number) => void;
@@ -14,7 +13,6 @@ export interface CartItemProps {
 export const CartItem: React.FC<CartItemProps> = ({
   image,
   name,
-  color,
   quantity,
   price,
   onQuantityChange,
@@ -34,9 +32,9 @@ export const CartItem: React.FC<CartItemProps> = ({
           <div className="self-stretch flex gap-4 flex-1 shrink basis-[0%] my-auto ml-10">
             <div className="flexflex-col items-stretch justify-center">
               <div className="text-[#141718]">{name}</div>
-              <div className="text-xs font-normal leading-loose mt-2">
+              {/* <div className="text-xs font-normal leading-loose mt-2">
                 Color: {color}
-              </div>
+              </div> */}
               <button
                 onClick={onRemove}
                 className="items-center flex gap-0.5 whitespace-nowrap mt-2 text-[#6C7275] hover:text-[#141718] transition-colors"

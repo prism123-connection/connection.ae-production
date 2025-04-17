@@ -8,7 +8,7 @@ interface Option {
 
 interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
-  error?: string;
+  error?: string | number;
   type?: "text" | "number" | "select";
   options?: Option[];
 }
@@ -22,7 +22,7 @@ const InputField = forwardRef<HTMLInputElement | HTMLSelectElement, InputFieldPr
     );
 
     return (
-      <div className="w-full">
+      <div className="w-full mb-8">
         {label && (
           <label className="text-[#62676C] font-semibold block mb-[5px]">
             {label}
@@ -46,7 +46,7 @@ const InputField = forwardRef<HTMLInputElement | HTMLSelectElement, InputFieldPr
         )}
 
         {error && (
-          <div className="flex items-center gap-1 text-[13px] text-[rgba(215,40,40,1)] mt-[5px]">
+          <div className="flex items-center gap-1 text-[13px] text-[rgba(215,40,40,1)] mt-2 ">
             <img
               src="https://cdn.builder.io/api/v1/image/assets/296ac88e169e49cda1179c6a01f4bc83/d6b555135b6d37bfec1d8b83163f9252c565e2ca?placeholderIfAbsent=true"
               className="w-5 h-5"

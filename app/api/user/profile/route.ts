@@ -14,8 +14,6 @@ export async function GET(req: Request) {
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any;
 
-    console.log("Decoded: ", decoded);
-
     if (!decoded || !decoded.id) {
       cookiesStore.delete("auth_token");
       return NextResponse.json({ error: "Invalid token" }, { status: 401 });

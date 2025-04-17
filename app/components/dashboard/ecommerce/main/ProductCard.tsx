@@ -4,37 +4,53 @@ import React from "react";
 // import { StarRating } from "./star-rating";
 
 interface ProductCardProps {
-  image: string;
-  title: string;
+  id: string;
+  name: string;
+  shortDescription: string;
+  description: string;
   price: number;
-  originalPrice?: number;
-  rating: number;
-  reviews: number;
-  discount?: number;
-  isLive?: boolean;
-  skus?: number;
+  currency: string;
+  category: string;
+  // goLiveAt: Date;
+  // createdAt: Date;
+  // user: {
+  //   id: string;
+  //   name: string; // Assuming `User` has a `name` field, adjust if needed
+  //   email?: string; // Optional if needed for display
+  // };
+  // tags: {
+  //   id: string;
+  //   value: string;
+  // }[];
+  productImages: {
+    url: string;
+  }[];
 }
 
 export const EcommerceProductCard: React.FC<ProductCardProps> = ({
-  image,
-  title,
+  id,
+  name,
+  shortDescription,
+  description,
   price,
-  originalPrice,
-  rating,
-  reviews,
-  discount,
-  isLive,
-  skus,
+  currency,
+  category,
+  // goLiveAt,
+  // createdAt,
+  // user,
+  // tags,
+  productImages,
 }) => {
   const router = useRouter()
+  
   return (
-    <div onClick={()=>router.push('/ecommerce/productdetails')} className="flex flex-col gap-4 group cursor-pointer">
+    <div onClick={() => router.push(`/ecommerce/productdetails?id=${id}`)} className="flex flex-col gap-4 group cursor-pointer">
       <div className="relative rounded min-h-[250px] flex justify-center items-center bg-neutral-100">
-        {discount && (
+        {/* {discount && (
           <div className="absolute text-neutral-50 rounded text-xs bg-[#DB4444] px-3 py-1 left-3 top-3">
             -{discount}%
           </div>
-        )}
+        )} */}
         <div className="absolute flex flex-col gap-2 right-2  top-3">
           <button className="w-[35px] h-[35px] flex justify-center items-center rounded-[100%] cursor-pointer  bg-white hover:bg-gray-100">
             <svg
@@ -62,11 +78,16 @@ export const EcommerceProductCard: React.FC<ProductCardProps> = ({
             </svg>
           </button>
         </div>
-        <img
-          src={image}
-          alt={title}
+        {
+          productImages &&  productImages[0].url &&
+          <img
+          src={productImages[0].url}
+          alt={name}
           className="max-w-[80%] max-h-[80%] object-contain"
         />
+
+        }
+   
        
           <div className="absolute text-white text-center text-base bg-[#F48020] px-0 py-2 bottom-0 opacity-0 inset-x-0  group-hover:opacity-100 transition-opacity duration-500">
             Join the live
@@ -75,18 +96,18 @@ export const EcommerceProductCard: React.FC<ProductCardProps> = ({
       </div>
       <div className="flex flex-col gap-2">
         <div className="text-base text-black">
-          {title}
-          {skus && (
-            <span className="text-[rgba(0,0,0,0.5)] ml-1">{skus} SKUs</span>
-          )}
+          {name}
+          {/* {skus && (
+          <span className="text-[rgba(0,0,0,0.5)] ml-1">{'1000'} SKUs</span>
+          )} */}
         </div>
         <div className="flex gap-3">
           <span className="text-base text-[#DB4444]">${price}</span>
-          {originalPrice && (
+          {/* {originalPrice && (
             <span className="text-base text-black line-through opacity-50">
               ${originalPrice}
             </span>
-          )}
+          )} */}
         </div>
         {/* <StarRating rating={rating} reviews={reviews} /> */}
       </div>

@@ -3,22 +3,16 @@ import React, { useState } from "react";
 import { format } from "date-fns";
 
 interface DatePickerProps {
-  onChange: (date: Date) => void;
+  handleChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => void;
 }
 
-const DatePicker: React.FC<DatePickerProps> = ({ onChange }) => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [showCalendar, setShowCalendar] = useState(false);
-
-  const handleDateSelect = (date: Date) => {
-    setSelectedDate(date);
-    onChange(date);
-    setShowCalendar(false);
-  };
+const DatePicker: React.FC<DatePickerProps> = ({ handleChange }) => {
 
   return (
     <div className="relative">
-      <div
+      {/* <div
         className="flex w-full gap-2 text-[#BDC0CC] cursor-pointer"
         onClick={() => setShowCalendar(!showCalendar)}
       >
@@ -32,23 +26,22 @@ const DatePicker: React.FC<DatePickerProps> = ({ onChange }) => {
             />
           </div>
         </div>
-      </div>
+      </div> */}
 
-      {showCalendar && (
-        <div className="absolute top-full left-0 z-50 mt-2 bg-white rounded-lg shadow-lg border border-[#E5E7F0] p-4">
+        <div className=" bg-amber-300 rounded-lg shadow-lg border border-[#E5E7F0]">
           <div className="calendar-content">
-            {/* Calendar implementation would go here */}
-            {/* For brevity, using a simple date input */}
             <input
               type="date"
-              className="w-full p-2 border rounded"
-              onChange={(e) => handleDateSelect(new Date(e.target.value))}
+              name="date"
+              onChange={handleChange}
+              className="w-full p-2  justify-center items-stretch border border-[color:var(--Primary-Focused,#0095E5)] shadow-[0px_0px_0px_3.2px_rgba(32,162,232,0.25)] bg-white flex min-w-60 flex-col overflow-hidden flex-1 shrink basis-[0%] px-2 py-3 rounded-lg border-solid text-black/80"
             />
           </div>
         </div>
-      )}
     </div>
   );
 };
 
 export default DatePicker;
+
+// onChange={(e) => handleDateSelect(new Date(e.target.value))}

@@ -18,7 +18,6 @@ function OnBoardingPage() {
     const fetchPageData = async () => {
       try {
         const response = await fetchData("user/setup_data");
-        console.log("Response in frontend: ", response);
   
         if (response.user) {
           setuser(response.user.firstName || "");

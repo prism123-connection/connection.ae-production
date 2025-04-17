@@ -30,7 +30,7 @@ export const NotificationCell: React.FC<NotificationCellProps> = ({
           <div className="stroke-[1px] border bg-[#90CDF4] flex min-h-2 w-2 h-2 rounded-[50%] border-[rgba(66,153,225,1)] border-solid" />
         </div>
       )}
-      <div className="z-0 flex w-full flex-col items-stretch text-sm font-normal leading-none py-4">
+      <div className="z-0 flex w-full flex-col items-center text-sm font-normal leading-none py-4">
         <div className="flex w-full gap-4 text-[#1A1F36] font-semibold leading-5 px-4">
           {avatar && (
             <img
@@ -39,7 +39,7 @@ export const NotificationCell: React.FC<NotificationCellProps> = ({
               className="aspect-[1] object-contain w-8 shrink-0 rounded-[32px]"
             />
           )}
-          <div className="self-stretch flex-1 shrink basis-[0%] min-w-60 gap-2.5">
+          <div className="flex items-center flex-1 shrink basis-[0%] min-w-60 gap-2.5">
             {content}
           </div>
         </div>

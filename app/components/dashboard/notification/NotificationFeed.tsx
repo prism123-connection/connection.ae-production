@@ -102,7 +102,14 @@ export const NotificationFeed: React.FC = () => {
     <div className="shadow-[0px_5px_15px_0px_rgba(0,0,0,0.20)] bg-white w-[440px] max-w-full overflow-hidden rounded-xl absolute top-26 right-5 z-10 max-h-[500px] overflow-y-scroll ">
       <NotificationHeader onMarkAllRead={handleMarkAllRead} />
       <div className="w-full">
-        {notifications.map((notification) => (
+        <NotificationCell
+        key={1}
+        avatar="/logo.svg"
+        content="No new notification"
+        timestamp=""
+        isUnread={false}
+        />
+        {/* {notifications.map((notification) => (
           <NotificationCell
             key={notification.id}
             avatar={notification.avatar}
@@ -111,7 +118,7 @@ export const NotificationFeed: React.FC = () => {
             isUnread={notification.isUnread}
             actions={notification.actions}
           />
-        ))}
+        ))} */}
       </div>
     </div>
   );

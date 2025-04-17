@@ -1,37 +1,46 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 
 interface ImageUploadProps {
-  onChange: (files: File[]) => void;
+  onChange: (files: File[], done: () => void) => void;
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({ onChange }) => {
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    const files = Array.from(e.dataTransfer.files);
-    onChange(files);
-  };
+  const [loading, setLoading] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files ? Array.from(e.target.files) : [];
-    onChange(files);
+    setLoading(true);
+
+    const done = () => {
+      if (inputRef.current) {
+        inputRef.current.value = "";
+      }
+      setLoading(false);
+    };
+
+    onChange(files, done);
   };
 
   return (
-    <div
-      className="justify-center items-center border border-[color:var(--Input-Default-Stroke,#9C9CA3)] bg-white flex min-w-60 w-full flex-col overflow-hidden flex-1 shrink basis-[0%] px-20 py-[102px] rounded-[5px] border-dashed"
-      onDrop={handleDrop}
-      onDragOver={(e) => e.preventDefault()}
-    >
+    <div className="justify-center items-center border border-[color:var(--Input-Default-Stroke,#9C9CA3)] bg-white flex min-w-60 w-full flex-col overflow-hidden flex-1 shrink basis-[0%] px-20 py-[102px] rounded-[5px] border-dashed cursor-pointer">
       <div className="flex flex-col items-center">
         <div className="flex min-h-14 w-14" />
-        <div className="mt-4 text-xl">Browser or Desktop</div>
-        <input
-          type="file"
-          multiple
-          className="hidden"
-          onChange={handleChange}
-          accept="image/*"
-        />
+        <div className="mt-4 text-xl">Browse or Drop Files</div>
+        {loading ? (
+          <div className="w-full bg-white rounded-lg flex p-16 flex-col px-8 items-end">
+            <div className="animate-spin h-5 w-5 border-4 border-black self-center border-t-transparent rounded-full"></div>
+          </div>
+        ) : (
+          <input
+            ref={inputRef}
+            name="imageInput"
+            type="file"
+            multiple
+            onChange={handleChange}
+            accept="image/*"
+          />
+        )}
       </div>
     </div>
   );

@@ -1,37 +1,122 @@
-import React from 'react'
+"use client"
+import React, { useEffect, useState } from 'react'
 import { ProductImage } from './ProductImage'
 import { ProductTimer } from './ProductTimes'
 import ProductActions from './ProductAction'
+import { useSearchParams } from 'next/navigation'
+import { createWishlistItem, getProductById } from '@/lib/ecommerce/ecommerceHelper'
+import { toast } from 'sonner'
+
+export type Product = {
+  id: string;
+  name: string;
+  shortDescription: string;
+  description: string;
+  price: number;
+  currency: string;
+  category: string;
+  goLiveAt: string;      // Use `string` if it's serialized JSON from API
+  createdAt: string;
+
+  userId: string;
+  user: {
+    id: string;
+    firstname: string;
+    lastname: string;
+  };
+
+  tags: {
+    id: string;
+    value: string;
+  }[];
+
+  productImages: {
+    id: string;
+    url: string;
+    createdAt: string;
+  }[];
+};
 
 function ProductContent() {
+  const searchParams = useSearchParams();
+  const id = searchParams.get('id') ?? '';  
+  const [product, setProduct] = useState<Product | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string  >('');
+
+  useEffect(() => {
+    if (!id) return;
+
+    getProductById(id)
+      .then((data) => {
+        setProduct(data);
+        setSelectedImage(data.productImages[0]?.url);
+      })
+      .catch((err) => setError('Failed to load product'));
+  }, [id]);
+
+    const addToWishList = async () => {
+      try {
+        await createWishlistItem( id );
+        toast.success('Item added to wishlist');
+      } catch (error: any) {
+        console.error('Failed to add item wishlist', error.message || error);
+        toast.success('Failed to add item wishlist');
+      }
+    };
+
+  if (error) return <div>{error}</div>;
+  if (!product) return <div>Loading...</div>;
+
   return (
     <article className="bg-white flex items-center gap-5 overflow-hidden justify-center mt-5">
     <div className="self-stretch min-w-60 w-full">
       <div className="gap-5 flex max-md:flex-col max-md:items-stretch">
+        <div className=' min-w-[45%] flex flex-col items-center'>
         <ProductImage
-          src="https://cdn.builder.io/api/v1/image/assets/296ac88e169e49cda1179c6a01f4bc83/e73656d7d67e6e813e762711ac69240991982123?placeholderIfAbsent=true"
-          alt="AK-900 Wired Keyboard"
+          src={selectedImage}
+          alt={product.name}
         />
 
-        <section className=" ml-5 max-w-[50%] relative ">
+        <div className="flex gap-2 justify-center flex-wrap mt-5">
+                {product.productImages.map((image) => (
+                  <button
+                    key={image.id}
+                    onClick={() => setSelectedImage(image.url)}
+                    className={`w-20 h-20 border-2 rounded-lg overflow-hidden transition-all ${
+                      selectedImage === image.url ? 'border-blue-500' : 'border-transparent'
+                    }`}
+                  >
+                    <img
+                      src={image.url}
+                      alt={`Thumbnail ${image.id}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
+              </div>
+       
+
+        <section className=" ml-5 min-w-[55%] relative ">
           <div className="flex w-full flex-col max-md:max-w-full">
             <div className="self-stretch flex w-full flex-col items-stretch  pl-1.5 max-md:max-w-full">
               <header className="flex gap-[40px_104px] flex-wrap max-md:max-w-full max-md:mr-0.5">
                 <div className="min-w-60 text-base font-normal w-full">
                   <h1 className="text-black text-[32px] font-semibold">
-                    AK-900 Wired Keyboard
+                    {product.name}
                   </h1>
                   <p className="text-[rgba(150,150,150,1)] mt-[17px]">
-                    By Stephen M
+                    
                   </p>
                   <p className="text-[rgba(39,39,39,1)] mt-[17px]">
-                    1000 SKUs | Compact keyboard featuring custom HyperX
-                    mechanical switches.
+                   {product.shortDescription}
                   </p>
                 </div>
                 <div className="flex gap-3 absolute right-0">
                   <button
-                    className="bg-[rgba(237,240,248,1)] flex items-center gap-[11px] w-10 p-3 rounded-lg"
+                    onClick={addToWishList}
+                    className="bg-[rgba(237,240,248,1)] flex items-center gap-[11px] w-10 p-3 rounded-lg cursor-pointer"
                     aria-label="Share"
                   >
                     <img
@@ -57,7 +142,7 @@ function ProductContent() {
 
               <div className="flex items-center gap-[40px_64px] font-semibold whitespace-nowrap mt-8">
                 <div className="self-stretch text-[32px] text-[rgba(34,92,202,1)] my-auto">
-                  $80
+                 ${product.price}
                 </div>
                 <div className="self-stretch flex gap-2 text-sm text-black my-auto">
                   <img
@@ -75,19 +160,10 @@ function ProductContent() {
             </div>
 
             <div className="text-[rgba(0,22,37,1)] text-base font-normal leading-6 mt-10 max-md:max-w-full">
-              <ul className='flex flex-col gap-2'>
-                <li>  &#x2022; HyperX mechanical switches</li>
-                <li>  &#x2022; Full aircraft-grade aluminum body</li>
-                <li>  &#x2022; Compact, portable design with detachable USB-C cable</li>
-                <li>  &#x2022; RGB backlit keys with radiant lighting effects</li>
-                <li>  &#x2022; Advanced customization with HyperX NGENUITY Software</li>
-                <li>  &#x2022; Three adjustable keyboard tilt angles</li>
-                <li>  &#x2022; Onboard memory for three profiles</li>
-                <li>  &#x2022; With 2 Year Warranty</li>
-              </ul>
+            {product.description}
             </div>
 
-            <ProductActions/>
+            <ProductActions productId={id}/>
           </div>
         </section>
       </div>

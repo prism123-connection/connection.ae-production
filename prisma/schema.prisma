@@ -13,6 +13,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// ------------------------------------------------------ Users
+
 model User {
   id          String  @id @default(uuid())
   firstName   String
@@ -24,6 +26,7 @@ model User {
   createdAt   DateTime @default(now())
   walletBalance Float     @default(0)
   role          Role      @default(SETUP_PENDING)
+  kycDone       Boolean   @default(false)
 
   phoneNumber      String?
   occupation       String?
@@ -37,11 +40,16 @@ model User {
   referralSource   String?  // how did user hear about the app
   joinReason       String?
 
+  // Relations
   tokens Token[]
   transactions Transaction[]
-
   referralsGiven Referral[] @relation("UserReferrer")
   referralsReceived Referral[] @relation("UserReferred")
+  products           Product[]  
+  kyc               Kyc?
+  cartItems          Cart[]
+  wishlistItems      Wishlist[]
+  liveStreams       LiveStream[]
 }
 
 enum Role {
@@ -52,6 +60,120 @@ enum Role {
   PAYMENT_PENDING
   ONBOARDING
 }
+
+model Token {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id") // Foreign key reference
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token      String   @unique
+  type       TokenType
+  expiresAt  DateTime 
+  createdAt  DateTime @default(now())
+}
+
+enum TokenType {
+  EMAIL_VERIFICATION
+  PASSWORD_RESET
+}
+
+// ------------------------------------------------------ Products
+
+model Product {
+  id               String       @id @default(uuid())
+  name             String
+  shortDescription String
+  description      String       @db.Text
+  price            Float
+  currency         String
+  category         String
+  goLiveAt         DateTime
+  createdAt        DateTime     @default(now())
+
+  // Relations
+  userId           String        @map("user_id") // Foreign key reference
+  user             User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tags             ProductTag[] // One-to-many relation
+  productImages    ProductImage[] // One-to-many relation
+  cartItems        Cart[]
+  wishlistedBy     Wishlist[]
+  liveStream       LiveStream? 
+}
+
+model ProductTag {
+  id        String   @id @default(uuid())
+  value     String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String   
+
+  @@unique([productId, value])
+}
+
+
+model ProductImage {
+  id       String  @id @default(uuid())
+  product  Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String 
+  url      String
+  createdAt DateTime @default(now())
+
+  @@unique([productId, url])
+}
+
+model Cart {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  productId  String   @map("product_id")
+  quantity   Int      @default(1)
+  createdAt  DateTime @default(now())
+
+  // Relations
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId]) // prevent duplicate entries of same product in user's cart
+}
+
+model Wishlist {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  productId  String   @map("product_id")
+  createdAt  DateTime @default(now())
+
+  // Relations
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId]) // prevent duplicate wishlist items
+}
+
+
+
+// ------------------------------------------------------ Live Stream 
+
+model LiveStream {
+  id         String           @id @default(uuid())
+  goLiveAt   DateTime         // Mirrors the Product.goLiveAt
+  status     LiveStreamStatus
+  createdAt  DateTime         @default(now())
+  startAt    DateTime?
+  endAt      DateTime?
+
+  // Relations
+  userId     String
+  user       User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  productId  String           @unique // Each product has only one live stream
+  product    Product          @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+
+enum LiveStreamStatus {
+  LIVE_PENDING
+  LIVE
+  ENDED
+}
+
+// ------------------------------------------------------ Commissions
 
 model Referral {
   id          String   @id @default(uuid()) 
@@ -69,20 +191,7 @@ model Referral {
 
 
 
-model Token {
-  id         String   @id @default(uuid())
-  userId     String   @map("user_id") // Foreign key reference
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  token      String   @unique
-  type       TokenType
-  expiresAt  DateTime 
-  createdAt  DateTime @default(now())
-}
-
-enum TokenType {
-  EMAIL_VERIFICATION
-  PASSWORD_RESET
-}
+// ------------------------------------------------------ Transactions
 
 model Transaction {
   id            String   @id @default(uuid()) 
@@ -92,7 +201,7 @@ model Transaction {
   currency      String   
   status        TransactionStatus @default(PENDING)  
   createdAt     DateTime @default(now()) 
-
+  type          TransactionType @default(SUBSCRIPTION)
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -100,4 +209,63 @@ enum TransactionStatus {
   PENDING
   COMPLETED
   FAILED
+}
+
+enum TransactionType {
+  SUBSCRIPTION
+  DEAL_BONUS
+  PAYOUT
+}
+
+// ------------------------------------------------------ KYC
+
+model Kyc {
+  id                         String   @id @default(uuid())
+  userId                     String   @unique     @map("user_id")
+  user                       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Bank Details
+  iban                       String?
+  accountNumber              String?
+  swiftCode                  String?
+  routingNumber              String?
+
+  // Business Details
+  entityName                 String?
+  commercialRegNumber        String?
+  crExpiryDate               DateTime?
+  incorporationDate          DateTime?
+  countryOfIncorporation     String?
+  typeOfEntity               String?
+  registeredAddress          String?
+  operationalAddress         String?
+
+  // Contact Person
+  contactPersonName          String?
+  designation                String?
+  contactNumber              String?
+  emailAddress               String?
+  website                    String?
+
+  // Shareholder/Director Info
+  fullName                   String?
+  role                       String?
+  nationality                String?
+  shareholdingPercentage     Float?
+  passportOrIdNumber         String?
+  idDocumentUrl              String?
+
+  // Compliance
+  politicallyExposed         Boolean?
+  underSanctions             Boolean?
+
+  // File Uploads
+  tradeLicenseUrl            String?   // Trade License / CR Copy
+  passportCopiesUrl          String?   // Passport/ID Copies of Owners
+  boardResolutionUrl         String?   // Board Resolution (if applicable)
+  proofOfAddressUrl          String?   // Proof of Address
+  additionalDocumentsUrl     String?   // Any Additional Supporting Documents (Optional)
+
+  createdAt                  DateTime @default(now())
+  updatedAt                  DateTime @updatedAt
 }

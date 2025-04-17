@@ -9,17 +9,14 @@ export interface ProductFormData {
   name: string;
   shortDescription: string;
   description: string;
-  images: File[];
-  price: {
-    currency: string;
-    amount: number;
-  };
+  price: number;
+  currency: string;
   category: string;
-  tags: string[];
-  liveSchedule: {
-    date: Date;
-    time: string;
-  };
+  goLiveAt: string | Date; // depending on how you're handling dates in your form
+  userId: string;
+
+  tags: string[]; // array of tag values, e.g., ["gaming", "rgb"]
+  productImages: File[]; // or: string[] if you're using URLs directly
 }
 
 const ProductUploadForm: React.FC = () => {
@@ -35,11 +32,6 @@ const ProductUploadForm: React.FC = () => {
     >
       <div className="flex w-full flex-col">
         <ProductInformationInputs />
-        <LiveScheduler  />
-        {/* <ActionButtons
-          onCancel={() => form.reset()}
-          onSubmit={form.handleSubmit(onSubmit)}
-        /> */}
       </div>
     </form>
   );

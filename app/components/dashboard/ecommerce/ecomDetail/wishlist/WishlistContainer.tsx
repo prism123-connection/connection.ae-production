@@ -1,50 +1,45 @@
+import { useEffect, useState } from "react";
 import { WishlistHeader } from "./WishlistHeader";
 import { WishlistItem } from "./WishlistItem";
+import { deleteWishlistItem, getWishlistItems } from "@/lib/ecommerce/ecommerceHelper";
+import { toast } from "sonner";
+import ActionButton from "@/app/components/ui/ActionButton";
 
 
 export const WishlistContainer = () => {
-  const wishlistItems = [
-    {
-      checkboxImage:
-        "https://cdn.builder.io/api/v1/image/assets/296ac88e169e49cda1179c6a01f4bc83/604d7c4e52959a52c16905a9b315f20500c0a5fc?placeholderIfAbsent=true",
-      productImage:
-        "https://cdn.builder.io/api/v1/image/assets/296ac88e169e49cda1179c6a01f4bc83/6814c05c07d94f132ea94e1fbee3431e58cfc733?placeholderIfAbsent=true",
-      productName: "AK-900 Wired Keyboard",
-      productColor: "Black",
-      price: "$960",
-      actionLabel: "Send approval",
-    },
-    {
-      checkboxImage:
-        "https://cdn.builder.io/api/v1/image/assets/296ac88e169e49cda1179c6a01f4bc83/7ff3c588fcec789f2cb54dbcd7b603241e71be45?placeholderIfAbsent=true",
-      productImage:
-        "https://cdn.builder.io/api/v1/image/assets/296ac88e169e49cda1179c6a01f4bc83/2f314e19547d16cbe04a795131e582a562adf374?placeholderIfAbsent=true",
-      productName: "Sofa",
-      productColor: "Beige",
-      price: "$345",
-      actionLabel: "Add to cart",
-    },
-    {
-      checkboxImage:
-        "https://cdn.builder.io/api/v1/image/assets/296ac88e169e49cda1179c6a01f4bc83/7ff3c588fcec789f2cb54dbcd7b603241e71be45?placeholderIfAbsent=true",
-      productImage:
-        "https://cdn.builder.io/api/v1/image/assets/296ac88e169e49cda1179c6a01f4bc83/9e4b832c871808efaed28af3c02fce3cf068046d?placeholderIfAbsent=true",
-      productName: "Bamboo basket",
-      productColor: "Beige",
-      price: "$8.80",
-      actionLabel: "Add to cart",
-    },
-    {
-      checkboxImage:
-        "https://cdn.builder.io/api/v1/image/assets/296ac88e169e49cda1179c6a01f4bc83/7ff3c588fcec789f2cb54dbcd7b603241e71be45?placeholderIfAbsent=true",
-      productImage:
-        "https://cdn.builder.io/api/v1/image/assets/296ac88e169e49cda1179c6a01f4bc83/734261147c94f5da461349f0a31c397fbef7c75d?placeholderIfAbsent=true",
-      productName: "Pillow",
-      productColor: "Beige",
-      price: "$8.80",
-      actionLabel: "Add to cart",
-    },
-  ];
+ 
+    const [wishlistItems, setWishlistItems] = useState<any[]>([]); // Assuming cartItems is an array
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<boolean>(false);
+  
+    const fetchWishlistItems= async () => {
+      try {
+        const response = await getWishlistItems();
+        setWishlistItems(response);
+      } catch (error) {
+        console.log(error)
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    const handleRemoveItem = async (index: number) => {
+      try {
+        const productId = wishlistItems[index]?.productId;
+        if (!productId) return;
+        setWishlistItems((items) => items.filter((_, i) => i !== index));
+        await deleteWishlistItem(productId);
+        toast.success('Cart Item remove successfully')
+  
+      } catch (error) {
+        console.error('Failed to remove item from cart:', error);
+      }
+    };
+  
+    useEffect(() => {
+      fetchWishlistItems();
+    }, []);
 
   return (
     <div className="bg-white flex items-center gap-2.5 overflow-hidden justify-center px-2.5 w-full ">
@@ -53,9 +48,38 @@ export const WishlistContainer = () => {
           Your Wishlist
         </h1>
         <div className="w-full  mt-10 max-md:max-w-full">
+        {
+        loading && (
+          <div className="w-full bg-white rounded-lg flex p-16 flex-col px-8 items-end">
+            <div className="animate-spin h-5 w-5 border-4 border-black self-center border-t-transparent rounded-full"></div>
+          </div>
+        )
+      }
+    
+      {
+        wishlistItems.length === 0 && loading === false && !error && (
+          <div className="w-full py-10 flex items-center justify-center">
+          <span>You had zero items in cart</span>
+          </div>
+        )
+      }
+      {
+        error && !loading && (
+          <div className="w-full py-10 flex items-center justify-center">
+          <ActionButton onClick={fetchWishlistItems}>Retry</ActionButton>
+          </div>
+        )
+      }
           <WishlistHeader/>
           {wishlistItems.map((item, index) => (
-            <WishlistItem key={index} {...item} />
+            <WishlistItem
+            key={item.id}
+            image={item.product.productImages?.[0]?.url || ''}
+            name={item.product.name}
+            price={item.product.price}
+            quantity={item.quantity}
+            onRemove={() => handleRemoveItem(index)}
+             />
           ))}
         </div>
       </div>

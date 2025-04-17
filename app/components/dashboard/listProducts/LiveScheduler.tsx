@@ -5,12 +5,21 @@ import TimePicker from "@/app/components/ui/TimePicker";
 import DatePicker from "@/app/components/ui/DatePicker";
 
 interface LiveSchedulerProps {
-//   form: UseFormReturn<ProductFormData>;
+  handleChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => void;
+  goLiveDateParts: {
+    date: string;
+    hour: string;
+    minute: string;
+    meridiem: string;
+  };
+  errors: Record<string, string>;
 }
 
-const LiveScheduler: React.FC<LiveSchedulerProps> = ({  }) => {
+const LiveScheduler: React.FC<LiveSchedulerProps> = ({ handleChange, goLiveDateParts ,   errors }) => {
   return (
-    <section className="mb-10">
+    <section className="my-10">
       <h2 className="text-[#62676C] text-xl font-semibold mb-3">
         Select time to go live
       </h2>
@@ -22,17 +31,18 @@ const LiveScheduler: React.FC<LiveSchedulerProps> = ({  }) => {
       <div className="flex gap-5">
         <div className="w-3/5">
           <DatePicker
-            // onChange={(date) => form.setValue("liveSchedule.date", date)}
-            onChange={(date) => console.log(date)}
+            handleChange={handleChange}
           />
         </div>
         <div className="w-2/5">
           <TimePicker
-            onChange={(time) =>console.log(time)}
-            // onChange={(time) => form.setValue("liveSchedule.time", time)}
+           handleChange={handleChange} goLiveDateParts={goLiveDateParts}
           />
         </div>
       </div>
+      {errors.goLiveAt && (
+          <p className="text-red-500 text-xs mt-5">{errors.goLiveAt}</p>
+        )}
     </section>
   );
 };
