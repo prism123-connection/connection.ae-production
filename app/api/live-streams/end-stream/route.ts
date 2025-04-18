@@ -53,7 +53,8 @@ export async function PUT(req: NextRequest) {
     try {
       const liveStream = await prisma.liveStream.update({
         where: {
-          id: callId, // or use another field if `callId` is not productId
+          id: callId,
+          userId: user.id
         },
         data: {
           status: "ENDED",

@@ -47,7 +47,9 @@ export async function PUT(req: NextRequest) {
 
   try {
     await prisma.liveStream.update({
-      where: { id: callId! },
+      where: { id: callId!, 
+        userId : user.id
+       },
       data: {
         status: "LIVE",
         startAt: new Date(),
