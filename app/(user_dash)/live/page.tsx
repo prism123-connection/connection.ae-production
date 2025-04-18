@@ -17,8 +17,8 @@ function LiveContent() {
   
   useEffect(() => {
     const initLiveStream = async () => {
-      const callId ='c1OtrKLeabun'
-      // const callId = searchParams.get('callId');
+      // const callId ='c1OtrKLeabun'
+      const callId = searchParams.get('callId');
       const productId = searchParams.get('productId'); // if needed
       const userId = searchParams.get('uid');
 
