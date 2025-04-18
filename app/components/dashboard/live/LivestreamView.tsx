@@ -37,11 +37,11 @@ export const LivestreamView: React.FC<LivestreamViewProps> = ({ call }) => {
   
   
   
-    return  <div className="w-full items-center justify-center min-h-screen bg-gray-200 flex flex-col text-black gap-5 px-20 py-10">
-    <div className="bg-violet-500 px-5 py-2 rounded-xl">Status : {isLive ? `Live: ${participantCount}` : `Wait till your video is getting render -v6.0`}</div>
+    return  <div className="w-full items-center justify-center min-h-screen bg-gray-100 flex flex-col text-black gap-5 px-20 py-10">
+    <div className="bg-gray-400 text-black px-5 py-2 rounded-xl">Status : {isLive ? `Live: ${participantCount}` : `You are in backstage mode`}</div>
 
     {firstParticipant && isCamEnabled ? (
-    <div className="rounded-xl overflow-hidden shadow-md border border-gray-300 w-full h-[80%] bg-blue-600/10 flex flex-col items-center justify-center gap-5">
+    <div className="rounded-xl overflow-hidden shadow-md border w-full h-[90%] bg-blue-600/10 flex flex-col items-center justify-center gap-5">
   <ParticipantView ParticipantViewUI={CustomParticipantViewUI} VideoPlaceholder={CustomVideoPlaceHolder} className="min-w-full! h-[100%] flex flex-col items-center justify-center gap-1" participant={firstParticipant} />
 </div>
     ) : (
