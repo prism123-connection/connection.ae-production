@@ -81,12 +81,12 @@ const VerticalNavbar = () => {
       href: "/live-webinar",
       disabled: false,
     },
-    {
-      name: "Webinars Replays",
-      icon: <MdOutlineReplay />,
-      href: "/webinars-replays",
-      disabled: false,
-    },
+    // {
+    //   name: "Webinars Replays",
+    //   icon: <MdOutlineReplay />,
+    //   href: "/webinars-replays",
+    //   disabled: false,
+    // },
     {
       name: "Leaderboard",
       icon: <FiClipboard />,
