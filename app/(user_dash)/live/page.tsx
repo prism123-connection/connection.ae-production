@@ -1,11 +1,11 @@
 "use client"
 import ActionButton from '@/app/components/ui/ActionButton'
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation';
 import { StreamCall, StreamVideo, StreamVideoClient } from '@stream-io/video-react-sdk';
 import { LivestreamView } from '@/app/components/dashboard/live/LivestreamView';
 
-function Live() {
+function LiveContent() {
   const [loading, setLoading] = useState(false)
   const [call, setCall] = useState<any>(null);
   const [client, setClient] = useState<any>(null);
@@ -65,4 +65,10 @@ function Live() {
   )
 }
 
-export default Live
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading Live Page...</div>}>
+      <LiveContent/>
+    </Suspense>
+  );
+}

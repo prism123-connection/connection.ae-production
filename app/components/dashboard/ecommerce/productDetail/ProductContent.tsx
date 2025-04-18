@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { ProductImage } from './ProductImage'
 import { ProductTimer } from './ProductTimes'
 import ProductActions from './ProductAction'
@@ -37,7 +37,7 @@ export type Product = {
   }[];
 };
 
-function ProductContent() {
+function ProductContentSection() {
   const searchParams = useSearchParams();
   const id = searchParams.get('id') ?? '';  
   const [product, setProduct] = useState<Product | null>(null);
@@ -172,4 +172,10 @@ function ProductContent() {
   )
 }
 
-export default ProductContent
+export default function ProductContent() {
+  return (
+    <Suspense fallback={<div>Loading Live Page...</div>}>
+      <ProductContentSection/>
+    </Suspense>
+  );
+}
