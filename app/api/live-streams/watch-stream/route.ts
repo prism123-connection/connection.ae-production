@@ -40,9 +40,9 @@ export async function GET(req: NextRequest) {
   const { error, user } = await authenticateUser();
   if (error) return error;
 
-  if (user.id !== userIdFromQuery) {
-    return NextResponse.json({ error: "User ID mismatch" }, { status: 403 });
-  }
+  // if (user.id !== userIdFromQuery) {
+  //   return NextResponse.json({ error: "User ID mismatch" }, { status: 403 });
+  // }
   const apiKey = process.env.STREAM_API_KEY!;
 
   return NextResponse.json({ apiKey });

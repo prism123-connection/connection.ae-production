@@ -41,9 +41,7 @@ const StreamContent: React.FC<streamProps> = ({ }) => {
         }
   
         const user = {
-          id: "guest-" + Math.random().toString(36).substring(2, 15),
-          name: "Viewer",
-          type: "guest" as const, // this is important to satisfy the type check
+          type: "anonymous" as const, // this is important to satisfy the type check
         };
         const client = new StreamVideoClient({ apiKey, user });
         const call = client.call("livestream", callId!);
@@ -65,7 +63,7 @@ const StreamContent: React.FC<streamProps> = ({ }) => {
 
   return (
     <div className='w-full h-screen bg-gray-100 flex items-center justify-center px-5 py-5 flex-col'>
-    <div className="rounded-xl overflow-hidden shadow-md border border-gray-300 w-full h-[100%] bg-amber-500 text-black flex items-center justify-center">
+    <div className="rounded-xl overflow-hidden shadow-md border-0 shadow-sm w-full h-[100%]  text-black flex items-center justify-center">
     <StreamVideo client={client}>
        <CustomLivestreamPlayer callType="livestream" callId={callId || ''}  />
     </StreamVideo>

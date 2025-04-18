@@ -170,7 +170,7 @@ export const CustomLivestreamPlayer: React.FC<CustomLivestreamPlayerProp> = ({ c
     const [firstParticipant] = useParticipants();
   
     return (
-      <div className="flex flex-col w-full h-full items-center justify-center">
+      <div className="flex flex-col w-full h-full items-center justify-center ">
         {!firstParticipant && (
           <button
             onClick={connectCall}
@@ -186,6 +186,7 @@ export const CustomLivestreamPlayer: React.FC<CustomLivestreamPlayerProp> = ({ c
   
         {firstParticipant ? (
           <ParticipantView
+
             VideoPlaceholder={CustomVideoPlaceHolder}
             participant={firstParticipant}
           />
