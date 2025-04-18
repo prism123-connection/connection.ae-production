@@ -1,15 +1,14 @@
 "use client"
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { StreamVideo, StreamVideoClient } from "@stream-io/video-react-sdk";
 import { CustomLivestreamPlayer } from "./CustomLivestreamPlayer";
 import { useRouter, useSearchParams } from "next/navigation";
 
-interface ProductImageProps {
-  imageUrl: string;
-  altText: string;
+interface streamProps {
+
 }
 
-export const Stream: React.FC<ProductImageProps> = ({ }) => {
+const StreamContent: React.FC<streamProps> = ({ }) => {
     const [loading, setLoading] = useState(false)
     const [call, setCall] = useState<any>(null);
     const [client, setClient] = useState<any>(null);
@@ -68,10 +67,18 @@ export const Stream: React.FC<ProductImageProps> = ({ }) => {
     <div className='w-full h-screen bg-gray-100 flex items-center justify-center px-5 py-5 flex-col'>
     <div className="rounded-xl overflow-hidden shadow-md border border-gray-300 w-full h-[100%] bg-amber-500 text-black flex items-center justify-center">
     <StreamVideo client={client}>
-
        <CustomLivestreamPlayer callType="livestream" callId={callId || ''}  />
     </StreamVideo>
     </div>
     </div>
   );
 };
+
+
+export default function Stream() {
+  return (
+    <Suspense fallback={<div>Loading Live Page...</div>}>
+      <StreamContent/>
+    </Suspense>
+  );
+}

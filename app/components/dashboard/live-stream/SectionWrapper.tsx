@@ -1,7 +1,8 @@
 import React from "react";
-import { Stream } from "./Stream";
+
 import { StreamProductInfo } from "./ProductInfo";
 import { ChatWidget } from "./Chat";
+import Stream from "./Stream";
 
 const features = [
   "HyperX mechanical switches",
@@ -18,10 +19,7 @@ const LiveStreamSection = () => {
   return (
     <div className="flex w-full min-h-screen bg-white justify-center items-center ">
       <div className="w-full  relative">
-        <Stream
-          imageUrl="https://cdn.builder.io/api/v1/image/assets/TEMP/119f50d206c553ce2f60a95e7d208ef91a2a5d91"
-          altText="Bigbang S1 Keyboard"
-        />
+        <Stream/>
 
         <div className="flex justify-between items-start mt-[30px]">
           <StreamProductInfo
