@@ -15,6 +15,7 @@ interface LiveStreamCardProps {
   lastName: string;
   location: string;
   viewerCount: string;
+  onclick: ()=>void; 
 }
 
 export const LiveStreamCard: React.FC<LiveStreamCardProps> = ({
@@ -25,10 +26,11 @@ export const LiveStreamCard: React.FC<LiveStreamCardProps> = ({
   lastName,
   location,
   viewerCount,
+  onclick
 }) => {
   const router = useRouter()
   return (
-    <div onClick={()=>router.push('/live-stream')} className="shadow-[0px_5px_60px_rgba(0,0,0,0.08)] self-stretch min-w-60 w-[400px] my-auto cursor-pointer hover:shadow-xl transition-shadow duration-500 ">
+    <div onClick={onclick} className="shadow-[0px_5px_60px_rgba(0,0,0,0.08)] self-stretch min-w-60 w-[400px] my-auto cursor-pointer hover:shadow-xl transition-shadow duration-500 ">
       <div className="flex flex-col relative aspect-[1.695] w-full overflow-hidden rounded-[14px_14px_0px_0px]">
         <img
           src={thumbnailUrl}

@@ -1,30 +1,77 @@
-import React from "react";
-import { VideoProgress } from "@/app/components/ui/VideoProgress";
+"use client"
+import React, { useEffect, useState } from "react";
+import { StreamVideo, StreamVideoClient } from "@stream-io/video-react-sdk";
+import { CustomLivestreamPlayer } from "./CustomLivestreamPlayer";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface ProductImageProps {
   imageUrl: string;
   altText: string;
 }
 
-export const Stream: React.FC<ProductImageProps> = ({
-  imageUrl,
-  altText,
-}) => {
+export const Stream: React.FC<ProductImageProps> = ({ }) => {
+    const [loading, setLoading] = useState(false)
+    const [call, setCall] = useState<any>(null);
+    const [client, setClient] = useState<any>(null);
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    // const firstName = searchParams.get('fn');
+    // const lastName = searchParams.get('ln');
+    const callId = searchParams.get('callId');
+    const productId = searchParams.get('productId'); // if needed
+    const userId = searchParams.get('userId');
+  
+  
+
+  useEffect(() => {
+    const initWatchStream = async () => {
+      setLoading(true); // Start loading
+  
+      if (!userId) {
+        console.error("Missing userId");
+        setLoading(false);
+        return;
+      }
+  
+      try {
+        const res = await fetch(`/api/live-streams/watch-stream?userId=${userId}&callId=${callId}`);
+        const { apiKey } = await res.json();
+  
+        if (!apiKey) {
+          throw new Error("API key not received");
+        }
+  
+        const user = {
+          id: "guest-" + Math.random().toString(36).substring(2, 15),
+          name: "Viewer",
+          type: "guest" as const, // this is important to satisfy the type check
+        };
+        const client = new StreamVideoClient({ apiKey, user });
+        const call = client.call("livestream", callId!);
+        await call.join();
+        console.log("Stream successfully joined as viewer");
+  
+        setClient(client);
+        setCall(call);
+      } catch (err) {
+        console.error("Failed to join stream:", err);
+      } finally {
+        setLoading(false); // End loading
+      }
+    };
+  
+    initWatchStream();
+  }, []);
+
+
   return (
-    <div className="relative w-full">
-      <img
-        src={imageUrl}
-        alt={altText}
-        className="w-full h-[730px] rounded-[36px] object-cover"
-      />
-      <div className="text-white text-xs font-normal leading-3 absolute  backdrop-blur-[[2px]] px-2.5 py-1 rounded-xl right-6 top-6">
-        Live
-      </div>
-      <div className="absolute h-[726px] to-transparent bottom-0 inset-x-0">
-        <div className="absolute px-[25px] bottom-[70px] inset-x-0">
-          <VideoProgress currentTime="38:56" duration="1:56:30" progress={60} />
-        </div>
-      </div>
+    <div className='w-full h-screen bg-gray-100 flex items-center justify-center px-5 py-5 flex-col'>
+    <div className="rounded-xl overflow-hidden shadow-md border border-gray-300 w-full h-[100%] bg-amber-500 text-black flex items-center justify-center">
+    <StreamVideo client={client}>
+
+       <CustomLivestreamPlayer callType="livestream" callId={callId || ''}  />
+    </StreamVideo>
+    </div>
     </div>
   );
 };

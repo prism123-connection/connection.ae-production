@@ -13,40 +13,44 @@ function LiveContent() {
   const router = useRouter();
   const firstName = searchParams.get('fn');
   const lastName = searchParams.get('ln');
+  const callId = searchParams.get('callId');
+  const productId = searchParams.get('productId'); // if needed
+  const userId = searchParams.get('uid');
 
   
   useEffect(() => {
     const initLiveStream = async () => {
-      // const callId ='c1OtrKLeabun'
-      const callId = searchParams.get('callId');
-      const productId = searchParams.get('productId'); // if needed
-      const userId = searchParams.get('uid');
-
+      setLoading(true); // Start loading
+  
       if (!userId) {
         console.error("Missing userId");
+        setLoading(false);
         return;
       }
+  
       if (!firstName) {
-        console.error("Missing userId");
+        console.error("Missing firstName");
+        setLoading(false);
         return;
       }
-
+  
       try {
-        const res = await fetch(`/api/live-streams/go-live?userId=${userId}`);
+        const res = await fetch(`/api/live-streams/go-live?userId=${userId}&callId=${callId}`);
         const { apiKey, token } = await res.json();
-        console.log('apikey', apiKey, 'token', token)
         const user = { id: userId, name: firstName };
         const client = new StreamVideoClient({ apiKey, user, token });
         const call = client.call("livestream", callId!);
         await call.join({ create: true });
-        console.log('get stream successfully connected')
+        console.log('Stream successfully connected');
         setClient(client);
         setCall(call);
       } catch (err) {
         console.error('Failed to join stream:', err);
+      } finally {
+        setLoading(false); // End loading
       }
     };
-
+  
     initLiveStream();
   }, []);
 
@@ -57,11 +61,13 @@ function LiveContent() {
       {call && client ? (
           <StreamVideo client={client}>
             <StreamCall call={call}>
-              <LivestreamView call={call} />
+              <LivestreamView callId={callId || ''} userId={userId || ''} call={call} />
             </StreamCall>
           </StreamVideo>
         ) : (
-          <div>Video still rendering</div>
+              <div className="w-full bg-white rounded-lg flex p-16 flex-col px-8 items-end">
+                <div className="animate-spin h-5 w-5 border-4 border-black self-center border-t-transparent rounded-full"></div>
+              </div>
         )}
       </div>
     </div>
