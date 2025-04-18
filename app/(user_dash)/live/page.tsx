@@ -33,10 +33,12 @@ function LiveContent() {
       try {
         const res = await fetch(`/api/live-streams/go-live?userId=${userId}`);
         const { apiKey, token } = await res.json();
+        console.log('apikey', apiKey, 'token', token)
         const user = { id: userId, name: firstName };
         const client = new StreamVideoClient({ apiKey, user, token });
         const call = client.call("livestream", callId!);
         await call.join({ create: true });
+        console.log('get stream successfully connected')
         setClient(client);
         setCall(call);
       } catch (err) {
