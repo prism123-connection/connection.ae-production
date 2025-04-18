@@ -42,8 +42,7 @@ export async function GET(req: NextRequest, context: { params: { id: string } })
 
   const product = await prisma.product.findUnique({
     where: {
-      id: id,
-      userId: user.id, // only allow access to product owned by this user
+      id: id
     },
     include: {
       tags: true,
