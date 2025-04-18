@@ -2,7 +2,7 @@
 import ActionButton from '@/app/components/ui/ActionButton'
 import { createCartItem } from '@/lib/ecommerce/ecommerceHelper'
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useState } from 'react'
 import { toast } from 'sonner'
 interface ProductActionsProps {
   productId: string ;
@@ -10,6 +10,7 @@ interface ProductActionsProps {
 
 const ProductActions: React.FC<ProductActionsProps> = ({ productId }) => {
   const router = useRouter()
+  const [buyNow, setBuyNow] = useState(false)
 
   const addToCart = async () => {
     try {
@@ -31,9 +32,18 @@ const ProductActions: React.FC<ProductActionsProps> = ({ productId }) => {
       />
       <span className="self-stretch my-auto">Add To Cart</span>
     </ActionButton>
-    <ActionButton onClick={()=>router.push('/live-stream')} variant='proceed' className='rounded-[46px]! w-full!'>
-    Join the live
-    </ActionButton >
+    {
+      buyNow ? 
+      <ActionButton variant='primary'   className='rounded-[46px]! w-full!'>
+      Requested
+      </ActionButton >
+      :
+      <ActionButton onClick={()=>setBuyNow(true)} variant='proceed' className='rounded-[46px]! w-full!'>
+      Buy Now
+      </ActionButton >
+      
+    }
+
    
   </div>
   )
