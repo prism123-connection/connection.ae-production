@@ -35,9 +35,7 @@ function LiveContent() {
       }
   
       try {
-        const res = await fetch(`/api/live-streams/go-live?userId=${userId}&callId=${callId}`, {
-          method: "PUT",
-        });
+        const res = await fetch(`/api/live-streams/go-live?userId=${userId}&callId=${callId}`);
         const { apiKey, token } = await res.json();
         console.log('console ---------', apiKey, token)
         const user = { id: userId, name: firstName };

@@ -39,7 +39,7 @@ export const LivestreamView: React.FC<LivestreamViewProps> = ({ call, callId, us
 
     const endLiveStream = async () => {
         try {
-        isLive ? call.stopLive() : call.goLive()
+          call.stopLive() 
  
           const res = await fetch(`/api/live-streams/end-stream?userId=${userId}&callId=${callId}`, {
             method: 'PUT',
@@ -59,6 +59,17 @@ export const LivestreamView: React.FC<LivestreamViewProps> = ({ call, callId, us
           return null;
         }
       };
+
+      const startStream = async () =>{
+        await fetch(`/api/live-streams/go-live?userId=${userId}&callId=${callId}`, {
+          method: "PUT",
+        });
+        call.goLive()
+      }
+
+      const handleLiveButton = () =>{
+        !isLive ? startStream() : endLiveStream()
+      }
   
   
   
@@ -74,7 +85,7 @@ export const LivestreamView: React.FC<LivestreamViewProps> = ({ call, callId, us
     )}
   
     <div className="flex gap-4 text-white">
-      <button className="bg-gray-800 font-semibold text-blue-100 px-20 py-2 rounded-sm" onClick={endLiveStream}>
+      <button className="bg-gray-800 font-semibold text-blue-100 px-20 py-2 rounded-sm" onClick={handleLiveButton}>
         {isLive ? "Stop Live" : "Go Live"}
       </button>
       <button className="bg-gray-800  text-blue-100 px-10 py-2 rounded-sm" onClick={() => cam.toggle()}>

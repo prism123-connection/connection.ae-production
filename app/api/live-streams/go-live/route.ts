@@ -33,6 +33,32 @@ async function authenticateUser() {
   return { user };
 }
 
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const userIdFromQuery = searchParams.get('userId'); 
+  const callId = searchParams.get('callId');
+
+  const { error, user } = await authenticateUser();
+  if (error) return error;
+
+  if (user.id !== userIdFromQuery) {
+    return NextResponse.json({ error: "User ID mismatch" }, { status: 403 });
+  }
+
+  const apiKey = process.env.STREAM_API_KEY!;
+  const apiSecret = process.env.STREAM_SECRET!;
+
+  const payload = {
+    user_id: userIdFromQuery,
+    validity_in_seconds: 604800,
+  };
+
+  const token = jwt.sign(payload, apiSecret);
+
+  return NextResponse.json({ apiKey, token });
+}
+
+
 export async function PUT(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const userIdFromQuery = searchParams.get('userId'); 
@@ -47,7 +73,8 @@ export async function PUT(req: NextRequest) {
 
   try {
     await prisma.liveStream.update({
-      where: { id: callId!, 
+      where: {
+        id: callId!, 
         userId : user.id
        },
       data: {
@@ -60,16 +87,7 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json({ error: "Failed to update live stream status" }, { status: 500 });
   }
 
-  const apiKey = process.env.STREAM_API_KEY!;
-  const apiSecret = process.env.STREAM_SECRET!;
 
-  const payload = {
-    user_id: userIdFromQuery,
-    validity_in_seconds: 604800,
-  };
-
-  const token = jwt.sign(payload, apiSecret);
-
-  return NextResponse.json({ apiKey, token });
+  return NextResponse.json({ status : 201 });
 }
 
