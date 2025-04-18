@@ -23,6 +23,7 @@
     "@radix-ui/react-select": "^2.1.6",
     "@react-three/drei": "^10.0.4",
     "@react-three/fiber": "^9.0.4",
+    "@stream-io/video-react-sdk": "^1.14.3",
     "@types/bcrypt": "^5.0.2",
     "@types/date-fns": "^2.6.3",
     "@types/jsonwebtoken": "^9.0.9",

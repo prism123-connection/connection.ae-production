@@ -10,7 +10,7 @@ interface StreamActionsProps {
           aria-label={isUpcoming ? "Start streaming" : "View stream"}
         >
           <span className="text-[#001625] opacity-50 text-sm leading-[16.8px]">
-            {isUpcoming ? "Start streaming" : "View stream"}
+            {isUpcoming ? "Go Live Now" : "View stream"}
           </span>
         </button>
         <button

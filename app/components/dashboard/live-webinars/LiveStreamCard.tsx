@@ -4,24 +4,25 @@ import { LiveBadge } from "./LiveBadge";
 import { VerifiedBadge } from "./VerifiedBadge";
 import { ViewerCount } from "./ViewerCount";
 import { useRouter } from "next/navigation";
+import CommonAvatar from "../../ui/CommonAvatar";
 
 
 interface LiveStreamCardProps {
   thumbnailUrl: string;
-  overlayUrl: string;
+  // overlayUrl: string;
   title: string;
-  streamerName: string;
-  streamerAvatar: string;
+  firstName: string;
+  lastName: string;
   location: string;
   viewerCount: string;
 }
 
 export const LiveStreamCard: React.FC<LiveStreamCardProps> = ({
   thumbnailUrl,
-  overlayUrl,
+  // overlayUrl,
   title,
-  streamerName,
-  streamerAvatar,
+  firstName,
+  lastName,
   location,
   viewerCount,
 }) => {
@@ -40,20 +41,7 @@ export const LiveStreamCard: React.FC<LiveStreamCardProps> = ({
       ! max-md:pl-5">
         <div className="flex flex-col items-stretch justify-center">
           <h2 className="text-black text-xl font-medium leading-none">{title}</h2>
-          <div className="flex items-center gap-5 text-base mt-5">
-            <img
-              src={streamerAvatar}
-              alt={streamerName}
-              className="aspect-[1] object-contain w-10 self-stretch shrink-0 my-auto rounded-[50%]"
-            />
-            <div className="self-stretch flex flex-col items-stretch justify-center">
-              <div className="flex items-center gap-5 text-black justify-center">
-                <div className="self-stretch my-auto">{streamerName}</div>
-                <VerifiedBadge />
-              </div>
-              <div className="text-black/50 text-sm mt-1">{location}</div>
-            </div>
-          </div>
+      <CommonAvatar firstName={firstName} lastName={lastName}/>
         </div>
         <div className="flex items-center  justify-between mt-5">
           <LiveBadge />

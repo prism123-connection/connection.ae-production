@@ -1,89 +1,68 @@
-"use client";
+"use client"
+import ActionButton from '@/app/components/ui/ActionButton'
+import React, { useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation';
+import { StreamCall, StreamVideo, StreamVideoClient } from '@stream-io/video-react-sdk';
+import { LivestreamView } from '@/app/components/dashboard/live/LivestreamView';
 
-import { useEffect, useRef } from "react";
-import { io, Socket } from "socket.io-client";
+function Live() {
+  const [loading, setLoading] = useState(false)
+  const [call, setCall] = useState<any>(null);
+  const [client, setClient] = useState<any>(null);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const firstName = searchParams.get('fn');
+  const lastName = searchParams.get('ln');
 
-export default function Live() {
-  const localVideoRef = useRef<HTMLVideoElement>(null);
-  const remoteVideoRef = useRef<HTMLVideoElement>(null);
-  const socketRef = useRef<Socket | null>(null);
-  const pcRef = useRef<RTCPeerConnection | null>(null);
-  const room = "test-room";
-
+  
   useEffect(() => {
-    console.log("🔌 Connecting to socket...");
-    const socket = io({
-      path: "/api/socket_io",
-    });
-    socketRef.current = socket;
+    const initLiveStream = async () => {
+      const callId = searchParams.get('callId');
+      const productId = searchParams.get('productId'); // if needed
+      const userId = searchParams.get('uid');
 
-    const pc = new RTCPeerConnection({
-      iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
-    });
-    pcRef.current = pc;
-
-    navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
-      console.log("📷 Got local media stream");
-      if (localVideoRef.current) {
-        localVideoRef.current.srcObject = stream;
+      if (!userId) {
+        console.error("Missing userId");
+        return;
       }
-      stream.getTracks().forEach((track) => pc.addTrack(track, stream));
-    });
-
-    pc.onicecandidate = (e) => {
-      if (e.candidate) {
-        console.log("📨 Sending ICE candidate");
-        socket.emit("ice-candidate", { room, candidate: e.candidate });
+      if (!firstName) {
+        console.error("Missing userId");
+        return;
       }
-    };
 
-    pc.ontrack = (e) => {
-      console.log("🎥 Received remote track");
-      if (remoteVideoRef.current) {
-        remoteVideoRef.current.srcObject = e.streams[0];
+      try {
+        const res = await fetch(`/api/live-streams/go-live?userId=${userId}`);
+        const { apiKey, token } = await res.json();
+        const user = { id: userId, name: firstName };
+        const client = new StreamVideoClient({ apiKey, user, token });
+        const call = client.call("livestream", callId!);
+        await call.join({ create: true });
+        setClient(client);
+        setCall(call);
+      } catch (err) {
+        console.error('Failed to join stream:', err);
       }
     };
 
-    socket.emit("join-room", room);
-    console.log("📡 Joined room:", room);
-
-    socket.on("user-joined", async () => {
-      console.log("👤 A viewer joined, creating and sending offer...");
-      const offer = await pc.createOffer();
-      await pc.setLocalDescription(offer);
-      socket.emit("offer", { room, offer });
-    });
-
-    socket.on("answer", async ({ answer }) => {
-      console.log("📩 Received answer from viewer");
-      await pc.setRemoteDescription(new RTCSessionDescription(answer));
-    });
-
-    socket.on("ice-candidate", async ({ candidate }) => {
-      console.log("❄️ Received ICE candidate");
-      await pc.addIceCandidate(new RTCIceCandidate(candidate));
-    });
-
-    return () => {
-      console.log("🧹 Cleaning up");
-      pc.close();
-      socket.disconnect();
-    };
+    initLiveStream();
   }, []);
 
   return (
-    <div className="p-4">
-      <h1 className="text-xl font-bold">Live Stream</h1>
-      <div className="grid grid-cols-2 gap-4 mt-4">
-        <div>
-          <h2 className="font-semibold">You (Broadcaster)</h2>
-          <video ref={localVideoRef} autoPlay muted playsInline className="w-full rounded bg-black" />
-        </div>
-        <div>
-          <h2 className="font-semibold">Viewer</h2>
-          <video ref={remoteVideoRef} autoPlay playsInline className="w-full rounded bg-black" />
-        </div>
+    <div>
+      <h1>Welcome to Live Section</h1>
+      <div className='w-full  '>
+      {call && client ? (
+          <StreamVideo client={client}>
+            <StreamCall call={call}>
+              <LivestreamView call={call} />
+            </StreamCall>
+          </StreamVideo>
+        ) : (
+          <div>Video still rendering</div>
+        )}
       </div>
     </div>
-  );
+  )
 }
+
+export default Live
