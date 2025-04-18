@@ -35,7 +35,7 @@ async function authenticateUser() {
 
 export async function PUT(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const userIdFromQuery = searchParams.get('userId');
+  const userIdFromQuery = searchParams.get('userId'); 
   const callId = searchParams.get('callId');
 
   const { error, user } = await authenticateUser();

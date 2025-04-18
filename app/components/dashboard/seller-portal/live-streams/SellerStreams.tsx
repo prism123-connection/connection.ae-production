@@ -36,11 +36,9 @@ function SellerStreams() {
    
       
         const goToLive = (firstName: string, lastName: string, callId: string, productId: string, userId:string) => {
-          router.push(`/live?callId=${callId}&productId=${productId}&fn=${firstName}&ln=${lastName}&uid=${userId}`)
+          router.push(`/live?callId=${callId}&productId=${productId}&fn=${firstName}&ln=${lastName}&userId=${userId}`)
         }
-
-      console.log(upcomingStreams)
-
+        
   return (
     <div className='w-full flex flex-col gap-5 '>
     <h1 className="text-2xl font-semibold ">Your live streams</h1>

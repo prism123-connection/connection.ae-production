@@ -33,7 +33,7 @@ const StreamContent: React.FC<streamProps> = ({ }) => {
       }
   
       try {
-        const res = await fetch(`/api/live-streams/watch-stream?userId=${userId}&callId=${callId}`);
+        const res = await fetch(`/api/live-streams/watch-stream?userId=${userId}&callId=${callId}`); 
         const { apiKey } = await res.json();
   
         if (!apiKey) {

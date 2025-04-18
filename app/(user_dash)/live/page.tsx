@@ -15,7 +15,7 @@ function LiveContent() {
   const lastName = searchParams.get('ln');
   const callId = searchParams.get('callId');
   const productId = searchParams.get('productId'); // if needed
-  const userId = searchParams.get('uid');
+  const userId = searchParams.get('userId');
 
   
   useEffect(() => {
@@ -35,8 +35,11 @@ function LiveContent() {
       }
   
       try {
-        const res = await fetch(`/api/live-streams/go-live?userId=${userId}&callId=${callId}`);
+        const res = await fetch(`/api/live-streams/go-live?userId=${userId}&callId=${callId}`, {
+          method: "PUT",
+        });
         const { apiKey, token } = await res.json();
+        console.log('console ---------', apiKey, token)
         const user = { id: userId, name: firstName };
         const client = new StreamVideoClient({ apiKey, user, token });
         const call = client.call("livestream", callId!);
