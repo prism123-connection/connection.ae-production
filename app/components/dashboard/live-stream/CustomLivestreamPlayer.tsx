@@ -172,7 +172,7 @@ export const CustomLivestreamPlayer: React.FC<CustomLivestreamPlayerProp> = ({ c
     const [firstParticipant] = useParticipants();
   
     return (
-      <div className={`flex  w-full h-full items-center justify-center  ${!firstParticipant ? 'flex-col' : 'flex-row gap-5'}`}>
+      <div className={`flex  w-full h-full items-center justify-center   ${!firstParticipant ? 'flex-col' : 'flex-row gap-5'}`}>
         {!firstParticipant && (
           <button
             onClick={connectCall}
@@ -187,11 +187,13 @@ export const CustomLivestreamPlayer: React.FC<CustomLivestreamPlayerProp> = ({ c
         {/* <div>Live: {participantCount}</div> */}
   
         {firstParticipant ? (
+              <div className="rounded-xl overflow-hidden shadow-md border-black/10 w-full min-h-[90%]! bg-gray-200 flex flex-col items-center justify-center ">
           <ParticipantView
-
+            className="min-w-full! h-[100%] flex flex-col items-center justify-center gap-1 "
             VideoPlaceholder={CustomVideoPlaceHolder}
             participant={firstParticipant}
           />
+          </div>
         ) : (
           <div>The host hasn't joined yet</div>
         )}
@@ -200,6 +202,7 @@ export const CustomLivestreamPlayer: React.FC<CustomLivestreamPlayerProp> = ({ c
       </div>
     );
   };
+
   
   const CustomVideoPlaceHolder = () => <span>loading...</span>;
   

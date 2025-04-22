@@ -95,6 +95,10 @@
   animation: fadeInOut 5s ease-in-out forwards;
 }
 
+.str-video__video {
+  height: max-content;
+}
+
 
 @layer base {
   :root {
