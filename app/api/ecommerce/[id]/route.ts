@@ -47,6 +47,12 @@ export async function GET(req: NextRequest, context: { params: { id: string } })
     include: {
       tags: true,
       productImages: true,
+      user: {
+        select: {
+          firstName: true,
+          lastName: true,
+        },
+      }
     },
   });
 

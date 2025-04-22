@@ -43,17 +43,26 @@ function ProductContentSection() {
   const [product, setProduct] = useState<Product | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<string  >('');
+  const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    if (!id) return;
-
-    getProductById(id)
-      .then((data) => {
-        setProduct(data);
-        setSelectedImage(data.productImages[0]?.url);
-      })
-      .catch((err) => setError('Failed to load product'));
-  }, [id]);
+        useEffect(() => {
+          if (!id) return;
+        
+          setLoading(true);
+        
+          getProductById(id)
+            .then((data) => {
+              setProduct(data);
+              setSelectedImage(data.productImages[0]?.url);
+            })
+            .catch((err) => {
+              setError('Failed to load product');
+            })
+            .finally(() => {
+              setLoading(false);
+            });
+        
+        }, [id]);
 
     const addToWishList = async () => {
       try {
@@ -66,7 +75,9 @@ function ProductContentSection() {
     };
 
   if (error) return <div>{error}</div>;
-  if (!product) return <div>Loading...</div>;
+  if (!product || loading) return    <div className="w-full bg-white rounded-lg flex p-16 flex-col px-8 items-end">
+  <div className="animate-spin h-5 w-5 border-4 border-black self-center border-t-transparent rounded-full"></div>
+</div>
 
   return (
     <article className="bg-white flex items-center gap-5 overflow-hidden justify-center mt-5">

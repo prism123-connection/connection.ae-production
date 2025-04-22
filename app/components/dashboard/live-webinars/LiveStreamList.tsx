@@ -57,6 +57,7 @@ export const LiveStreamList = () => {
      product?: {
        name?: string;
        productImages?: { url?: string }[];
+       id?: string; 
      };
      user?: {
        firstName?: string;
@@ -66,7 +67,7 @@ export const LiveStreamList = () => {
      userId:string; 
    }, index: number) => (
      <LiveStreamCard
-        onclick={()=>router.push(`/live-stream?callId=${stream.id}&userId=${stream.userId}`)}
+        onclick={()=>router.push(`/live-stream?callId=${stream.id}&userId=${stream.userId}&productId=${stream.product?.id}`)}
        key={index}
        thumbnailUrl={stream.product?.productImages?.[0]?.url || ''}
        title={stream.product?.name || 'Untitled'}
@@ -91,13 +92,12 @@ export const LiveStreamList = () => {
    
       <div className="flex items-center justify-between gap-10 flex-wrap mt-10 max-md:max-w-full max-md:mt-10 ">
    
-   
-
         {upcomingStreams.length > 0 && 
         upcomingStreams.map((stream: {
           product?: {
             name?: string;
             productImages?: { url?: string }[];
+            id?: string; 
           };
           user?: {
             firstName?: string;
@@ -107,7 +107,7 @@ export const LiveStreamList = () => {
           userId:string; 
         }, index: number) => (
           <LiveStreamCard
-          onclick={()=>router.push(`/live-stream?callId=${stream.id}&userId=${stream.userId}`)}
+          onclick={()=>router.push(`/live-stream?callId=${stream.id}&userId=${stream.userId}&productId=${stream.product?.id}`)}
             key={index}
             thumbnailUrl={stream.product?.productImages?.[0]?.url || ''}
             title={stream.product?.name || 'Untitled'}
