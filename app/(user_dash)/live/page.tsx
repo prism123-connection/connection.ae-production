@@ -4,6 +4,7 @@ import React, { Suspense, useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation';
 import { StreamCall, StreamVideo, StreamVideoClient } from '@stream-io/video-react-sdk';
 import { LivestreamView } from '@/app/components/dashboard/live/LivestreamView';
+import LiveChat from '@/app/components/dashboard/live-stream/Chat';
 
 function LiveContent() {
   const [loading, setLoading] = useState(false)
@@ -37,7 +38,6 @@ function LiveContent() {
       try {
         const res = await fetch(`/api/live-streams/go-live?userId=${userId}&callId=${callId}`);
         const { apiKey, token } = await res.json();
-        console.log('console ---------', apiKey, token)
         const user = { id: userId, name: firstName };
         const client = new StreamVideoClient({ apiKey, user, token });
         const call = client.call("livestream", callId!);
@@ -71,6 +71,9 @@ function LiveContent() {
               </div>
         )}
       </div>
+         <div className="fixed bottom-5 right-5">
+            <LiveChat streamId={callId || ''} />
+          </div>
     </div>
   )
 }

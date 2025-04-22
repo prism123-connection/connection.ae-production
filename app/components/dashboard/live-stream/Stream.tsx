@@ -3,6 +3,7 @@ import React, { Suspense, useEffect, useState } from "react";
 import { StreamVideo, StreamVideoClient } from "@stream-io/video-react-sdk";
 import { CustomLivestreamPlayer } from "./CustomLivestreamPlayer";
 import { useRouter, useSearchParams } from "next/navigation";
+import LiveChat from "./Chat";
 
 interface streamProps {
 
@@ -62,11 +63,14 @@ const StreamContent: React.FC<streamProps> = ({ }) => {
 
 
   return (
-    <div className='w-full h-screen bg-gray-100 flex items-center justify-center px-5 py-5 flex-col'>
-    <div className="rounded-xl overflow-hidden shadow-md border-0 shadow-sm w-full h-[100%]  text-black flex items-center justify-center">
+    <div className='w-full h-screen bg-gray-100 flex items-center justify-center mt-2 flex-col'>
+    <div className="rounded-xl overflow-hidden border-0 shadow-sm w-full h-[100%]  text-black flex items-center justify-center">
     <StreamVideo client={client}>
        <CustomLivestreamPlayer callType="livestream" callId={callId || ''}  />
     </StreamVideo>
+    <div className="fixed bottom-5 right-5">
+      <LiveChat streamId={callId || ''} />
+    </div>
     </div>
     </div>
   );

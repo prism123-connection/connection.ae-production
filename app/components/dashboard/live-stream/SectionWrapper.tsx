@@ -1,7 +1,7 @@
 import React from "react";
 
 import { StreamProductInfo } from "./ProductInfo";
-import { ChatWidget } from "./Chat";
+// import { ChatWidget } from "./Chat";
 import Stream from "./Stream";
 
 const features = [
@@ -17,7 +17,8 @@ const features = [
 
 const LiveStreamSection = () => {
   return (
-    <div className="flex w-full min-h-screen bg-white justify-center items-center ">
+    <div className="flex w-full min-h-screen bg-white justify-center items-center ] ">
+      {/* <div className="fixed w-screen min-h-screen top-0 bg-black/10 z-10"/> */}
       <div className="w-full  relative">
         <Stream/>
 
@@ -55,7 +56,6 @@ const LiveStreamSection = () => {
               </button>
             </div>
 
-            <ChatWidget />
           </div>
         </div>
       </div>

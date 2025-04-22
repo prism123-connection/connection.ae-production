@@ -6,6 +6,7 @@ import {
   useCallStateHooks,
   useStreamVideoClient,
 } from "@stream-io/video-react-sdk";
+import LiveChat from "./Chat";
 
 interface CustomLivestreamPlayerProp {
     callType:string;
@@ -135,7 +136,7 @@ export const CustomLivestreamPlayer: React.FC<CustomLivestreamPlayerProp> = ({ c
   
     return call ? (
       <StreamCall call={call}>
-        <LivestreamContent loading={loading} connectCall={connectCall} />
+        <LivestreamContent loading={loading} connectCall={connectCall}  callId={callId}/>
       </StreamCall>
     ) : (
       <div>
@@ -162,15 +163,16 @@ export const CustomLivestreamPlayer: React.FC<CustomLivestreamPlayerProp> = ({ c
   interface LivestreamContentProp {
     loading: boolean;
     connectCall: () => Promise<void>;
+    callId :string
   }
   
-  const LivestreamContent: React.FC<LivestreamContentProp> = ({ loading, connectCall }) => {
+  const LivestreamContent: React.FC<LivestreamContentProp> = ({ loading, connectCall, callId }) => {
     const { useParticipants, useParticipantCount } = useCallStateHooks();
     const participantCount = useParticipantCount();
     const [firstParticipant] = useParticipants();
   
     return (
-      <div className="flex flex-col w-full h-full items-center justify-center ">
+      <div className={`flex  w-full h-full items-center justify-center  ${!firstParticipant ? 'flex-col' : 'flex-row gap-5'}`}>
         {!firstParticipant && (
           <button
             onClick={connectCall}
@@ -193,6 +195,8 @@ export const CustomLivestreamPlayer: React.FC<CustomLivestreamPlayerProp> = ({ c
         ) : (
           <div>The host hasn't joined yet</div>
         )}
+
+
       </div>
     );
   };
