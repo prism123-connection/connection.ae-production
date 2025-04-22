@@ -1,10 +1,11 @@
 "use client"
 import React, { useState } from "react";
 
-import { StreamProductInfo } from "./ProductInfo";
+
 // import { ChatWidget } from "./Chat";
 import Stream from "./Stream";
 import ActionButton from "../../ui/ActionButton";
+import StreamProductInfo from "./ProductInfo";
 
 
 

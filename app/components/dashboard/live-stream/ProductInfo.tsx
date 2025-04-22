@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { StarRating } from "@/app/components/ui/StarRating";
 import { useSearchParams } from "next/navigation";
 import { getProductById } from "@/lib/ecommerce/ecommerceHelper";
@@ -34,7 +34,7 @@ type Product = {
     createdAt: string;
   }[];
 };
-export const StreamProductInfo: React.FC<{}> = ({
+const StreamProductInfoContent: React.FC<{}> = ({
 
 }) => {
     const searchParams = useSearchParams();
@@ -90,3 +90,11 @@ export const StreamProductInfo: React.FC<{}> = ({
     </div>
   );
 };
+
+export default function StreamProductInfo() {
+  return (
+    <Suspense fallback={<div>Loading Live Page...</div>}>
+      <StreamProductInfoContent/>
+    </Suspense>
+  );
+}
