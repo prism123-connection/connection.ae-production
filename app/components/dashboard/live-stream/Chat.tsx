@@ -34,6 +34,7 @@ export default function LiveChat({ streamId }: { streamId: string }) {
         sock = createSocket(data.token);
         sock.connect();
         sock.emit('join-room', streamId);
+        toast.success('Joined for livechat')
 
         sock.on('receive-message', (message: ChatMessage) => {
           setMessages((prev) => [...prev, message]);
@@ -68,6 +69,8 @@ export default function LiveChat({ streamId }: { streamId: string }) {
 
     setInput('');
   };
+
+  console.log(messages)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
