@@ -22,6 +22,7 @@ const RegisterSchema = z.object({
 const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [lockInput, setLockInput]=useState(false); 
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -75,6 +76,7 @@ const RegisterPage = () => {
         ...prevData, 
         referralCode: rid,
       }));
+      setLockInput(true)
     }
   }, []); 
 
@@ -168,6 +170,7 @@ const RegisterPage = () => {
           <div className="flex flex-col my-2 relative">
             <p className="text-sm">Referral Code (Optional)</p>
             <input
+              disabled={lockInput ? true : false}
               type="text"
               name="referralCode"
               value={formData.referralCode}

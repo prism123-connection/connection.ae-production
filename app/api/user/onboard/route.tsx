@@ -3,13 +3,14 @@ import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { Role } from "@prisma/client";
+import { sendWelcomeMail } from "@/lib/smtp";
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     console.log("Came here with: ", body);
 
-    const { imgLink } = body;
+    const { imgLink , userFirstName , userLastName} = body;
 
     const cookiesStore = await cookies();
     const token = cookiesStore.get("auth_token")?.value;
@@ -42,6 +43,7 @@ export async function POST(req: NextRequest) {
 
     if (imgLink) updateData.imgLink = imgLink;
 
+    // User need role shall not be payment pending any time, from onboard they can either go for free user or paid user
     updateData.role = Role.PAYMENT_PENDING;
 
     console.log(
@@ -80,6 +82,9 @@ export async function POST(req: NextRequest) {
       sameSite: "strict",
       path: "/",
     });
+
+    const email = decoded.email; 
+    await sendWelcomeMail(email, userFirstName, userLastName)
 
     return NextResponse.json(
       { message: "User data successfully updated" },

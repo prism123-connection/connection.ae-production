@@ -35,6 +35,15 @@ const novaLight = localFont({
   variable: "--font-novaLight",
 });
 
+export const metadata = {
+  title: "Welcome to Connection.ae",
+  description: "Your site description",
+  icons: {
+    icon: "/logo.svg", // path from public folder
+  },
+};
+
+
 export default function RootLayout({
   children,
 }: Readonly<{

@@ -3,20 +3,61 @@ import CopyAffiliate from './CopyAffiliate';
 import Image from 'next/image';
 import { useUser } from '@/context/UserContext';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 function AffiliatePrimary() {
   const { user, loading } = useUser();
   const router = useRouter()
-  const affiliateCode = "htsTxcvuxhcbvdhvbdhjv123";
-  const icons = [
-    '/dash/commission/facebook.svg',
-    '/dash/commission/twitter.svg',
-    '/dash/commission/youtube.svg',
-    '/dash/commission/insta.svg',
-    '/dash/commission/linkedIn.svg',
-    '/dash/commission/snapchat.svg',
-    '/dash/commission/telegram.svg',
-  ]
+  
+const urlToShare = encodeURIComponent("https://theconnection.ae");
+const textToShare = encodeURIComponent("Check this out!");
+
+const socialIcons = [
+  {
+    imageLink: '/dash/commission/facebook.svg',
+    function: () => window.open(`https://www.facebook.com/sharer/sharer.php?u=${urlToShare}`, "_blank", "noopener,noreferrer"),
+  },
+  {
+    imageLink: '/dash/commission/twitter.svg',
+    function: () => window.open(`https://twitter.com/intent/tweet?url=${urlToShare}&text=${textToShare}`, "_blank", "noopener,noreferrer"),
+  },
+  // {
+  //   imageLink: '/dash/commission/youtube.svg',
+  //   function: () => alert("YouTube doesn't support direct web sharing. Copy the URL instead."),
+  // },
+  {
+    imageLink: '/dash/commission/insta.svg',
+    function: () => {
+      navigator.clipboard.writeText(urlToShare)
+        .then(() => {
+         toast.success('Link copied! You can directly share it with users.')
+        })
+        .catch(() => {
+          alert("Failed to copy the link.");
+        });
+    }
+  },
+  {
+    imageLink: '/dash/commission/linkedIn.svg',
+    function: () => window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${urlToShare}`, "_blank", "noopener,noreferrer"),
+  },
+  {
+    imageLink: '/dash/commission/snapchat.svg',
+    function: () => {
+      navigator.clipboard.writeText(urlToShare)
+        .then(() => {
+         toast.success('Link copied! You can directly share it with users.')
+        })
+        .catch(() => {
+          alert("Failed to copy the link.");
+        });
+    }
+  },
+  {
+    imageLink: '/dash/commission/telegram.svg',
+    function: () => window.open(`https://t.me/share/url?url=${urlToShare}&text=${textToShare}`, "_blank", "noopener,noreferrer"),
+  },
+];
   return (
     <section className="w-full  rounded-lg px-20">
       <div className="bg-[rgba(243,243,243,1)] shadow-[0px_2px_4px_rgba(0,0,0,0.12)] pl-8 pr-20 py-[73px] rounded-2xl max-md:max-w-full max-md:px-5">
@@ -73,14 +114,15 @@ function AffiliatePrimary() {
             <div className="flex flex-col text-base text-[rgba(0,22,37,1)] font-normal my-auto max-md:mt-10">
               <span>Share on:</span>
               <div className='flex gap-0 flex-row mt-5'>
-                {icons.map((icon, index) => (
+                {socialIcons.map((item, index) => (
                   <Image
+                    onClick={item.function}
                     key={index}
-                    src={icon}
+                    src={item.imageLink}
                     alt="Share icon"
                     width={50}
                     height={50}
-                    className=" scale-150 "
+                    className=" scale-150 cursor-pointer"
                   />
                 ))}
               </div>

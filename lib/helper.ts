@@ -170,7 +170,9 @@ export const updateAccount = async (
   }
 };
 export const updateOnboardRole = async (
-imgLink : string
+imgLink : string, 
+userFirstName : string, 
+userLastName : string
 ) => {
   try {
     const response = await fetch(`/api/user/onboard`, {
@@ -179,7 +181,7 @@ imgLink : string
         "Content-Type": "application/json",
       },
       credentials: "include",
-      body: JSON.stringify({ imgLink }),
+      body: JSON.stringify({ imgLink, userFirstName , userLastName }),
     });
 
     const data = await response.json();

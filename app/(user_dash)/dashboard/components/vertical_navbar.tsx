@@ -16,6 +16,7 @@ import { CiPower } from "react-icons/ci";
 import { MdOutlineDashboard } from "react-icons/md";
 import { MdOutlineReplay } from "react-icons/md";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
+import { CiStreamOn } from "react-icons/ci";
 
 
 
@@ -54,6 +55,12 @@ const VerticalNavbar = () => {
       name: "Sales Portal",
       icon: <MdOutlineDashboard/>,
       href: "/seller-portal",
+      disabled: false,
+    },
+    {
+      name: "Go live",
+      icon: <CiStreamOn />,
+      href: "/seller-portal?stream=true",
       disabled: false,
     },
     {

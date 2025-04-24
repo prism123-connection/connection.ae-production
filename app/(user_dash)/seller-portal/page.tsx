@@ -6,10 +6,19 @@ import MyProduct from '@/app/components/dashboard/seller-portal/myProduct/MyProd
 import ApprovedOrders from '@/app/components/dashboard/seller-portal/order/ApprovedOrder';
 import SellerPortal from '@/app/components/dashboard/seller-portal/Overview/overview';
 import SectionHeader from '@/app/components/SectionHeader'
-import React, { useState } from 'react'
+import { useSearchParams } from 'next/navigation';
+import React, { useEffect, useState } from 'react'
 
 function SellerPortalOverview() {
 const [activeTab, setActiveTab] = useState(0);
+const searchParams = useSearchParams(); 
+ 
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const node = urlParams.get("stream");
+    // const node = searchParams.get("stream");
+      setActiveTab(node ? 3 : 0);
+  }, [searchParams]);
 
   return (
     <SectionHeader classes=' w-full! items-start justify-start gap-5! mt-10 '>

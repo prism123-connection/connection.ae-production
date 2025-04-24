@@ -2,6 +2,7 @@ import ActionButton from '@/app/components/ui/ActionButton';
 import { FormInput } from '@/app/components/ui/FormInputs';
 import { FormSection } from '@/app/components/ui/FormSection';
 import { Checkbox } from '@/components/ui/checkbox';
+import Link from 'next/link';
 import React, { useState } from 'react'
 
 interface LegalDeclarationsProps {
@@ -42,7 +43,7 @@ const LegalDeclarations: React.FC<LegalDeclarationsProps> = ({
                 </div>
 
                 <div className='flex gap-4 mb-5'> <Checkbox/> Consent to share data with third parties </div>
-                <div className='flex gap-4 mb-5'> <Checkbox/> Agreement to Terms & Conditions </div>
+                <div className='flex gap-4 mb-5 underline text-blue-950 cursor-pointer'> <Checkbox/><Link href={'/terms'} target='_blank'> Agreement to Terms & Conditions </Link> </div>
 
                
             
