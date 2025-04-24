@@ -69,6 +69,9 @@
 .rotate-animation {
   animation: slow-rotate 120s linear infinite;
 }
+.fast-rotate-animation {
+  animation: slow-rotate 10s linear infinite;
+}
 
 .no-scrollbar::-webkit-scrollbar {
   display: none;

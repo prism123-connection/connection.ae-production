@@ -92,17 +92,14 @@ function OnBoardingPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen w-full flex justify-center items-center ">
-        <div className="w-1/2 h-screen overflow-y-auto p-6 custom-scrollbar flex justify-center items-center">
-          <Loader />
-        </div>
-        <div className="w-1/2 overflow-hidden">
+      <div className=" w-full flex bg-[#51C2FF]/10 relative justify-center items-center min-h-screen overflow-hidden!">
+        <div className="w-1/3 overflow-hidden aspect-square absolute fast-rotate-animation">
           <Image
             src="/logo.svg"
             alt="Account Setup"
             width={500}
             height={500}
-            className="w-full h-full object-contain rounded-md k"
+            className="w-full h-full p-6 object-contain rounded-md"
           />
         </div>
       </div>

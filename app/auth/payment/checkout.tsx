@@ -2,11 +2,19 @@ import React, { useState } from "react";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { DISPATCH_ACTION } from "@paypal/react-paypal-js";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
-const Checkout = () => {
+interface CheckoutProps {
+  loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Checkout: React.FC<CheckoutProps> = ({ loading, setLoading }) => {
   const [{ options, isPending }, dispatch] = usePayPalScriptReducer();
   const [currency, setCurrency] = useState(options.currency);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
+
+
   const router = useRouter();
 
   const onCurrencyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -64,8 +72,9 @@ const Checkout = () => {
       const result = await response.json();
       if (response.ok) {
         console.log("Payment recorded successfully:", result);
-        router.push("/auth/success");
         setPaymentSuccess(true);
+        router.push("/auth/success");
+        window.location.reload(); 
       } else {
         console.error("Failed to record payment:", result);
       }
@@ -73,6 +82,9 @@ const Checkout = () => {
       console.error("Error capturing payment:", error);
     }
   };
+
+
+  
 
   return (
     <div className="checkout">

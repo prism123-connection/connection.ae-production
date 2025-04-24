@@ -60,6 +60,7 @@ export const PricingCard: React.FC<PricingCardProps> = ({
         if (response.ok) {
           toast.success( "Successfully Created");
           router.push('/dashboard')
+          window.location.reload()
           return; 
         }else {
            toast.error( "Failed to create user!");
