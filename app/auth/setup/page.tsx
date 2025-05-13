@@ -70,12 +70,12 @@ const AccountSetupPage = () => {
       address: z.string().min(1, "Address is required"),
       city: z.string().min(1, "City is required"),
       state: z.string().min(1, "State is required"),
-      zipCode: z.string().min(1, "ZIP Code is required"),
-      phoneNumber: z.string().min(1, "Phone Number is required"),
+      zipCode: z.coerce.number().min(3, "ZIP Code is required"),
+      phoneNumber: z.coerce.number().min(9, "Phone Number is required"),
     });
   } else if (activeCount === 3) {
     stepSchema = z.object({
-      emiratesId: z.string().min(1, "Emirates ID/Passport No. is required"),
+      emiratesId: z.string().min(8, "Please enter correct Emirates ID/Passport No."),
       occupation: z.string().min(1, "Occupation/Company Name is required"),
       joinReason: z.string().min(1, "This is a required field"),
       acknowledgement: z.boolean().refine((val) => val === true, {
@@ -393,6 +393,7 @@ const AccountSetupPage = () => {
 
               <div className="flex flex-col w-full">
                 <SpecialInputs
+                  type="number"
                   name="zipCode"
                   placeholder="Enter Zip code here"
                   label="Zip Code"
@@ -406,6 +407,7 @@ const AccountSetupPage = () => {
 
               <div className="flex flex-col w-full">
                 <SpecialInputs
+                  type="number"
                   name="phoneNumber"
                   placeholder="Enter Phone number here"
                   label="Phone number"

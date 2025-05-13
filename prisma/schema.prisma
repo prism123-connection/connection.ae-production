@@ -40,6 +40,8 @@ model User {
   referralSource   String?  // how did user hear about the app
   joinReason       String?
 
+  avatarUrl        String?
+
   // Relations
   tokens Token[]
   transactions Transaction[]

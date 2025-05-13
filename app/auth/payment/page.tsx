@@ -23,6 +23,24 @@ const RegistrationPayment = () => {
             </div>
           );
         }
+
+    const handleNetworkPay = async () => {
+    setLoading(true);
+    const res = await fetch('/api/payment/ngenius/order', {
+      method: 'POST',
+      body: JSON.stringify({ amount: 1 }),
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    const { paymentUrl } = await res.json();
+    // const { data } = await res.json();
+    console.log('paymentUrl', paymentUrl)
+    window.location.href = paymentUrl; // redirect to hosted payment page
+    // window.open(paymentUrl, '_blank', 'noopener,noreferrer');
+    setLoading(false); 
+  };
+
+
   return (
     <div className="min-h-screen w-full flex flex-col justify-center items-center text-center p-6 bg-gray-100">
       <div className="bg-white shadow-lg rounded-lg p-8 flex flex-col max-w-lg w-full">
@@ -45,6 +63,15 @@ const RegistrationPayment = () => {
         >
         <Checkout loading={loading} setLoading={setLoading} />
         </PayPalScriptProvider>
+
+           <button className=' bg-white border-2 group border-blue-950  px-10 py-2 cursor-pointer w-full max-h-20 rounded-md flex items-center justify-center' onClick={handleNetworkPay} disabled={loading}>
+            {loading ? 'Redirecting...' :
+            <img
+            src="/auth/network_payment.png"
+            className=" object-contain w-auto h-8 group-hover:scale-105 transition-all duration-500 "
+            />
+            }
+          </button>
       </div>
     </div>
   );

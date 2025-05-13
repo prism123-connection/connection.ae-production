@@ -41,32 +41,26 @@ export async function POST(req: NextRequest) {
 
     const updateData: Record<string, any> = {};
 
-    if (imgLink) updateData.imgLink = imgLink;
+    if (imgLink) updateData.avatarUrl = imgLink;
 
+    // REMOVE ALL THE PAYMENT PENDING ROLE FROM THIS !!!
     // User need role shall not be payment pending any time, from onboard they can either go for free user or paid user
     updateData.role = Role.PAYMENT_PENDING;
 
-    console.log(
-      "updateData.role: ",
-      updateData.role,
-      " ",
-      Role.PAYMENT_PENDING
-    );
 
-    console.log("Updating user info with: ", updateData);
 
-    // try {
-    //   await prisma.user.update({
-    //     where: { id: decoded.id },
-    //     data: updateData,
-    //   });
-    // } catch (prismaError) {
-    //   console.error("Prisma update failed:", prismaError);
-    //   return NextResponse.json(
-    //     { error: "Failed to update user data" },
-    //     { status: 500 }
-    //   );
-    // }
+    try {
+      await prisma.user.update({
+        where: { id: decoded.id },
+        data: updateData,
+      });
+    } catch (prismaError) {
+      console.error("Prisma update failed:", prismaError);
+      return NextResponse.json(
+        { error: "Failed to update user data" },
+        { status: 500 }
+      );
+    }
 
     cookiesStore.delete("auth_token");
 

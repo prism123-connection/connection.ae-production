@@ -3,19 +3,22 @@ import ProceedButtons from '@/app/components/ui/ProceedButtons';
 import { fetchData, updateOnboardRole } from '@/lib/helper';
 import Loader from "@/app/components/loader";
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
+import { redirect, useRouter } from 'next/navigation';
+import React, { useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner';
+import { uploadImageToS3 } from '@/lib/aws/awsS3Helper';
 
 function OnBoardingPage() {
 
   const router = useRouter()
+  const inputRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(true);
   const [user, setuser] = useState({
     firstName : '', 
     lastName : ''
   })
   const [error, setError] = useState(false);
+  const [imageInput, setImageInput] = useState('')
   const imgLink = ''
 
   const fetchPageData = async () => {
@@ -46,13 +49,54 @@ function OnBoardingPage() {
 
   const handleEnter = async () => {
     setLoading(true)
-    const result = await updateOnboardRole(imgLink, user.firstName , user.lastName);
-    if (result.success) {
-      router.push("/auth/pricing");
+    const result = await updateOnboardRole(imageInput, user.firstName , user.lastName);
+    console.log('result', result)
+    if (result?.success === true) {
+      router.push("/auth/pricing"); 
+      // redirect('/auth/pricing')
     } else {
       toast.error(result.message || "Profile update failed.");
     }
   }
+
+  // Handle Image input 
+
+    const handleImageInput = async (file: File, done: () => void) => {
+      try {
+        const imageUrl = await uploadImageToS3(file);
+
+        if (typeof imageUrl.url === "string" && imageUrl.url.trim() !== "") {
+          setImageInput(imageUrl.url);
+          console.log(imageUrl.url)
+        } else {
+          console.warn("Invalid image URL returned:", imageUrl);
+        }
+      } catch (error) {
+        console.error("Upload failed:", error);
+      } finally {
+        done(); // still called once
+      }
+    };
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0]; // get only the first file
+
+      if (!file) return;
+
+      setLoading(true);
+
+      const done = () => {
+        if (inputRef.current) {
+          inputRef.current.value = "";
+        }
+        setLoading(false);
+      };
+
+      handleImageInput(file, done); // pass single file
+    };
+
+
+
 
   if (error) {
     return (
@@ -121,14 +165,34 @@ function OnBoardingPage() {
 
           {
             !loading &&
-            <div className='w-full flex items-center justify-center flex-col gap-5 hidden'>
+            <div className='  w-full flex items-center justify-center flex-col gap-5 '>
               <span className="text-base mt-4 text-[#333333]/60 ">Lets add a profile picture!</span>
+              <label htmlFor="imageUpload" className='w-fit relative cursor-pointer'>
               <Image
-                src={'/auth/image_input.png'}
+                src={imageInput.length !== 0 ? imageInput : '/auth/img_input2.png'}
+                // src={imageInput.length !== 0 ? imageInput : '/auth/img_input2.png'}
                 width={100}
                 height={100}
                 alt='image input'
               />
+              <Image
+                src={'/auth/add_icon.png'}
+                width={20}
+                height={20}
+                alt='image input'
+                className='absolute right-1 bottom-1'
+              />
+               <input
+                  id="imageUpload"
+                  ref={inputRef}
+                  name="imageInput"
+                  type="file"
+                  multiple
+                  onChange={handleChange}
+                  accept="image/*"
+                  className="hidden"
+                />
+              </label>
               <div className='flex gap-5'>
                 <ProceedButtons onClickFunc={handleEnter} classes='bg-white! text-black! shadow-none! border-2! ' > Skip</ProceedButtons>
                 <ProceedButtons onClickFunc={handleEnter} classes='bg-[#001625]!' > Enter Connection	&#10230;</ProceedButtons>
@@ -138,7 +202,7 @@ function OnBoardingPage() {
 
           <div className='w-full flex items-center justify-center flex-col gap-5'>
             <span className="text-base mt-4 text-[#333333]/80 font-semibold px-60 text-center ">You’ve just taken your first big step into a world of real business opportunities, global connections, and growth without limits — and we couldn’t be more excited to have you with us.</span>
-              <ProceedButtons onClickFunc={handleEnter} classes='bg-[#001625]!' > Enter Connection	&#10230;</ProceedButtons>
+              {/* <ProceedButtons onClickFunc={handleEnter} classes='bg-[#001625]!' > Enter Connection	&#10230;</ProceedButtons> */}
           </div>
 
         </div>

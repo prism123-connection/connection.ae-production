@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  images : {
+      domains: ['connection-app-bucket.s3.me-central-1.amazonaws.com'],
+  }
 };
 
 export default nextConfig;
