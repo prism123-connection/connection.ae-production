@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
         maskPaymentInfo: true,
         paymentAttempts: 3,
         // redirectUrl: `http://localhost:3000/payment/callback`,
-        // redirectUrl: `${process.env.NEXT_PUBLIC_DEPLOYED_URL}/payment/callback`,
+        redirectUrl: `${process.env.NEXT_PUBLIC_DEPLOYED_URL}/payment/callback`,
         offerOnly: "VISA, MASTERCARD"
       },
     }),
