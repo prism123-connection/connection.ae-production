@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Role } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function authenticateUser() {
@@ -35,12 +35,23 @@ async function authenticateUser() {
 
 
 export async function GET(req: NextRequest) {
-  const { error } = await authenticateUser();
+  const { error, user } = await authenticateUser();
+  const cookiesStore = await cookies();
   if (error) return error;
   const ref = req.nextUrl.searchParams.get('ref');
   const outletRef = process.env.NGENIUS_OUTLET_REF!;
-  const tokenRes = await fetch(`${process.env.NEXT_PUBLIC_DEPLOYED_URL}/api/payment/ngenius/token`);
-  const { access_token } = await tokenRes.json();
+  const apiKey = process.env.NGENIUS_API_KEY!;
+  // Generating Access Token 
+  const tokenRes = await fetch('https://api-gateway.ngenius-payments.com/identity/auth/access-token', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Basic ${apiKey}`,
+      'Content-Type': 'application/vnd.ni-identity.v1+json',
+    //   'Accept': 'application/vnd.ni-identity.v1+json',
+    },
+  });
+  const { access_token } = await tokenRes.json(); // ACCESS TOKEN IS BEING SUCCESSFULLY GENERATED
+  console.log('access_token_order', access_token)
 
   const res = await fetch(`https://api-gateway.ngenius-payments.com/transactions/outlets/${outletRef}/orders/${ref}`, {
     method: 'GET',
@@ -49,9 +60,78 @@ export async function GET(req: NextRequest) {
       'Accept': 'application/vnd.ni-payment.v2+json',
     },
   });
-
   const order = await res.json();
-  const status = order?.paymentStatus;
+  console.log(order); 
+
+  let transactionStatus = null;
+  let paymentId = null; 
+  let amount = null; 
+  let currency = null; 
+  // Checking for the first time payment
+  if (order?._embedded?.payment && order._embedded.payment.length > 0) {
+    transactionStatus = order._embedded.payment[0].state;
+    paymentId = order._embedded.payment[0].reference
+    amount = order._embedded.payment[0].amount.value
+    currency = order._embedded.payment[0].amount.currencyCode
+
+    if (order._embedded.payment.length > 1) {
+    // This would be the second payment in a recurring scenario
+    transactionStatus = order._embedded.payment[1].state;
+    paymentId = order._embedded.payment[1].reference
+    amount = order._embedded.payment[1].amount.value
+    currency = order._embedded.payment[1].amount.currencyCode
+  }
+}
+console.log('payment status:', transactionStatus);
+
+    if (transactionStatus === 'CAPTURED') {
+
+      const updatedUser = await prisma.$transaction(async (prisma) => {
+        await prisma.transaction.create({
+          data: {
+            userId: user.id,
+            transactionId: paymentId,
+            amount: parseFloat(amount),
+            currency: currency,
+            status: transactionStatus,
+          },
+        });
+  
+        return await prisma.user.update({
+          where: { id: user.id },
+          data: { role: Role.PAID_USER },
+          select: { id: true, email: true, role: true },
+        });
+      });
+
+    cookiesStore.delete("auth_token");
+
+      // ✅ Generate a new token with updated role
+     const newToken = jwt.sign(
+         { id: user.id, email: user.email, role: updatedUser.role },
+         process.env.JWT_SECRET!,
+         { expiresIn: "7d" }
+      );
+
+      cookiesStore.set("auth_token", newToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      path: "/",
+    });
+
+    return NextResponse.json({ status: transactionStatus });
+
+    }else {
+          return NextResponse.json( { status: transactionStatus } );
+    }
+
+
+  
+
+
+    
+
 
   // ✅ Update your database here
 //   if (status === 'CAPTURED') {
@@ -65,6 +145,6 @@ export async function GET(req: NextRequest) {
 //       data: { status: 'FAILED' },
 //     });
 //   }
-
-  return NextResponse.json({ status });
 }
+
+

@@ -14,7 +14,8 @@ function CallBack() {
         .then(res => res.json())
         .then(({ status }) => {
           if (status === 'CAPTURED') {
-            router.push('/auth/payment/success');
+            toast.success('Payment Successfully Made')
+            router.push('/dashboard');
           } else {
             toast.error('Error, the payment failed')
           }
@@ -22,7 +23,7 @@ function CallBack() {
     }
   }, [ref]);
 
-  return <div className='w-screen h-screen text-xl flex items-center justify-center'>Verifying payment...</div>;
+  return <div className='w-[100%] min-h-screen text-xl flex items-center justify-center'>Verifying payment...</div>;
 }
 
 function PaymentCallback() {

@@ -42,12 +42,7 @@ export async function POST(req: NextRequest) {
   const { amount } = await req.json();
   const outletRef = process.env.NGENIUS_OUTLET_REF!;
    const apiKey = process.env.NGENIUS_API_KEY!;
-
-  // Get access token
-  // const tokenRes = await fetch(`${process.env.NEXT_PUBLIC_DEPLOYED_URL}/api/payment/ngenius/token`);
-  // const { access_token } = await tokenRes.json();
-
-
+  // Generating Access Token
   const res = await fetch('https://api-gateway.ngenius-payments.com/identity/auth/access-token', {
     method: 'POST',
     headers: {
@@ -76,7 +71,7 @@ export async function POST(req: NextRequest) {
       merchantAttributes: {
         maskPaymentInfo: true,
         paymentAttempts: 3,
-        // redirectUrl: `http://localhost:3000/payment/callback`,
+        // redirectUrl: `https://www.theconnection.ae/auth/payment/callback`,
         redirectUrl: `${process.env.NEXT_PUBLIC_DEPLOYED_URL}/auth/payment/callback`,
         offerOnly: "VISA, MASTERCARD"
       },
