@@ -13,10 +13,12 @@ function CallBack() {
       fetch(`/api/payment/ngenius/verify?ref=${ref}`)
         .then(res => res.json())
         .then(({ status }) => {
-          if (status === 'CAPTURED') {
+          if (status === 'PURCHASED') {
+            console.log(status)
             toast.success('Payment Successfully Made')
             router.push('/dashboard');
           } else {
+            console.log(status)
             toast.error('Error, the payment failed')
           }
         });

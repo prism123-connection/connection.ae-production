@@ -62,6 +62,7 @@ export async function GET(req: NextRequest) {
   });
   const order = await res.json();
   console.log(order); 
+  console.log('order_embedded', order?._embedded?.payment); 
 
   let transactionStatus = null;
   let paymentId = null; 
@@ -83,8 +84,11 @@ export async function GET(req: NextRequest) {
   }
 }
 console.log('payment status:', transactionStatus);
+console.log('paymentId:', paymentId);
+console.log('amount:', amount);
+console.log('currency:', currency);
 
-    if (transactionStatus === 'CAPTURED') {
+    if (transactionStatus === 'PURCHASED') {
 
       const updatedUser = await prisma.$transaction(async (prisma) => {
         await prisma.transaction.create({
@@ -93,7 +97,7 @@ console.log('payment status:', transactionStatus);
             transactionId: paymentId,
             amount: parseFloat(amount),
             currency: currency,
-            status: transactionStatus,
+            status: 'COMPLETED',
           },
         });
   
@@ -126,25 +130,6 @@ console.log('payment status:', transactionStatus);
           return NextResponse.json( { status: transactionStatus } );
     }
 
-
-  
-
-
-    
-
-
-  // ✅ Update your database here
-//   if (status === 'CAPTURED') {
-//     await prisma.payment.update({
-//       where: { ref },
-//       data: { status: 'SUCCESS' },
-//     });
-//   } else {
-//     await prisma.payment.update({
-//       where: { ref },
-//       data: { status: 'FAILED' },
-//     });
-//   }
 }
 
 
