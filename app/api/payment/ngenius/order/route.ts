@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
   // const { access_token } = await tokenRes.json();
 
 
-    const res = await fetch('https://api-gateway.ngenius-payments.com/identity/auth/access-token', {
+  const res = await fetch('https://api-gateway.ngenius-payments.com/identity/auth/access-token', {
     method: 'POST',
     headers: {
       'Authorization': `Basic ${apiKey}`,
@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
     //   'Accept': 'application/vnd.ni-identity.v1+json',
     },
   });
-  const { access_token } = await res.json();
+  const { access_token } = await res.json(); // ACCESS TOKEN IS BEING SUCCESSFULLY GENERATED
   console.log('access_token_order', access_token)
 
   // Create order
@@ -71,10 +71,14 @@ export async function POST(req: NextRequest) {
       action: 'PURCHASE',
       amount: {
         currencyCode: 'AED',
-        value: amount * 1, // convert to minor units
+        value: amount * 10, // convert to minor units
       },
       merchantAttributes: {
-        redirectUrl: `${process.env.NEXT_PUBLIC_DEPLOYED_URL}/payment/callback`,
+        maskPaymentInfo: true,
+        paymentAttempts: 3,
+        // redirectUrl: `http://localhost:3000/payment/callback`,
+        // redirectUrl: `${process.env.NEXT_PUBLIC_DEPLOYED_URL}/payment/callback`,
+        offerOnly: "VISA, MASTERCARD"
       },
     }),
   });
