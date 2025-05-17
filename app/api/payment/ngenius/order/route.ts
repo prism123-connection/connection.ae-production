@@ -66,13 +66,13 @@ export async function POST(req: NextRequest) {
       action: 'PURCHASE',
       amount: {
         currencyCode: 'AED',
-        value: amount * 10, // convert to minor units
+        value: amount * 100, // convert to minor units
       },
       merchantAttributes: {
         maskPaymentInfo: true,
         paymentAttempts: 3,
-        // redirectUrl: `https://www.theconnection.ae/auth/payment/callback`,
-        redirectUrl: `${process.env.NEXT_PUBLIC_DEPLOYED_URL}/auth/payment/callback`,
+        redirectUrl: `https://www.theconnection.ae/auth/payment/callback`,
+        // redirectUrl: `${process.env.NEXT_PUBLIC_DEPLOYED_URL}/auth/payment/callback`,
         offerOnly: "VISA, MASTERCARD"
       },
     }),

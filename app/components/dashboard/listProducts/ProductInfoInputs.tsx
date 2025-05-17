@@ -302,12 +302,16 @@ const ProductInformationInputs = () => {
           onChange={handleChange}
         >
           <option value="">Select a category</option>
-          <option value="realEstate">Real Estate</option>
+          <option value="realState">Real Estate</option>
+          <option value="business">Business</option>
+          <option value="brokerage">Brokerage</option>
+          <option value="preciousMetal">Precious Metals</option>
+          <option value="oilAndGas">Oil and Gas</option>
           <option value="electronics">Electronics</option>
-          <option value="f&b">F&B</option>
           <option value="furniture">Furniture</option>
           <option value="fashion">Fashion</option>
           <option value="toys">Toys</option>
+   
         </select>
 
         {errors.category && (

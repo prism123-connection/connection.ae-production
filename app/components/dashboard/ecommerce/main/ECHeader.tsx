@@ -37,7 +37,7 @@ function EcomHeader() {
           className=" w-5! h-5! object-cover "
         />
       </ActionButton>
-      <ActionButton onClick={()=>router.push('/ecommerce/cart')} variant='secondary' className="border-[#000]/30! border-1.5! hover:shadow-xl! ">
+      <ActionButton onClick={()=>router.push('/ecommerce/cart')} variant='secondary' className="border-[#000]/30! border-1.5! hover:shadow-xl! hidden">
         <img
           src="/ecommerce/cart-icon.svg"
           alt=""

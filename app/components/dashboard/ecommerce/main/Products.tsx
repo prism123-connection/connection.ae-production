@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { EcommerceProductCard } from './ProductCard';
 import { createProduct, deleteProduct, getAllProducts, updateProduct } from '@/lib/ecommerce/ecommerceHelper';
 
-type Product = {
+interface Product {
   id: string;
   name: string;
   shortDescription: string;
@@ -16,37 +16,16 @@ type Product = {
   tags: { value: string }[];
 };
 
-
+interface EcommerceProductsProps {
+  products : Product[]
+  loading: boolean
+}
     
 
-function EcommerceProductsSection() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setloading] = useState(false)
-
-  async function fetchAllProducts() {
-    setloading(true)
-    try {
-      const data = await getAllProducts(); // Calls your fetcher under the hood
-      setProducts(data)
-      setloading(false)
-      return products;
-  
-    } catch (err) {
-      console.error("❌ Failed to fetch products:", err);
-      return [];
-    } finally {
-      setloading(false);
-    }
-  }
-
-  useEffect(() => {
-
-    fetchAllProducts()
-
-  }, [])
+const EcommerceProductsSection: React.FC<EcommerceProductsProps> = ({products, loading}) => {
 
   if (loading) {
-    return  <div className="w-full bg-white rounded-lg flex p-16 flex-col px-8 items-end">
+    return  <div className="w-full  rounded-lg flex p-16 flex-col px-8 items-end">
     <div className="animate-spin h-5 w-5 border-4 border-black self-center border-t-transparent rounded-full"></div>
   </div>
   }

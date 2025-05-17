@@ -41,6 +41,7 @@ const Footer = () => {
         <div className="flex gap-4">
           <Link href={'/privacy'}><span className="cursor-pointer ">Privacy policy</span></Link>
           <Link href={'/terms'}><span className="cursor-pointer ">Terms & Conditions</span></Link>
+          <Link href={'/licence'}><span className="cursor-pointer ">Licence</span></Link>
         </div>
         <span>© 2025 Connection</span>
       </div>

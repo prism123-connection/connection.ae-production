@@ -28,7 +28,7 @@ const RegistrationPayment = () => {
     setLoading(true);
     const res = await fetch('/api/payment/ngenius/order', {
       method: 'POST',
-      body: JSON.stringify({ amount: 1 }),
+      body: JSON.stringify({ amount: 367 }),
       headers: { 'Content-Type': 'application/json' },
     });
 
@@ -55,16 +55,16 @@ const RegistrationPayment = () => {
           You're almost there! Please proceed to payment to complete your
           registration.
         </p>
-
+{/* 
         <PayPalScriptProvider
           options={{
             clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID as string,
           }}
         >
         <Checkout loading={loading} setLoading={setLoading} />
-        </PayPalScriptProvider>
+        </PayPalScriptProvider> */}
 
-           <button className=' bg-white border-2 group border-blue-950  px-10 py-2 cursor-pointer w-full max-h-20 rounded-md flex items-center justify-center' onClick={handleNetworkPay} disabled={loading}>
+           <button className=' bg-white border-2 group border-blue-950  px-10 py-2 cursor-pointer w-full max-h-20 rounded-md flex items-center justify-center mt-36' onClick={handleNetworkPay} disabled={loading}>
             {loading ? 'Redirecting...' :
             <img
             src="/auth/network_payment.png"
