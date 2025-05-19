@@ -115,7 +115,7 @@ console.log('currency:', currency);
   day: 'numeric'
 });
 
-    sendPaymentReceiveMail(user.email, user.firstName, user.lastName, amount, paymentId, currentDate )
+    await sendPaymentReceiveMail(user.email, user.firstName, user.lastName, amount, paymentId, currentDate )
 
     cookiesStore.delete("auth_token");
 
