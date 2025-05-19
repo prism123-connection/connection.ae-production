@@ -50,6 +50,8 @@ export async function GET(req: NextRequest) {
             firstName: true,
             lastName: true,
             email: true,
+            role: true,
+            avatarUrl: true
           },
         },
         product: {

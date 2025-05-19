@@ -5,63 +5,63 @@ import Image from 'next/image';
 import { useUser } from '@/context/UserContext';
 
 interface CommonAvatarProps {
-    // firstName?: string;
-    // lastName?: string;
+    firstName?: string;
+    lastName?: string;
     verfied? : boolean; 
     displayName? : boolean;
-    // userRole? : string;
+    userRole? : string;
     premiumBadgeActive? : boolean;
-    // avatarUrl?: string
+    avatarUrl?: string
 }
  
 const CommonAvatar: React.FC<CommonAvatarProps> = ({ 
-    // firstName, 
-    // lastName, 
+    firstName, 
+    lastName, 
     verfied=false, 
     displayName=false, 
-    // userRole='FREE_USER', 
+    userRole, 
     premiumBadgeActive=false, 
-    // avatarUrl
+    avatarUrl
 }) => {
-    const { user, loading } = useUser();
+    // const { user, loading } = useUser();
 
     const [displayPremiumBadge, setDisplayPremiumBadge]=useState(false)
     return (
-        loading ? 
-        <div className="animate-spin h-5 w-5 border-4 border-black self-center border-t-transparent rounded-full"></div>
-            :
+        // loading ? 
+        // <div className="animate-spin h-5 w-5 border-4 border-black self-center border-t-transparent rounded-full"></div>
+            // :
         <div className="flex items-center gap-5 text-base ">
-            {
-                user?.userRole === 'FREE_USER' && (
+            {/* {
+                userRole === 'FREE_USER'  && (
                 <div className="bg-gradient-to-r from-[#760F6D] to-[#DC1CCC] p-3 rounded-full text-white w-12 h-12 flex items-center justify-center border-4 border-white/70 relative">
                 {
-                    user?.avatarUrl?.length !== 0 &&(
+                    avatarUrl?.length !== 0 &&(
                         <img
-                        src={user?.avatarUrl}
+                        src={avatarUrl}
                         className='w-full object-contain absolute rounded-full top-0 left-0 scale-105'
                         />
                     )
                 }
               
                 
-                {user?.firstName?.charAt(0).toUpperCase()}
-                {user?.lastName?.charAt(0).toUpperCase()}
+                {firstName?.charAt(0).toUpperCase()}
+                {lastName?.charAt(0).toUpperCase()}
                 
                 
                 </div>
                 )
 
-            }
+            } */}
             {
-                user?.userRole === 'PAID_USER' && (
+                userRole === 'PAID_USER' ? (
                 <>
                     <div onMouseEnter={()=>setDisplayPremiumBadge(true)} onMouseLeave={()=>setDisplayPremiumBadge(false)} className="p-1 bg-amber-300 rounded-full bg-gradient-to-b from-[#FFD36A] via-[#FEB401] via-[#FEB101] to-[#FD7301] relative cursor-pointer">
-                          <div className="bg-gradient-to-r from-[#760F6D]/10 to-[#DC1CCC]/10 p-3 rounded-full text-white w-10 h-10 flex items-center justify-center ">{user?.firstName?.charAt(0).toUpperCase()}{user?.lastName?.charAt(0).toUpperCase()}
+                          <div className="bg-gradient-to-r from-[#760F6D]/10 to-[#DC1CCC]/10 p-3 rounded-full text-white w-10 h-10 flex items-center justify-center ">{firstName?.charAt(0).toUpperCase()}{lastName?.charAt(0).toUpperCase()}
                           </div>
                            {
-                                user?.avatarUrl?.length !== 0 &&(
+                                avatarUrl?.length !== 0 &&(
                                   <img
-                                    src={user?.avatarUrl}
+                                    src={avatarUrl}
                                     className='w-full object-contain absolute rounded-full top-0 left-0 scale-90'
                                     />
                                 )
@@ -83,6 +83,23 @@ const CommonAvatar: React.FC<CommonAvatarProps> = ({
                 }
                 </>
                 )
+                :
+                 <div className="bg-gradient-to-r from-[#760F6D] to-[#DC1CCC] p-3 rounded-full text-white w-12 h-12 flex items-center justify-center border-4 border-white/70 relative">
+                {
+                    avatarUrl?.length !== 0 &&(
+                        <img
+                        src={avatarUrl}
+                        className='w-full object-contain absolute rounded-full top-0 left-0 scale-105'
+                        />
+                    )
+                }
+              
+                
+                {firstName?.charAt(0).toUpperCase()}
+                {lastName?.charAt(0).toUpperCase()}
+                
+                
+                </div>
             }
        
 
@@ -90,7 +107,7 @@ const CommonAvatar: React.FC<CommonAvatarProps> = ({
             <div className="flex items-center gap-5 text-black justify-center">
             {
                 displayName && (
-                    <div className="self-stretch my-auto ">{user?.firstName} {user?.lastName}</div>
+                    <div className="self-stretch my-auto ">{firstName} {lastName}</div>
                 )
             }
             {

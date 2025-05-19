@@ -71,7 +71,9 @@ function SellerStreams() {
                         user?: {
                           firstName?: string;
                           lastName?: string;
-                          userId?:string
+                          userId?:string; 
+                          role? :string; 
+                          avatarUrl?: string;
                         };
                         goLiveAt: string;
                         id : string; 
@@ -84,6 +86,8 @@ function SellerStreams() {
                           title={stream.product?.name || 'Untitled'}
                           firstName={`${stream.user?.firstName || ''}`}
                           lastName={`${stream.user?.lastName || ''}`}
+                          userRole={`${stream.user?.role || ''}`}
+                          avatarUrl={`${stream.user?.avatarUrl || ''}`}
                           location=""
                           date={new Date(stream.goLiveAt).toLocaleDateString()}
                           time={stream.goLiveAt ? new Date(stream.goLiveAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}
@@ -123,6 +127,8 @@ function SellerStreams() {
                         user?: {
                           firstName?: string;
                           lastName?: string;
+                          role? :string; 
+                          avatarUrl?: string;
                         };
                       }, index: number) => (
                         <StreamCard
@@ -132,6 +138,8 @@ function SellerStreams() {
                           title={stream.product?.name || 'Untitled'}
                           firstName={`${stream.user?.firstName || ''}`}
                           lastName={`${stream.user?.lastName || ''}`}
+                          userRole={`${stream.user?.role || ''}`}
+                          avatarUrl={`${stream.user?.avatarUrl || ''}`}
                           location=""
                           date={''}
                           time=''

@@ -11,6 +11,8 @@ interface StreamCardProps {
   title: string;
   firstName: string;
   lastName: string;
+  userRole?:string;
+  avatarUrl?: string;
   location: string;
   date: string;
   time?: string;
@@ -25,6 +27,8 @@ export const StreamCard = ({
   title,
   firstName,
   lastName,
+  userRole, 
+  avatarUrl,
   location,
   date,
   time,
@@ -51,7 +55,7 @@ export const StreamCard = ({
         <div className="flex flex-col gap-4">
           <h3 className="text-black text-2xl leading-9">{title}</h3>
           <div className="flex items-center gap-2">
-            <CommonAvatar displayName={true} verfied={true}/>
+            <CommonAvatar firstName={firstName} lastName={lastName} userRole={userRole} avatarUrl={avatarUrl} displayName={true} verfied={true}/>
           </div>
         </div>
         <StreamStats date={date} time={time || ''} viewerCount={viewerCount} />

@@ -157,7 +157,12 @@ const HorizontalNavbar = () => {
           <div className="bg-gradient-to-r from-[#760F6D] to-[#DC1CCC] p-3 rounded-full text-white w-12 h-12 flex items-center justify-center border-4 border-white/70 ">{user.firstName?.charAt(0).toUpperCase()}{user.lastName?.charAt(0).toUpperCase()}</div>
         } */}
 
-        <CommonAvatar/>
+        <CommonAvatar
+        firstName={user.firstName}
+        lastName={user.lastName}
+        avatarUrl={user.avatarUrl}
+        userRole={user.userRole}
+        />
     
 
         <span className="">{user.firstName}</span>

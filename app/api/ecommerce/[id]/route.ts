@@ -51,6 +51,8 @@ export async function GET(req: NextRequest, context: { params: { id: string } })
         select: {
           firstName: true,
           lastName: true,
+          role: true, 
+          avatarUrl: true,
         },
       }
     },

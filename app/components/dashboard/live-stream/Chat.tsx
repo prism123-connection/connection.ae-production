@@ -104,7 +104,7 @@ export default function LiveChat({ streamId }: { streamId: string }) {
          className="flex flex-col w-full gap-5 max-h-[300px] min-h-[300px] overflow-y-scroll">
           {messages.map((message, index) => (
             <div key={index} className="flex items-start gap-2.5 w-full">
-              <CommonAvatar/>
+              <CommonAvatar firstName={message.firstName} lastName={message.lastName} />
               {/* <div className="bg-gradient-to-r from-[#760F6D] to-[#DC1CCC] p-3 rounded-full text-white w-12 h-12 flex items-center justify-center border-4 border-white/70">
                 {message.firstName?.charAt(0).toUpperCase() || ''}
                 {message.lastName?.charAt(0).toUpperCase() || ''}

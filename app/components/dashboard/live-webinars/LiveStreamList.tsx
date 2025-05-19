@@ -12,7 +12,6 @@ export const LiveStreamList = () => {
     const router = useRouter()
 
       const fetchStreams = async () => {
-        console.log('running fun')
         try {
           const response = await getAllLiveStreams();
           const live = response.filter((stream: any) => stream.status === 'LIVE');
@@ -62,6 +61,8 @@ export const LiveStreamList = () => {
      user?: {
        firstName?: string;
        lastName?: string;
+       role?: string;
+       avatarUrl?:string;
      };
      id:string; 
      userId:string; 
@@ -73,6 +74,8 @@ export const LiveStreamList = () => {
        title={stream.product?.name || 'Untitled'}
        firstName={`${stream.user?.firstName || ''}`}
        lastName={`${stream.user?.lastName || ''}`}
+       userRole={`${stream.user?.role || ''}`}
+       avatarUrl={`${stream.user?.avatarUrl || ''}`}
 
        location=""
        viewerCount="No view yet"
@@ -102,17 +105,21 @@ export const LiveStreamList = () => {
           user?: {
             firstName?: string;
             lastName?: string;
+            role?: string;
+            avatarUrl?:string;
           };
           id:string; 
           userId:string; 
         }, index: number) => (
           <LiveStreamCard
-          onclick={()=>router.push(`/live-stream?callId=${stream.id}&userId=${stream.userId}&productId=${stream.product?.id}`)}
+            onclick={()=>router.push(`/live-stream?callId=${stream.id}&userId=${stream.userId}&productId=${stream.product?.id}`)}
             key={index}
             thumbnailUrl={stream.product?.productImages?.[0]?.url || ''}
             title={stream.product?.name || 'Untitled'}
             firstName={`${stream.user?.firstName || ''}`}
             lastName={`${stream.user?.lastName || ''}`}
+            userRole={`${stream.user?.role || ''}`}
+            avatarUrl={`${stream.user?.avatarUrl || ''}`}
             location=""
             viewerCount="No view yet"
           />
