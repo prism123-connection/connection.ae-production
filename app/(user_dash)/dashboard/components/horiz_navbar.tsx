@@ -9,6 +9,7 @@ import ProceedButtons from "@/app/components/ui/ProceedButtons";
 import { NotificationFeed } from "@/app/components/dashboard/notification/NotificationFeed";
 import { AccountMenu } from "@/app/components/dashboard/accountMenu/AccountMenu";
 import ActionButton from "@/app/components/ui/ActionButton";
+import CommonAvatar from "@/app/components/ui/CommonAvatar";
 
 const HorizontalNavbar = () => {
   const { user, loading } = useUser();
@@ -60,8 +61,9 @@ const HorizontalNavbar = () => {
           <div className="flex items-center justify-center gap-2">
           <span className="text-gray-600 text-sm mb-1">Your referal code :</span>
           {
-            user.userRole === 'FREE_USER' && 
-            <span className="text-gray-600/50 text-sm mb-1 border-1 border-gray-600/10 flex p-1 rounded-lg px-2 bg-gray-600/5 cursor-pointer ">Upgrade to unlock code</span>
+            user.userRole === 'FREE_USER' && (
+              <span className="text-gray-600/50 text-sm mb-1 border-1 border-gray-600/10 flex p-1 rounded-lg px-2 bg-gray-600/5 cursor-pointer ">Upgrade to unlock code</span>
+            )
           }
           {
             user.userRole === 'PAID_USER' &&
@@ -104,7 +106,7 @@ const HorizontalNavbar = () => {
           {
             displayNotification && <NotificationFeed/>
           }
-     
+      
         {
           user.userRole === 'FREE_USER' ? 
           <div onClick={()=>router.push('/auth/pricing')} className=" p-0.5 flex justify-center items-center bg-gradient-to-r from-[#FFD027] to-[#FD7A02] rounded-lg mr-5 cursor-pointer ">
@@ -128,11 +130,11 @@ const HorizontalNavbar = () => {
     <ActionButton onClick={()=>router.push('/seller-portal')} variant="success" className="px-8! py-2! mr-5">Sales Portal</ActionButton>
       
        
-        {
+        {/* {
           user.userRole === 'PAID_USER' ?
           <>
           <div onMouseEnter={()=>setDisplayPremiumBadge(true)} onMouseLeave={()=>setDisplayPremiumBadge(false)} className="p-1 bg-amber-300 rounded-full bg-gradient-to-b from-[#FFD36A] via-[#FEB401] via-[#FEB101] to-[#FD7301] relative cursor-pointer">
-          <div className="bg-gradient-to-r from-[#760F6D]/50 to-[#DC1CCC]/50 p-3 rounded-full text-white w-10 h-10 flex items-center justify-center ">{user.firstName?.charAt(0).toUpperCase()}{user.lastName?.charAt(0).toUpperCase()}
+          <div className="bg-gradient-to-r from-[#760F6D]/10 to-[#DC1CCC]/10 p-3 rounded-full text-white w-10 h-10 flex items-center justify-center ">{user.firstName?.charAt(0).toUpperCase()}{user.lastName?.charAt(0).toUpperCase()}
           </div>
           <Image
           src={'/dash/premium-badge.svg'}
@@ -153,7 +155,9 @@ const HorizontalNavbar = () => {
           : 
 
           <div className="bg-gradient-to-r from-[#760F6D] to-[#DC1CCC] p-3 rounded-full text-white w-12 h-12 flex items-center justify-center border-4 border-white/70 ">{user.firstName?.charAt(0).toUpperCase()}{user.lastName?.charAt(0).toUpperCase()}</div>
-        }
+        } */}
+
+        <CommonAvatar/>
     
 
         <span className="">{user.firstName}</span>

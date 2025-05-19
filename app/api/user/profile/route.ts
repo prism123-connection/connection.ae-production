@@ -26,7 +26,8 @@ export async function GET(req: Request) {
         lastName: true,
         email: true,
         referralId: true,
-        role: true
+        role: true, 
+        avatarUrl : true
       },
     });
 

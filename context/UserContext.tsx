@@ -10,6 +10,7 @@ export interface User {
   email: string;
   referralId?: string;
   userRole?:string;
+  avatarUrl?:string
 }
 
 interface UserContextType {
@@ -27,7 +28,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const userData = await getUserProfile();
+        const userData = await getUserProfile(); 
         if (userData) {
           setUser({
             id: userData.id,
@@ -35,7 +36,8 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
             lastName: userData.lastName,
             email: userData.email,
             referralId: userData.referralId,
-            userRole: userData.role
+            userRole: userData.role,
+            avatarUrl : userData.avatarUrl
           });
         }
       } catch (error) {

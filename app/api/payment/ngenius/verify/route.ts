@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
 import { PrismaClient, Role } from '@prisma/client';
+import { sendPaymentReceiveMail } from '@/lib/smtp';
 const prisma = new PrismaClient();
 
 async function authenticateUser() {
@@ -107,6 +108,14 @@ console.log('currency:', currency);
           select: { id: true, email: true, role: true },
         });
       });
+
+  const currentDate = new Date().toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+});
+
+    sendPaymentReceiveMail(user.email, user.firstName, user.lastName, amount, paymentId, currentDate )
 
     cookiesStore.delete("auth_token");
 

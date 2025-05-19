@@ -44,13 +44,13 @@ export const EcommerceProductCard: React.FC<ProductCardProps> = ({
   const router = useRouter()
   
   return (
-    <div onClick={() => router.push(`/ecommerce/productdetails?id=${id}`)} className="flex flex-col gap-4 group cursor-pointer">
-      <div className="relative rounded min-h-[250px] flex justify-center items-center bg-neutral-100">
-        {/* {discount && (
+    <div onClick={() => router.push(`/ecommerce/productdetails?id=${id}`)} className="flex flex-col gap-4 group cursor-pointer min-h-[320px] max-h-[320px] ">
+      <div className="relative rounded-lg min-h-[250px] flex justify-center items-center bg-white">
+        {/* {discount && ( */}
           <div className="absolute text-neutral-50 rounded text-xs bg-[#DB4444] px-3 py-1 left-3 top-3">
-            -{discount}%
+            -{10}%
           </div>
-        )} */}
+        {/* // )} */}
         <div className="absolute flex flex-col gap-2 right-2  top-3">
           <button className="w-[35px] h-[35px] flex justify-center items-center rounded-[100%] cursor-pointer  bg-white hover:bg-gray-100">
             <svg
@@ -83,7 +83,7 @@ export const EcommerceProductCard: React.FC<ProductCardProps> = ({
           <img
           src={productImages[0].url}
           alt={name}
-          className="max-w-[80%] max-h-[80%] object-contain"
+          className="max-w-[100%] max-h-[90%] object-contain"
         />
 
         }
@@ -97,17 +97,17 @@ export const EcommerceProductCard: React.FC<ProductCardProps> = ({
       <div className="flex flex-col gap-2">
         <div className="text-base text-black">
           {name}
-          {/* {skus && (
+          {/* {skus && ( */}
           <span className="text-[rgba(0,0,0,0.5)] ml-1">{'1000'} SKUs</span>
-          )} */}
+          {/* // )} */}
         </div>
         <div className="flex gap-3">
           <span className="text-base text-[#DB4444]">${price}</span>
-          {/* {originalPrice && (
+          {/* {/* {originalPrice && ( */}
             <span className="text-base text-black line-through opacity-50">
-              ${originalPrice}
+              ${'100'}
             </span>
-          )} */}
+          {/* // )} */}
         </div>
         {/* <StarRating rating={rating} reviews={reviews} /> */}
       </div>

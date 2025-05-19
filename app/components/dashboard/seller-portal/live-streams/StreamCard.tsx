@@ -51,7 +51,7 @@ export const StreamCard = ({
         <div className="flex flex-col gap-4">
           <h3 className="text-black text-2xl leading-9">{title}</h3>
           <div className="flex items-center gap-2">
-            <CommonAvatar firstName={firstName} lastName={lastName}/>
+            <CommonAvatar displayName={true} verfied={true}/>
           </div>
         </div>
         <StreamStats date={date} time={time || ''} viewerCount={viewerCount} />

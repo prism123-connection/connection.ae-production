@@ -48,7 +48,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ icon, title, value, onCateg
   const EcommerceCategories:React.FC<EcommerceCategoriesProps> = ({onCategorySelect}) => {
     const categories = [
     {value: 'exploreAll', title: "Explore All", icon: <MdOutlineTravelExplore  size={48} opacity={0.7}  /> },
-    {value: 'realState', title: "Real estate", icon: <MdOutlineRealEstateAgent size={48} opacity={0.7}  /> },
+    {value: 'realEState', title: "Real estate", icon: <MdOutlineRealEstateAgent size={48} opacity={0.7}  /> },
     {value: 'business', title: "Business", icon: <IoMdBusiness  size={48} opacity={0.7}  /> },
     {value: 'brokerage', title: "Brokerage", icon: <GrTransaction size={48}  opacity={0.7} /> },
     {value: 'preciousMetal', title: "Precious Metals", icon: <AiOutlineGold   size={48} opacity={0.7}  /> },

@@ -13,6 +13,9 @@ const transporter = nodemailer.createTransport({
  * @param to - Recipient's email address
  * @param confirmationLink - Link for confirming the email
  */
+
+// <------------------------------ Confirmation Mail  ------------------------------>
+
 export async function sendConfirmationEmail(
   to: string,
   confirmationLink: string
@@ -40,11 +43,6 @@ export async function sendConfirmationEmail(
   await transporter.sendMail(mailOptions);
 }
 
-/**
- * Generates the HTML email template.
- * @param confirmationLink - Link for confirming the email
- * @returns Email HTML string
- */
 function generateEmailTemplate(confirmationLink: string) {
   return `
       <!DOCTYPE html>
@@ -109,6 +107,8 @@ function generateEmailTemplate(confirmationLink: string) {
       </html>
     `;
 }
+
+// <------------------------------ Welcome mail   ------------------------------>
 
 export async function sendWelcomeMail(to: string, firstName: string, lastName : string) {
   const subject = "Welcome to Connection Dubai — Let’s Grow Together!";
@@ -236,5 +236,147 @@ function generateWelcomeMailTempate(firstName: string, lastName: string) {
 </body>
 
       </html>
+    `;
+}
+
+// <------------------------------ Payment Successfull Mail    ------------------------------>
+
+export async function sendPaymentReceiveMail(to: string, firstName: string, lastName : string, amount: number, transactionId: string, transactionDate: string) {
+  const subject = "Payment Successful — Welcome to Connection Premium! — Let’s Grow Together!";
+  const html = generatePaymentReceiveMail(firstName, lastName, amount, transactionId, transactionDate );
+
+  const mailOptions = {
+    from: `<${process.env.SMTP_EMAIL}>`,
+    to,
+    subject,
+    html,
+    attachments: [
+      {
+        filename: "logo.png",
+        href: "https://connection-ae-production.vercel.app/logo.png",
+        cid: "logo_cid",
+        contentDisposition: "inline" as "inline",
+      },
+    ],
+  };
+
+  await transporter.sendMail(mailOptions);
+}
+
+
+function generatePaymentReceiveMail(firstName: string, lastName: string, amount: number, transactionId: string, transactionDate: string ) {
+  return `
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .logo {
+            max-width: 150px;
+            margin-bottom: 20px;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #06B079;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #666;
+        }
+        .link-text {
+            word-wrap: break-word;
+            color: #06B079;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f6f6f6;">
+
+  <div style="max-width: 600px; margin: auto; background-color: #ffffff; padding: 20px; border-radius: 6px;">
+
+    <!-- Logo -->
+    <div style="display:flex;width:100%;margin-top:20px;justify-content: center; margin-left: auto; margin-right: auto;">
+      <img src="cid:logo_cid" alt="Logo" style="max-width: 150px; margin-bottom: 20px;">
+    </div>
+
+    <!-- Payment Confirmation Message -->
+    <h2 style="color: #333;">Payment Successful — Welcome to Connection Premium! — Let’s Grow Together!</h2>
+
+    <p style="color: #555; font-size: 16px;">Hi ${firstName} ${lastName},</p>
+
+    <p style="color: #555; font-size: 16px; line-height: 1.6;">
+      Thank you for your payment. Your transaction has been successfully processed and you now have full access to the benefits of the Connection platform.
+    </p>
+
+    <p style="color: #555; font-size: 16px; line-height: 1.6;">
+      Whether you're here to build your brand, grow your income, or tap into new markets, your journey just got a powerful boost.
+    </p>
+
+    <!-- Optional transaction info -->
+    <p style="color: #333; font-weight: bold; margin-top: 20px;">Transaction Summary:</p>
+    <ul style="color: #555; font-size: 16px; padding-left: 20px; line-height: 1.6;">
+      <li><strong>Amount Paid:</strong> ${amount}</li>
+      <li><strong>Transaction ID:</strong> ${transactionId}</li>
+      <li><strong>Date:</strong> ${transactionDate}</li>
+    </ul>
+
+    <!-- What's Next -->
+    <p style="color: #555; font-size: 16px; line-height: 1.6;">
+      Here’s what you can now explore:
+    </p>
+    <ul style="color: #555; font-size: 16px; padding-left: 20px; line-height: 1.6;">
+      <li>List your services or business in 50+ categories</li>
+      <li>Build a verified profile and start networking</li>
+      <li>Earn from referrals and affiliate commissions</li>
+      <li>Connect directly with other professionals and clients</li>
+    </ul>
+
+    <!-- Support and closing -->
+    <p style="color: #555; font-size: 16px;">
+      If you have any questions about your payment or need help getting started, feel free to reach out to our support team at any time.
+    </p>
+
+    <p style="color: #555; font-size: 16px;">
+      We're excited to see what you'll build with us.
+    </p>
+
+    <p style="color: #333; font-weight: bold;">Let’s connect and grow — together.<br>Team Connection</p>
+
+    <!-- Footer -->
+    <p style="color: #777; font-size: 14px;">
+      “Let’s Connect. Let’s Grow.”<br>
+      <a href="https://www.theconnection.ae" style="color: #0066cc; text-decoration: none;">www.theconnection.ae</a><br>
+      Email - <a href="mailto:connect@thecomnection.ar" style="color: #0066cc;">connect@thecomnection.ar</a><br>
+      WhatsApp
+    </p>
+  </div>
+</body>
+</html>
+
     `;
 }
