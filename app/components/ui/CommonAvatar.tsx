@@ -1,22 +1,101 @@
-import React from 'react';
+"use client"
+import React, { useState } from 'react';
 import { VerifiedBadge } from '../dashboard/live-webinars/VerifiedBadge';
+import Image from 'next/image';
+import { useUser } from '@/context/UserContext';
 
 interface CommonAvatarProps {
-    firstName?: string;
-    lastName?: string;
+    // firstName?: string;
+    // lastName?: string;
+    verfied? : boolean; 
+    displayName? : boolean;
+    // userRole? : string;
+    premiumBadgeActive? : boolean;
+    // avatarUrl?: string
 }
+ 
+const CommonAvatar: React.FC<CommonAvatarProps> = ({ 
+    // firstName, 
+    // lastName, 
+    verfied=false, 
+    displayName=false, 
+    // userRole='FREE_USER', 
+    premiumBadgeActive=false, 
+    // avatarUrl
+}) => {
+    const { user, loading } = useUser();
 
-const CommonAvatar: React.FC<CommonAvatarProps> = ({ firstName, lastName }) => {
+    const [displayPremiumBadge, setDisplayPremiumBadge]=useState(false)
     return (
-        <div className="flex items-center gap-5 text-base mt-5">
-            <div className="bg-gradient-to-r from-[#760F6D] to-[#DC1CCC] p-3 rounded-full text-white w-12 h-12 flex items-center justify-center border-4 border-white/70">
-                {firstName?.charAt(0).toUpperCase()}
-                {lastName?.charAt(0).toUpperCase()}
-            </div>
-            <div className="self-stretch flex flex-col items-stretch justify-center">
-                <div className="flex items-center gap-5 text-black justify-center">
-                    <div className="self-stretch my-auto">{firstName} {lastName}</div>
-                    <svg
+        loading ? 
+        <div className="animate-spin h-5 w-5 border-4 border-black self-center border-t-transparent rounded-full"></div>
+            :
+        <div className="flex items-center gap-5 text-base ">
+            {
+                user?.userRole === 'FREE_USER' && (
+                <div className="bg-gradient-to-r from-[#760F6D] to-[#DC1CCC] p-3 rounded-full text-white w-12 h-12 flex items-center justify-center border-4 border-white/70 relative">
+                {
+                    user?.avatarUrl?.length !== 0 &&(
+                        <img
+                        src={user?.avatarUrl}
+                        className='w-full object-contain absolute rounded-full top-0 left-0 scale-105'
+                        />
+                    )
+                }
+              
+                
+                {user?.firstName?.charAt(0).toUpperCase()}
+                {user?.lastName?.charAt(0).toUpperCase()}
+                
+                
+                </div>
+                )
+
+            }
+            {
+                user?.userRole === 'PAID_USER' && (
+                <>
+                    <div onMouseEnter={()=>setDisplayPremiumBadge(true)} onMouseLeave={()=>setDisplayPremiumBadge(false)} className="p-1 bg-amber-300 rounded-full bg-gradient-to-b from-[#FFD36A] via-[#FEB401] via-[#FEB101] to-[#FD7301] relative cursor-pointer">
+                          <div className="bg-gradient-to-r from-[#760F6D]/10 to-[#DC1CCC]/10 p-3 rounded-full text-white w-10 h-10 flex items-center justify-center ">{user?.firstName?.charAt(0).toUpperCase()}{user?.lastName?.charAt(0).toUpperCase()}
+                          </div>
+                           {
+                                user?.avatarUrl?.length !== 0 &&(
+                                  <img
+                                    src={user?.avatarUrl}
+                                    className='w-full object-contain absolute rounded-full top-0 left-0 scale-90'
+                                    />
+                                )
+                            }
+                            
+                          <Image
+                          src={'/dash/premium-badge.svg'}
+                          width={24}
+                          height={24}
+                          alt="premium badge"
+                          className="absolute left-0 -bottom-1.5"
+                          />
+                          </div>
+                          {
+                            displayPremiumBadge && premiumBadgeActive && 
+                          <div className= {`pt-1 bg-amber-400  w-[190px] absolute top-24 right-5 rounded-lg shadow-lg from-[#FFD36A] via-[#FEB401] via-[#FEB101] to-[#FD7301] transition-opacity duration-500 ease-in-out  ${displayPremiumBadge ? 'opacity-100`' : 'opacity-0 pointer-events-none'}`}>
+                          <div className="self-stretch  bg-white max-w-full px-5 py-3 rounded-lg  text-sm text-black/60 font-normal leading-none"
+                          > {"Congrats! You're a pro user on connection"} </div> </div>
+                }
+                </>
+                )
+            }
+       
+
+            <div className={`self-stretch flex flex-col items-stretch justify-center ${displayName ? 'flex' : verfied ?  'flex' : 'hidden'}`}>
+            <div className="flex items-center gap-5 text-black justify-center">
+            {
+                displayName && (
+                    <div className="self-stretch my-auto ">{user?.firstName} {user?.lastName}</div>
+                )
+            }
+            {
+            verfied && (
+            <svg
               width="18"
               height="18"
               viewBox="3 -1 18 18"
@@ -29,8 +108,13 @@ const CommonAvatar: React.FC<CommonAvatarProps> = ({ firstName, lastName }) => {
                 fill="#54A93F"
               />
             </svg>
-                </div>
-                <div className="text-black/50 text-sm mt-1">{''}</div>
+                )
+            }
+
+
+            </div>
+
+                {/* <div className="text-black/50 text-sm mt-1 hidden">{''}</div> */}
             </div>
         </div>
 

@@ -42,8 +42,8 @@ export const LiveStreamCard: React.FC<LiveStreamCardProps> = ({
       <div className="bg-[rgba(254,254,254,1)]  flex  w-full flex-col font-normal justify-center px-5 py-5
       ! max-md:pl-5">
         <div className="flex flex-col items-stretch justify-center">
-          <h2 className="text-black text-xl font-medium leading-none">{title}</h2>
-      <CommonAvatar firstName={firstName} lastName={lastName}/>
+          <h2 className="text-black text-xl font-medium leading-none mb-5">{title}</h2>
+      <CommonAvatar displayName={true} verfied={true} />
         </div>
         <div className="flex items-center  justify-between mt-5">
           <LiveBadge />

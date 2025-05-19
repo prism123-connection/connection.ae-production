@@ -69,8 +69,8 @@ const StreamProductInfoContent: React.FC<{}> = ({
   :
     <div className="flex-1">
       <h1 className="text-5xl font-semibold leading-[72px] mb-2">{product?.name}</h1>
-      <CommonAvatar firstName={product?.user.firstName} lastName={product?.user.lastName}/>
-      <div className="text-base text-[#272727] opacity-60 mb-4">
+      <CommonAvatar displayName={true} verfied={true} />
+      <div className="text-base text-[#272727] opacity-60 mb-4 mt-5">
         {product?.shortDescription}
       </div>
          <div className="flex items-center gap-4 mb-2">

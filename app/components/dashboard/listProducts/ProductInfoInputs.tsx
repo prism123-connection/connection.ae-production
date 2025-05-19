@@ -10,16 +10,123 @@ import { uploadImageToS3 } from "@/lib/aws/awsS3Helper";
 import Image from "next/image";
 import { createProduct } from "@/lib/ecommerce/ecommerceHelper";
 
-const recommendedTags = [
-  "Keyboard",
-  "Gaming Keyboard",
-  "Mechanical keyboard",
-  "RGB Keyboard",
-  "Vibrant Colors",
-  "Sand Resistant",
-  "Stylish Design",
-  "High performance",
+const realEstateTags = [
+  "Real Estate",
+  "Luxury Homes",
+  "Property Listings",
+  "Apartments for Sale",
+  "Commercial Properties",
+  "Investment Opportunities",
+  "Modern Architecture",
+  "New Developments",
+  "Prime Locations",
+  "Verified Agents",
 ];
+
+const businessTags = [
+  "Business Expansion",
+  "Startup Office",
+  "Franchise Locations",
+  "Affordable Workspace",
+  "Strategic Location",
+  "Ready to Move",
+  "Growth Opportunities",
+  "Flexible Leasing",
+  "Scalable Space",
+  "Business Relocation",
+]
+
+const brokerageTags = [ 
+  "Exclusive Listings",
+  "Brokerage Services",
+  "Commission Opportunities",
+  "Property Management",
+  "Verified Listings",
+  "Agent Tools",
+  "Lead Generation",
+  "Client Matching",
+  "Listing Dashboard",
+  "Market Insights",
+]
+
+const preciousMetalsTags = [
+  "Gold Bullion",
+  "Silver Coins",
+  "Precious Metal Investment",
+  "24K Gold",
+  "Certified Purity",
+  "Rare Collectibles",
+  "Secure Storage",
+  "Market-Driven Pricing",
+  "Platinum Bars",
+  "Trusted Dealers",
+
+]
+
+const oilAndGasTags = [
+  "Crude Oil Investment",
+  "Natural Gas Supply",
+  "Energy Commodities",
+  "Oilfield Equipment",
+  "Refined Petroleum",
+  "Upstream Operations",
+  "Downstream Solutions",
+  "Fossil Fuel Trading",
+  "Global Energy Market",
+  "Trusted Suppliers",
+]
+
+const electronicsTags = [
+  "Latest Gadgets",
+  "Smart Devices",
+  "High Performance",
+  "Affordable Electronics",
+  "Tech Deals",
+  "Wireless Technology",
+  "Home Automation",
+  "Cutting-edge Innovation",
+  "Portable Electronics",
+  "Trusted Brands",
+]
+
+const furnitureTags = [
+  "Modern Furniture",
+  "Space Saving Designs",
+  "Premium Wood",
+  "Home Essentials",
+  "Comfort & Style",
+  "Ergonomic Chairs",
+  "Minimalist Aesthetics",
+  "Durable Materials",
+  "Customizable Options",
+  "Fast Delivery",
+]
+
+const fashionTags = [
+  "Trendy Apparel",
+  "Seasonal Collections",
+  "Sustainable Fashion",
+  "Street Style",
+  "Luxury Brands",
+  "Casual Wear",
+  "Accessories & Jewelry",
+  "Eco-Friendly Fabrics",
+  "Runway Inspired",
+  "Comfort Meets Style",
+]
+
+const toysTags = [
+  "Educational Toys",
+  "Outdoor Play",
+  "Creative Building",
+  "Safe & Non-toxic",
+  "STEM Toys",
+  "Age Appropriate",
+  "Popular Characters",
+  "Interactive Games",
+  "Classic Favorites",
+  "Holiday Gifts",
+]
 
 // === Zod Schema ===
 const productSchema = z.object({
@@ -37,6 +144,7 @@ const productSchema = z.object({
 // === Component ===
 const ProductInformationInputs = () => {
   const [loading, setLoading] = useState(false);
+  const [recommendedTags, setRecommendedTags] = useState<string[]>([])
   const [formData, setFormData] = useState({
     name: "",
     shortDescription: "",
@@ -55,6 +163,42 @@ const ProductInformationInputs = () => {
     minute: "00",  // default to 00
     meridiem: "AM" // AM or PM
   });
+
+const handleCategorySelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedCategory = e.target.value;
+
+    switch (selectedCategory) {
+      case "realEState":
+        setRecommendedTags(realEstateTags);
+        break;
+      case "business":
+        setRecommendedTags(businessTags);
+        break;
+      case "brokerage":
+        setRecommendedTags(brokerageTags);
+        break;
+      case "preciousMetal":
+        setRecommendedTags(preciousMetalsTags);
+        break;
+      case "oilAndGas":
+        setRecommendedTags(oilAndGasTags);
+        break;
+      case "electronics":
+        setRecommendedTags(electronicsTags);
+        break;
+      case "furniture":
+        setRecommendedTags(furnitureTags);
+        break;
+      case "fashion":
+        setRecommendedTags(fashionTags);
+        break;
+      case "toys":
+        setRecommendedTags(toysTags);
+        break;
+      default:
+        setRecommendedTags([]);
+    }
+  };
 
 
   const handleChange = (
@@ -299,10 +443,10 @@ const ProductInformationInputs = () => {
           className="border w-full min-h-[46px] px-4 py-3.5 rounded-[10px] border-[rgba(197,197,197,1)]"
           name="category"
           value={formData.category}
-          onChange={handleChange}
+          onChange={(e)=>{handleChange(e); handleCategorySelect(e)}}
         >
           <option value="">Select a category</option>
-          <option value="realState">Real Estate</option>
+          <option value="realEState">Real Estate</option>
           <option value="business">Business</option>
           <option value="brokerage">Brokerage</option>
           <option value="preciousMetal">Precious Metals</option>

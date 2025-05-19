@@ -10,8 +10,8 @@ export interface ChatMessage {
   id: string;
   content: string;
   timestamp: string; // or Date if you're formatting it later
-    firstName: string;
-    lastName: string;
+  firstName: string;
+  lastName: string;
 }
 
 export default function LiveChat({ streamId }: { streamId: string }) {
@@ -70,10 +70,9 @@ export default function LiveChat({ streamId }: { streamId: string }) {
     setInput('');
   };
 
-  console.log(messages)
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(e.target.value);
+  const handleChange = (e: string) => {
+    // setInput(e.target.value);
+    setInput(e);
   };
   return (
     displayChat ? 
@@ -105,11 +104,11 @@ export default function LiveChat({ streamId }: { streamId: string }) {
          className="flex flex-col w-full gap-5 max-h-[300px] min-h-[300px] overflow-y-scroll">
           {messages.map((message, index) => (
             <div key={index} className="flex items-start gap-2.5 w-full">
-              {/* <CommonAvatar firstName={message.sender.firstName} lastName={message.sender.lastName}/> */}
-              <div className="bg-gradient-to-r from-[#760F6D] to-[#DC1CCC] p-3 rounded-full text-white w-12 h-12 flex items-center justify-center border-4 border-white/70">
+              <CommonAvatar/>
+              {/* <div className="bg-gradient-to-r from-[#760F6D] to-[#DC1CCC] p-3 rounded-full text-white w-12 h-12 flex items-center justify-center border-4 border-white/70">
                 {message.firstName?.charAt(0).toUpperCase() || ''}
                 {message.lastName?.charAt(0).toUpperCase() || ''}
-              </div>
+              </div> */}
                 <div className="bg-[#001625] text-white mb-[5px] px-[15px] py-2.5 rounded-[10px_0px_10px_10px] w-full mr-2">
                   {message.content}
                 </div>
@@ -122,9 +121,13 @@ export default function LiveChat({ streamId }: { streamId: string }) {
         <div className="flex items-center gap-2 border mt-3  p-2 rounded-2xl border-[#DCDCDC]">
      
         <input
+        type="text" pattern="[A-Za-z\s]*"
       className="w-full py-2 rounded-lg px-2"
       value={input}
-      onChange={handleChange}
+      onChange={(e)=>{
+           const lettersOnly = e.target.value.replace(/[^A-Za-z\s]/g, '');
+    handleChange(lettersOnly);
+      }}
     />
       
             <button onClick={sendMessage} className="w-10 h-10 flex items-center justify-center bg-[#F48020] rounded-full">

@@ -1,5 +1,6 @@
 // Example button component
 'use client';
+import CommonAvatar from '@/app/components/ui/CommonAvatar';
 import { useState } from 'react';
 
 export default function PayButton() {
@@ -23,9 +24,7 @@ export default function PayButton() {
   return (
     <div className='w-[100%] h-screen mt-20 '>
       sdf
-    <button className=' m-10 bg-black text-white rounded-sm p-5 cursor-pointer' onClick={handlePay} disabled={loading}>
-      {loading ? 'Redirecting...' : 'Pay Now'}
-    </button>
+   <CommonAvatar  />
     </div>
   );
 }
