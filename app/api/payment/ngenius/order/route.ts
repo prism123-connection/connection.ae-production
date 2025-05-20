@@ -66,7 +66,7 @@ export async function POST(req: NextRequest) {
       action: 'PURCHASE',
       amount: {
         currencyCode: 'AED',
-        value: amount * 100, // convert to minor units
+        value: amount * 1, // convert to minor units
       },
       merchantAttributes: {
         maskPaymentInfo: true,

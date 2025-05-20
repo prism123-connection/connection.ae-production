@@ -28,7 +28,8 @@ const RegistrationPayment = () => {
     setLoading(true);
     const res = await fetch('/api/payment/ngenius/order', {
       method: 'POST',
-      body: JSON.stringify({ amount: 367 }),
+      body: JSON.stringify({ amount: 1 }),
+      // body: JSON.stringify({ amount: 367 }),
       headers: { 'Content-Type': 'application/json' },
     });
 
