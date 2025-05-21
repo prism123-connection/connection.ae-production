@@ -15,11 +15,19 @@ interface LiveSchedulerProps {
     meridiem: string;
   };
   errors: Record<string, string>;
+  setGoLiveDateParts: React.Dispatch<
+  React.SetStateAction<{
+    date: string;
+    hour: string;
+    minute: string;
+    meridiem: string;
+  }>
+>;
 }
 
-const LiveScheduler: React.FC<LiveSchedulerProps> = ({ handleChange, goLiveDateParts ,   errors }) => {
+const LiveScheduler: React.FC<LiveSchedulerProps> = ({ handleChange, goLiveDateParts ,   errors, setGoLiveDateParts }) => {
   return (
-    <section className="my-10">
+    <section className="my-10 ">
       <h2 className="text-[#62676C] text-xl font-semibold mb-3">
         Select time to go live
       </h2>
@@ -35,7 +43,7 @@ const LiveScheduler: React.FC<LiveSchedulerProps> = ({ handleChange, goLiveDateP
           />
         </div>
         <div className="w-2/5">
-          <TimePicker
+          <TimePicker setGoLiveDateParts={setGoLiveDateParts}
            handleChange={handleChange} goLiveDateParts={goLiveDateParts}
           />
         </div>

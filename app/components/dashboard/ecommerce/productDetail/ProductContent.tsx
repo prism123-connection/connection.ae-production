@@ -80,7 +80,7 @@ function ProductContentSection() {
 </div>
 
   return (
-    <article className="bg-white flex items-center gap-5 overflow-hidden justify-center mt-5">
+    <article className="bg-white flex items-center gap-5 overflow-hidden justify-center mt-5 min-w-full p-5 ">
     <div className="self-stretch min-w-60 w-full">
       <div className="gap-5 flex max-md:flex-col max-md:items-stretch">
         <div className=' min-w-[45%] flex flex-col items-center'>
@@ -109,7 +109,7 @@ function ProductContentSection() {
               </div>
        
 
-        <section className=" ml-5 min-w-[55%] relative ">
+        <section className=" ml-5 min-w-[50%] relative ">
           <div className="flex w-full flex-col max-md:max-w-full">
             <div className="self-stretch flex w-full flex-col items-stretch  pl-1.5 max-md:max-w-full">
               <header className="flex gap-[40px_104px] flex-wrap max-md:max-w-full max-md:mr-0.5">
@@ -165,7 +165,7 @@ function ProductContentSection() {
                 </div>
               </div>
 
-              <ProductTimer/>
+              <ProductTimer goLiveAt={product.goLiveAt}/>
 
               <div className="w-full shrink-0 max-w-full h-[0.5px] mt-10 border-[rgba(228,228,228,1)] border-solid border-1" />
             </div>

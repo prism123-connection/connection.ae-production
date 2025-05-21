@@ -9,6 +9,7 @@ import LiveScheduler from "./LiveScheduler";
 import { uploadImageToS3 } from "@/lib/aws/awsS3Helper";
 import Image from "next/image";
 import { createProduct } from "@/lib/ecommerce/ecommerceHelper";
+import { toast } from "sonner";
 
 const realEstateTags = [
   "Real Estate",
@@ -137,7 +138,7 @@ const productSchema = z.object({
   category: z.string().min(1, "Category is required"),
   tags: z.array(z.string()).optional(),
   productImages: z.array(z.string().url("Atleast one image must be entered")),
-  goLiveAt: z.string().min(1, "Please select date and time to go live"),
+goLiveAt: z.string().min(1, "Please select date and time to go live").optional().or(z.literal("")),
 });
 
 
@@ -163,7 +164,7 @@ const ProductInformationInputs = () => {
     minute: "00",  // default to 00
     meridiem: "AM" // AM or PM
   });
-
+  const [liveMode, setLiveMode] = useState(false)
 const handleCategorySelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedCategory = e.target.value;
 
@@ -274,8 +275,10 @@ const handleCategorySelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
       };
       const response = await createProduct(payload);
       console.log("Product created successfully:", response);
+      return {status : 200}; 
     } catch (err) {
       console.error("Product creation failed:", err);
+      return {status : 500}; 
     }
   } 
 
@@ -293,6 +296,7 @@ const handleCategorySelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
         fieldErrors[path] = issue.message;
       }
       setErrors(fieldErrors);
+      // toast.error(fieldErrors[])
       console.log("Validation failed:", fieldErrors);
       return;
     }
@@ -301,9 +305,13 @@ const handleCategorySelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setLoading(true);
     try {
       console.log(formData)
-      await submitProduct();
-    } finally {
-      setFormData({
+      const res = await submitProduct();
+      if (res.status === 500) {
+        toast.error('Error creating the product');
+        return
+      }
+   
+       setFormData({
         name: "",
         shortDescription: "",
         description: "",
@@ -314,14 +322,20 @@ const handleCategorySelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
         tags: [] as string[],   // Each tag value (e.g., ["RGB", "Mechanical"])
         productImages: [] as string[], // Array of image URLs
       })
-      setLoading(false);
       alert('product update successfully')
-      window.scrollTo({
+  
+    } finally {
+      setLoading(false);
+       window.scrollTo({
         top: 0,
       });
     }
   
   };
+
+    const handleToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setLiveMode(e.target.checked);
+    };
 
   if (loading) {
     return  <div className="w-full bg-white rounded-lg flex p-16 flex-col px-8 items-end">
@@ -463,7 +477,7 @@ const handleCategorySelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
         )}
       </div>
 
-      <div>
+      <div >
         <h3 className="text-[#62676C] text-xl font-semibold mb-4">
           Product Tags
         </h3>
@@ -474,7 +488,28 @@ const handleCategorySelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
         )}
       </div>
 
-      <LiveScheduler errors={errors} handleChange={handleChange} goLiveDateParts={goLiveDateParts} />
+      <div className="my-10">
+        <h3 className="text-[#62676C] text-xl font-semibold mb-4">
+          Turn on live feature
+        </h3>
+
+       <label className="inline-flex items-center cursor-pointer">
+        <input
+         name="isLiveEnabled"
+        checked={liveMode}
+        onChange={handleToggle}
+        type="checkbox" value="" className="sr-only peer"/>
+        <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none  peer-focus:ring-blue-300  rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600 "></div>
+      </label>
+        
+      </div>
+      {
+        liveMode ? (
+          <LiveScheduler setGoLiveDateParts={setGoLiveDateParts} errors={errors} handleChange={handleChange} goLiveDateParts={goLiveDateParts} />
+        )
+        :
+        <div className="h-1 my-10"/>
+      }
 
       <ActionButton onClick={handleSubmit}>Submit Product</ActionButton>
     </section>

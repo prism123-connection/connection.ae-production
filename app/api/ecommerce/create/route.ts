@@ -55,17 +55,23 @@ export async function POST(req: NextRequest) {
 
   try {
     // Step 1: Create the product
+    const updateData: any = {
+    name,
+    shortDescription,
+    description,
+    price,
+    currency,
+    category,
+    userId: user.id,
+  };
+
+  if (goLiveAt && goLiveAt !== '') {
+    updateData.goLiveAt = new Date(goLiveAt);
+  }
+
+
     const product = await prisma.product.create({
-      data: {
-        name,
-        shortDescription,
-        description,
-        price,
-        currency,
-        category,
-        goLiveAt: new Date(goLiveAt),
-        userId: user.id,
-      },
+      data: updateData,
     });
 
     // Step 2: Create associated tags if provided
@@ -91,7 +97,8 @@ export async function POST(req: NextRequest) {
     }
 
       // Step 4: Create the LiveStream for the product
-      await prisma.liveStream.create({
+      if (goLiveAt && goLiveAt !== '') {
+          await prisma.liveStream.create({
           data: {
             productId: product.id,
             userId: user.id,
@@ -99,6 +106,8 @@ export async function POST(req: NextRequest) {
             status: 'LIVE_PENDING', 
           },
       });
+      }
+    
 
     // Step 4: Return the created product
     // const fullProduct = await prisma.product.findUnique({
