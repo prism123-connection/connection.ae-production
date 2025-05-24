@@ -3,11 +3,14 @@ import { FormInput } from '@/app/components/ui/FormInputs';
 import { FormSection } from '@/app/components/ui/FormSection';
 import React, { useState } from 'react'
 
+type BankDetailsFields = "iban" | "accountNumber" | "swiftCode" | "routingNumber";
+
 interface BankDetailInputsProps {
   iban: string;
   accountNumber: string;
   swiftCode: string;
   routingNumber: string;
+   errors: Partial<Record<BankDetailsFields, string>>;
   handleInputChange: (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => void;
   onNext: () => void;
   onPrev: () => void;
@@ -20,6 +23,7 @@ const BankDetailInputs: React.FC<BankDetailInputsProps> = ({
   swiftCode,
   routingNumber,
   handleInputChange, 
+  errors,
   onNext,
   onPrev,
  }) => {
@@ -38,20 +42,24 @@ const BankDetailInputs: React.FC<BankDetailInputsProps> = ({
         label="IBAN"
         value={iban}
         onChange={handleInputChange("iban")} 
+        error={errors?.iban}
       />
       <FormInput
         label="Account number"
         value={accountNumber}
         onChange={handleInputChange("accountNumber")}
+        error={errors?.accountNumber}
       />
       <FormInput
         label="Swift code"
         value={swiftCode}
         onChange={handleInputChange("swiftCode")}
+        error={errors?.swiftCode}
       />
       <FormInput
         label="Routing number"
         value={routingNumber}
+        error={errors?.routingNumber}
         onChange={handleInputChange("routingNumber")}
       />
 

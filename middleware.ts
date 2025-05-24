@@ -82,6 +82,12 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/auth/pricing", request.url));
     }
 
+    // if (pathname.startsWith("/admin")) {
+    //   if (decodedToken?.role !== Role.ADMIN) {
+    //     return NextResponse.redirect(new URL("/dashboard", request.url));
+    //   }
+    // }
+
     if (pathname.startsWith("/auth")) {
       return NextResponse.redirect(new URL("/dashboard", request.url));
     }

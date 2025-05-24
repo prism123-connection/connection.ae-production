@@ -5,18 +5,27 @@ import { Checkbox } from '@/components/ui/checkbox';
 import Link from 'next/link';
 import React, { useState } from 'react'
 
+type errorFields = "isPoliticallyExposed" | "isUnderInternationalSanctions" | "thirdPartyConsent" | "agreedToTerms" ; 
+
 interface LegalDeclarationsProps {
     onNext: () => void;
     onPrev: () => void;
+    errors?: Partial<Record<errorFields, string>>;
+    handleLegalDeclaration: (field: string, value : boolean) => void;
 }
 
 
 const LegalDeclarations: React.FC<LegalDeclarationsProps> = ({
     onNext,
     onPrev,
+    errors, 
+    handleLegalDeclaration
 }) => {
 
-
+    const [politicallyExposed, setPoliticallyExposed] = useState(false)
+    const [underInternationalSanctions, setUnderInternationalSanctions] = useState(false)
+    const [thirdPartyConsent, setThirdPartyConsent] = useState(false)
+    const [agreedToTerms, setAgreedToTerms] = useState(false)
 
     return (
         <FormSection
@@ -31,19 +40,45 @@ const LegalDeclarations: React.FC<LegalDeclarationsProps> = ({
                 <span className="text-base   tracking-[-1.28px] max-md:max-w-full">Is the entity politically exposed?</span>
                 
                 <div className='flex gap-10 mb-5'>
-                <div className='flex gap-4'> <Checkbox/> Yes </div>
-                <div className='flex gap-4'> <Checkbox/> No </div>
+                <div className='flex gap-4'> <Checkbox checked={politicallyExposed} onClick={()=>{
+                    setPoliticallyExposed(!politicallyExposed)
+                   handleLegalDeclaration('isPoliticallyExposed',  politicallyExposed) 
+                    }} /> Yes </div>
+                <div className='flex gap-4'> <Checkbox checked={!politicallyExposed} onClick={()=>setPoliticallyExposed(!politicallyExposed)}/> No </div>
                 </div>
+
+                {
+                    errors?.isPoliticallyExposed && (
+                        <span className='text-red-400 text-sm'>{errors.isPoliticallyExposed}</span>
+                    )
+                }
 
                 <span className="text-base   tracking-[-1.28px] max-md:max-w-full">Is the entity subject to international sanctions?</span>
                 
                 <div className='flex gap-10 mb-5'>
-                <div className='flex gap-4'> <Checkbox/> Yes </div>
-                <div className='flex gap-4'> <Checkbox/> No </div>
+                <div className='flex gap-4'> <Checkbox checked={underInternationalSanctions} onClick={()=>{setUnderInternationalSanctions(!underInternationalSanctions) ; handleLegalDeclaration('isUnderInternationalSanctions' , underInternationalSanctions ) }}  /> Yes </div>
+                <div className='flex gap-4'> <Checkbox checked={!underInternationalSanctions} onClick={()=>setUnderInternationalSanctions(!underInternationalSanctions)}  /> No </div>
                 </div>
 
-                <div className='flex gap-4 mb-5'> <Checkbox/> Consent to share data with third parties </div>
-                <div className='flex gap-4 mb-5 underline text-blue-950 cursor-pointer'> <Checkbox/><Link href={'/terms'} target='_blank'> Agreement to Terms & Conditions </Link> </div>
+                {
+                    errors?.isUnderInternationalSanctions && (
+                        <span className='text-red-400 text-sm'>{errors.isUnderInternationalSanctions}</span>
+                    )
+                }
+
+                <div className='flex gap-4 mb-5'> <Checkbox checked={thirdPartyConsent} onClick={()=>{setThirdPartyConsent(!thirdPartyConsent) ; handleLegalDeclaration('thirdPartyConsent' , !thirdPartyConsent ) }}/> Consent to share data with third parties </div>
+                 {
+                    errors?.thirdPartyConsent && (
+                        <span className='text-red-400 text-sm'>{errors.thirdPartyConsent}</span>
+                    )
+                }
+                <div className='flex gap-4 mb-5 underline text-blue-950 cursor-pointer'> <Checkbox checked={agreedToTerms} onClick={()=>{setAgreedToTerms(!agreedToTerms) ; handleLegalDeclaration('agreedToTerms' , !agreedToTerms ) }}/><Link href={'/terms'} target='_blank'> Agreement to Terms & Conditions </Link> </div>
+
+                     {
+                    errors?.agreedToTerms && (
+                        <span className='text-red-400 text-sm'>{errors.agreedToTerms}</span>
+                    )
+                }
 
                
             

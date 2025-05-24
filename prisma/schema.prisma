@@ -52,12 +52,16 @@ model User {
   cartItems          Cart[]
   wishlistItems      Wishlist[]
   liveStreams       LiveStream[]
+  sellingDeals             Deals[] @relation("sellingUser")
+  buyingDeals             Deals[] @relation("buyingUser")
+  withdrawals            Withdrawals[]
 }
 
 enum Role {
   FREE_USER
   PAID_USER
   ADMIN
+  SUPER_ADMIN
   SETUP_PENDING
   PAYMENT_PENDING
   ONBOARDING
@@ -90,6 +94,7 @@ model Product {
   category         String
   createdAt        DateTime     @default(now())
   goLiveAt         DateTime?
+  approvalStatus   productApprovalStatus @default(PENDING)
 
   // Relations
   userId           String        @map("user_id") // Foreign key reference
@@ -99,6 +104,14 @@ model Product {
   cartItems        Cart[]
   wishlistedBy     Wishlist[]
   liveStream       LiveStream? 
+  deals            Deals[]
+}
+
+enum productApprovalStatus {
+  PENDING
+  APPROVED
+  HOLD
+  REJECTED
 }
 
 model ProductTag {
@@ -146,6 +159,56 @@ model Wishlist {
   product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@unique([userId, productId]) // prevent duplicate wishlist items
+}
+
+
+// ------------------------------------------------------ Deals
+
+model Deals {
+  id                      String           @id @default(uuid())
+  createdAt               DateTime         @default(now())
+  updatedAt               DateTime         @updatedAt
+  productId               String
+  sellerId                String           @map("seller_id")
+  buyerId                 String           @map("buyer_id")   
+  amount                  Decimal
+  skus                    String
+  adminComment            String
+
+  // Relations
+  seller                  User             @relation("sellingUser", fields: [sellerId], references: [id], onDelete: Cascade)
+  buyer                   User             @relation("buyingUser", fields: [buyerId], references: [id], onDelete: Cascade)
+  product                 Product          @relation(fields: [productId], references: [id], onDelete: Cascade)
+  status                  DealStatus       @default(PENDING)
+}
+
+enum DealStatus {
+  PENDING
+  APPROVED
+  HOLD
+  REJECTED
+}
+
+// ------------------------------------------------------ Withdrawl
+
+model Withdrawals {
+    id                         String   @id @default(uuid())
+    createdAt                  DateTime @default(now())
+    updatedAt                  DateTime @updatedAt
+    amount                     Decimal
+    currency                   String
+    userId                     String   @map("user_id") 
+    user                       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+    status                     WithdrawalStatus @default(PENDING)
+    walletBalance              Decimal?
+    adminNote                  String?
+}
+
+enum WithdrawalStatus {
+  APPROVED
+  PENDING
+  HOLD
+  REJECTED
 }
 
 
@@ -215,7 +278,7 @@ enum TransactionStatus {
 
 enum TransactionType {
   SUBSCRIPTION
-  DEAL_BONUS
+  DEAL
   PAYOUT
 }
 

@@ -9,20 +9,20 @@ interface ProductTableProps {
   columns: Column[];
   children: ReactNode;
   className?: string;
-  childClasses?: string;
+  childClassName?: string; 
 }
 
-const ProductTable = ({
+const TableWrapperAdmin = ({
   columns,
   children,
   className = "",
-  childClasses
+  childClassName
 }: ProductTableProps) => {
   return (
     <div
-      className={`  bg-white mb-5 rounded-xl border-solid border-1  border-[#E6E4E7]  w-full ${className}`}
+      className={`border shadow-[0_1px_2px_rgba(16,24,40,0.05)] bg-white mb-5 rounded-xl border-solid border-[#F6F5F6] w-full ${className}`}
     >
-      <div className={`grid   text-sm text-[#001625] bg-[#F6F5F6] px-5 py-5 w-full rounded-t-xl border-[#E6E4E7] border-b ${childClasses}`}>
+      <div className={`grid   text-sm text-[#001625] bg-[#F6F5F6] px-5 py-5 w-full rounded-xl ${columns.length === 6 ? 'grid-cols-[5%_35%_10%_10%_30%_10%]' : 'grid-cols-[5%_35%_10%_10%_10%_10%_20%]'} ${childClassName}`}>
         {columns.map((column, index) => (
           <div key={index} style={column.width ? { width: column.width } : {}}>
             {column.header}
@@ -34,4 +34,4 @@ const ProductTable = ({
   );
 };
 
-export default ProductTable;
+export default TableWrapperAdmin;

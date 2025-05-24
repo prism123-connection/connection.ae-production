@@ -66,7 +66,7 @@ const HorizontalNavbar = () => {
             )
           }
           {
-            user.userRole === 'PAID_USER' &&
+             (user.userRole === 'PAID_USER' || user.userRole === 'ADMIN' || user.userRole === 'SUPER_ADMIN') &&
             <div className="border-1 border-gray-600/10 flex p-1 rounded-lg px-2 bg-gray-600/5  ">
             <span className="text-gray-600/50 text-[12px]">{ `${process.env.NEXT_PUBLIC_DEPLOYED_URL}/auth/register?rid=${user.referralId}` }</span>
             <Image

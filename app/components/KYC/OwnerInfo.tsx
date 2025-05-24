@@ -2,26 +2,61 @@ import ActionButton from '@/app/components/ui/ActionButton';
 import { FormInput } from '@/app/components/ui/FormInputs';
 import { FormSection } from '@/app/components/ui/FormSection';
 import React, { useState } from 'react'
+import SingleOwnerInfo from './singleOwnerInfo';
+
+type errorFields = "fullName" | "role" | "nationality" | "shareholding" | "passportNumber" | "idDocument" | "ownerInfo"; 
+
+type Owner = {
+  fullName: string;
+  role: string;
+  nationality: string;
+  shareholding: string;
+  passportNumber: string;
+  idDocument: File | null;
+};
 
 interface contactDetailsProps {
     onNext: () => void;
     onPrev: () => void;
+    handleOwnerSubmit: (owners: Owner[]) => void;
+    errors?: Partial<Record<errorFields, string>>;
 }
+
+const defaultOwner: Owner = {
+  fullName: "",
+  role: "",
+  nationality: "",
+  shareholding: "",
+  passportNumber: "",
+  idDocument: null,
+};
 
 
 const OwnerInformation: React.FC<contactDetailsProps> = ({
     onNext,
     onPrev,
+    handleOwnerSubmit, 
+    errors
 }) => {
 
-    const [owner1, setOwner1] = useState({
-        fullName: "",
-        role: "",
-        nationality: "",
-        shareholding: "",
-        passportNumber: "",
-        idDocument: null as File | null,
-    });
+
+    const [owners, setOwners] = useState<Owner[]>([defaultOwner]);
+
+    const updateOwner = (index: number, updated: Owner) => {
+    const newOwners = [...owners];
+    newOwners[index] = updated;
+    setOwners(newOwners);
+  };
+
+    const addOwner = () => {
+    setOwners([...owners, { ...defaultOwner }]);
+  };
+
+const handleSubmit = () => {
+  // Update ownerInfo before submission
+
+
+};
 
 
     return (
@@ -34,64 +69,27 @@ const OwnerInformation: React.FC<contactDetailsProps> = ({
 
                 <span className="text-2xl mb-5 tracking-[-1.28px] max-md:max-w-full">Owner Information </span>
 
-                <FormInput
-                    label="Full Name"
-                    value={owner1.fullName}
-                    onChange={(e) => setOwner1({ ...owner1, fullName: e.target.value })}
-                />
+                  {owners.map((owner, index) => (
+                        <div key={index} className=" ">
+                        <h2 className="font-semibold mb-4">Owner {index + 1}</h2>
+                        <SingleOwnerInfo
+                            owner={owner}
+                            onChange={(updatedOwner) => updateOwner(index, updatedOwner)}
+                            errors={errors}
+                        />
+                        { errors?.ownerInfo && (
+                            <span className='text-red-400 text-sm'>{errors?.ownerInfo}</span>
+                        )}
+                        </div>
+                    ))}
 
-                <FormInput
-                    label="Role"
-                    value={owner1.role}
-                    onChange={(e) => setOwner1({ ...owner1, role: e.target.value })}
-                />
+                    <ActionButton onClick={addOwner} variant="secondary" className="rounded-none! px-0! py-4! bg-white! text-blue-400! border-0! w-fit! hover:shadow-none! "> Add Owner/Partner/Shareholder</ActionButton>
 
-                <FormInput
-                    label="Nationality"
-                    value={owner1.nationality}
-                    onChange={(e) => setOwner1({ ...owner1, nationality: e.target.value })}
-                />
-
-                <FormInput
-                    label="Shareholding %"
-                    value={owner1.shareholding}
-                    onChange={(e) => setOwner1({ ...owner1, shareholding: e.target.value })}
-                />
-
-                <FormInput
-                    label="Passport/ID Number"
-                    value={owner1.passportNumber}
-                    onChange={(e) => setOwner1({ ...owner1, passportNumber: e.target.value })}
-                />
-
-                <div className="flex flex-col">
-                <label className="text-sm font-medium text-gray-700 mb-2">Upload ID Document</label>
-                    <label
-                        htmlFor="idDocument"
-                        className="cursor-pointer py-2 bg-gray-500 text-white text-sm rounded-md hover:bg-blue-700 w-fit px-10"
-                    >
-                        Select File
-                    </label>
-                    <input
-                        id="idDocument"
-                        type="file"
-                        className="hidden"
-                        onChange={(e) =>
-                            setOwner1({
-                                ...owner1,
-                                idDocument: e.target.files?.[0] || null,
-                            })
-                        }
-                    />
-                    <span className="ml-3 text-sm text-gray-600 mt-2">
-                        {owner1.idDocument?.name || "No file chosen"}
-                    </span>
-                </div>
-                <div className="flex flow-row w-full gap-5 mt-5">
+                    <div className="flex flow-row w-full gap-5 mt-5 ">
                     <ActionButton onClick={onPrev} variant="secondary" className="rounded-lg!">
                         Back
                     </ActionButton>
-                    <ActionButton onClick={onNext} className="w-full!">
+                    <ActionButton onClick={()=>handleOwnerSubmit(owners)} className="w-full!">
                         <span>Next</span>
                         <img
                             src="https://cdn.builder.io/api/v1/image/assets/296ac88e169e49cda1179c6a01f4bc83/8976e1b0d179b0baed70adc8f769a77635f2234f?placeholderIfAbsent=true"
@@ -100,7 +98,10 @@ const OwnerInformation: React.FC<contactDetailsProps> = ({
                         />
                     </ActionButton>
                 </div>
-            </div>
+                </div>
+
+
+        
         </FormSection>
     )
 }

@@ -17,7 +17,7 @@ const AdminNavigation: React.FC<adminNavigationProps> = ({ activeTab, setActiveT
         { id: "transactions ", label: "Transactions", icon: "/dash/commission/cash.svg" },
       ];
   return (
-    <div className="flex gap-10  mb-5 pb-4  max-sm:overflow-x-auto ">
+    <div className="flex gap-10  mt-5 pb-4  max-sm:overflow-x-auto ">
     {tabs.map((tab, index) => (
       <div
         onClick={() => setActiveTab(index)}

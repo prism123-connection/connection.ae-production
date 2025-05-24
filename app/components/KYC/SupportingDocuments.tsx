@@ -5,15 +5,20 @@ import { Checkbox } from '@/components/ui/checkbox';
 import React, { useState } from 'react'
 import FileUploadInput from '../ui/FileUploadInput';
 
+type errorFields = "tradeLicense" | "passportCopies" | "boardResolution" | "proofOfAddress" | "additionalDocuments"; 
+    
+
 interface SupportingDocumentsProps {
     onNext: () => void;
     onPrev: () => void;
+    errors?: Partial<Record<errorFields, string>>;
 }
 
 
 const SupportingDocuments: React.FC<SupportingDocumentsProps> = ({
     onNext,
     onPrev,
+    errors
 }) => {
 
     const [supportingDocs, setSupportingDocs] = useState({
@@ -42,6 +47,11 @@ const SupportingDocuments: React.FC<SupportingDocumentsProps> = ({
                         setSupportingDocs({ ...supportingDocs, tradeLicense: file })
                     }
                 />
+                {
+                    errors?.tradeLicense && (
+                        <span className='text-red-400 font-sm'>{errors.tradeLicense}</span>
+                    )
+                }
 
                 <FileUploadInput
                     label="Passport/ID Copies of Owners"
@@ -51,6 +61,11 @@ const SupportingDocuments: React.FC<SupportingDocumentsProps> = ({
                         setSupportingDocs({ ...supportingDocs, passportCopies: file })
                     }
                 />
+                {
+                    errors?.passportCopies && (
+                        <span className='text-red-400 font-sm'>{errors.passportCopies}</span>
+                    )
+                }
 
                 <FileUploadInput
                     label="Board Resolution (if applicable)"
@@ -60,6 +75,11 @@ const SupportingDocuments: React.FC<SupportingDocumentsProps> = ({
                         setSupportingDocs({ ...supportingDocs, boardResolution: file })
                     }
                 />
+                {
+                    errors?.boardResolution && (
+                        <span className='text-red-400 font-sm'>{errors.boardResolution}</span>
+                    )
+                }
 
                 <FileUploadInput
                     label="Proof of Address"
@@ -69,6 +89,11 @@ const SupportingDocuments: React.FC<SupportingDocumentsProps> = ({
                         setSupportingDocs({ ...supportingDocs, proofOfAddress: file })
                     }
                 />
+                {
+                    errors?.proofOfAddress && (
+                        <span className='text-red-400 font-sm'>{errors.proofOfAddress}</span>
+                    )
+                }
 
                 <FileUploadInput
                     label="Any Additional Supporting Documents (Optional)"
@@ -78,6 +103,11 @@ const SupportingDocuments: React.FC<SupportingDocumentsProps> = ({
                         setSupportingDocs({ ...supportingDocs, additionalDocuments: file })
                     }
                 />
+                {
+                    errors?.additionalDocuments && (
+                        <span className='text-red-400 font-sm'>{errors.additionalDocuments}</span>
+                    )
+                }
 
 
                 <div className="flex flow-row w-full gap-5 mt-5">

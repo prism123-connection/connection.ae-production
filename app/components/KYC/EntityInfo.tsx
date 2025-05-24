@@ -3,7 +3,12 @@ import { FormInput } from '@/app/components/ui/FormInputs';
 import { FormSection } from '@/app/components/ui/FormSection';
 import React, { useState } from 'react'
 
+
+type errorFields = "entityName" | "crTlNumber" | "crTlExpiryDate" | "incorporationDate" | "incorporationCountry" | "entityType" | "registeredAddress" | "operationalAddress";
+
+
 interface EntityInformationsProps {
+    errors?: Partial<Record<errorFields, string>>;
     entityName: string;
     crTlNumber: string;
     crTlExpiryDate: string;
@@ -30,6 +35,7 @@ const EntityInformations: React.FC<EntityInformationsProps> = ({
     handleInputChange,
     onNext,
     onPrev,
+    errors
  }) => {
 
 
@@ -46,11 +52,13 @@ const EntityInformations: React.FC<EntityInformationsProps> = ({
           label="Entity name (Legal Name)"
           value={entityName}
           onChange={handleInputChange("entityName")}
+          error={errors?.entityName}
         />
         <FormInput
           label="Commercial Registration / TL Number"
           value={crTlNumber}
           onChange={handleInputChange("crTlNumber")}
+          error={errors?.crTlNumber}
         />
         <div className="flex gap-4 w-full">
           <div className="w-1/2">
@@ -59,6 +67,7 @@ const EntityInformations: React.FC<EntityInformationsProps> = ({
               value={crTlExpiryDate}
               onChange={handleInputChange("crTlExpiryDate")}
               type="date"
+              error={errors?.crTlExpiryDate}
             />
           </div>
           <div className="w-1/2">
@@ -67,6 +76,7 @@ const EntityInformations: React.FC<EntityInformationsProps> = ({
               value={incorporationDate}
               onChange={handleInputChange("incorporationDate")}
               type="date"
+                error={errors?.incorporationDate}
             />
           </div>
         </div>
@@ -76,6 +86,7 @@ const EntityInformations: React.FC<EntityInformationsProps> = ({
               label="Country of Incorporation"
               value={incorporationCountry}
               onChange={handleInputChange("incorporationCountry")}
+                error={errors?.incorporationCountry}
             />
           </div>
           <div className="w-1/2">
@@ -83,6 +94,7 @@ const EntityInformations: React.FC<EntityInformationsProps> = ({
               label="Type of Entity (LLC, etc.)"
               value={entityType}
               onChange={handleInputChange("entityType")}
+                error={errors?.entityType}
             />
           </div>
         </div>
@@ -90,11 +102,13 @@ const EntityInformations: React.FC<EntityInformationsProps> = ({
           label="Registered Address"
           value={registeredAddress}
           onChange={handleInputChange("registeredAddress")}
+          error={errors?.registeredAddress}
         />
         <FormInput
           label="Operational Address (if different)"
           value={operationalAddress}
           onChange={handleInputChange("operationalAddress")}
+          error={errors?.registeredAddress}
         />
     <div className='flex flow-row w-full gap-5 '>
     <ActionButton onClick={onPrev} variant='secondary' className='rounded-lg!'>Back</ActionButton>

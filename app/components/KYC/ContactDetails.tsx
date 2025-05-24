@@ -3,6 +3,8 @@ import { FormInput } from '@/app/components/ui/FormInputs';
 import { FormSection } from '@/app/components/ui/FormSection';
 import React, { useState } from 'react'
 
+type errorFields = "contactPerson" | "designation" | "contactNumber" | "email" | "website" 
+
 interface contactDetailsProps {
     contactPersonName: string;
     contactDesignation: string;
@@ -12,6 +14,7 @@ interface contactDetailsProps {
     handleInputChange: (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => void;
     onNext: () => void;
     onPrev: () => void;
+    errors?: Partial<Record<errorFields, string>>;
   }
 
 
@@ -24,6 +27,7 @@ const KycContactDetails: React.FC<contactDetailsProps> = ({
     handleInputChange,
     onNext,
     onPrev,
+    errors
  }) => {
 
 
@@ -38,11 +42,11 @@ const KycContactDetails: React.FC<contactDetailsProps> = ({
 
         <span className="text-2xl mb-5 tracking-[-1.28px] max-md:max-w-full">Contact Details</span>
 
-        <FormInput label="Primary Contact Person Name" value={contactPersonName} onChange={handleInputChange('contactPersonName')} />
-        <FormInput label="Designation" value={contactDesignation} onChange={handleInputChange('contactDesignation')} />
-        <FormInput label="Contact Number" value={contactNumber} onChange={handleInputChange('contactNumber')} />
-        <FormInput label="Email Address" value={contactEmail} onChange={handleInputChange('contactEmail')} />
-        <FormInput label="Website (optional)" value={contactWebsite} onChange={handleInputChange('contactWebsite')} />
+        <FormInput label="Primary Contact Person Name" value={contactPersonName} onChange={handleInputChange('contactPerson')} error={errors?.contactPerson}/>
+        <FormInput label="Designation" value={contactDesignation} onChange={handleInputChange('designation')} error={errors?.designation}/>
+        <FormInput label="Contact Number" value={contactNumber} onChange={handleInputChange('contactNumber')} error={errors?.contactNumber}/>
+        <FormInput label="Email Address" value={contactEmail} onChange={handleInputChange('email')} error={errors?.email}/>
+        <FormInput label="Website (optional)" value={contactWebsite} onChange={handleInputChange('website')} error={errors?.website} />
 
         <div className="flex flow-row w-full gap-5 mt-5">
           <ActionButton onClick={onPrev} variant="secondary" className="rounded-lg!">
