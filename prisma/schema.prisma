@@ -1,0 +1,359 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init 
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ------------------------------------------------------ Users
+
+model User {
+  id          String  @id @default(uuid())
+  firstName   String
+  lastName    String
+  email       String  @unique
+  password    String
+  referralId  String  @unique
+  verified    Boolean @default(false)
+  createdAt   DateTime @default(now())
+  walletBalance Float     @default(0)
+  role          Role      @default(SETUP_PENDING)
+  kycDone       Boolean   @default(false)
+
+  phoneNumber      String?
+  occupation       String?
+  emiratesId       String?
+  zipCode          String?
+  state            String?
+  city             String?
+  address          String?
+  gender           String?
+  dateOfBirth      DateTime?
+  referralSource   String?  // how did user hear about the app
+  joinReason       String?
+
+  avatarUrl        String?
+
+  // Relations
+  tokens Token[]
+  transactions Transaction[]
+  referralsGiven Referral[] @relation("UserReferrer")
+  referralsReceived Referral[] @relation("UserReferred")
+  products           Product[]  
+  kyc               Kyc?
+  cartItems          Cart[]
+  wishlistItems      Wishlist[]
+  liveStreams       LiveStream[]
+  sellingDeals             Deals[] @relation("sellingUser")
+  buyingDeals             Deals[] @relation("buyingUser")
+  withdrawals            Withdrawals[]
+}
+
+enum Role {
+  FREE_USER
+  PAID_USER
+  ADMIN
+  SUPER_ADMIN
+  SETUP_PENDING
+  PAYMENT_PENDING
+  ONBOARDING
+}
+
+model Token {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id") // Foreign key reference
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token      String   @unique
+  type       TokenType
+  expiresAt  DateTime 
+  createdAt  DateTime @default(now())
+}
+
+enum TokenType {
+  EMAIL_VERIFICATION
+  PASSWORD_RESET
+}
+
+// ------------------------------------------------------ Products
+
+model Product {
+  id               String       @id @default(uuid())
+  name             String
+  shortDescription String
+  description      String       @db.Text
+  price            Float
+  currency         String
+  category         String
+  createdAt        DateTime     @default(now())
+  goLiveAt         DateTime?
+  approvalStatus   productApprovalStatus @default(PENDING)
+
+  // Relations
+  userId           String        @map("user_id") // Foreign key reference
+  user             User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tags             ProductTag[] // One-to-many relation
+  productImages    ProductImage[] // One-to-many relation
+  cartItems        Cart[]
+  wishlistedBy     Wishlist[]
+  liveStream       LiveStream? 
+  deals            Deals[]
+}
+
+enum productApprovalStatus {
+  PENDING
+  APPROVED
+  HOLD
+  REJECTED
+}
+
+model ProductTag {
+  id        String   @id @default(uuid())
+  value     String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String   
+
+  @@unique([productId, value])
+}
+
+
+model ProductImage {
+  id       String  @id @default(uuid())
+  product  Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String 
+  url      String
+  createdAt DateTime @default(now())
+
+  @@unique([productId, url])
+}
+
+model Cart {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  productId  String   @map("product_id")
+  quantity   Int      @default(1)
+  createdAt  DateTime @default(now())
+
+  // Relations
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId]) // prevent duplicate entries of same product in user's cart
+}
+
+model Wishlist {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  productId  String   @map("product_id")
+  createdAt  DateTime @default(now())
+
+  // Relations
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId]) // prevent duplicate wishlist items
+}
+
+
+// ------------------------------------------------------ Deals
+
+model Deals {
+  id                      String           @id @default(uuid())
+  createdAt               DateTime         @default(now())
+  updatedAt               DateTime         @updatedAt
+  productId               String
+  sellerId                String           @map("seller_id")
+  buyerId                 String           @map("buyer_id")   
+  amount                  Decimal
+  skus                    String
+  adminComment            String?
+
+  // Relations
+  seller                  User             @relation("sellingUser", fields: [sellerId], references: [id], onDelete: Cascade)
+  buyer                   User             @relation("buyingUser", fields: [buyerId], references: [id], onDelete: Cascade)
+  product                 Product          @relation(fields: [productId], references: [id], onDelete: Cascade)
+  dealStatus              DealStatus       @default(PENDING)
+  paymentStatus           PaymentStatus    @default(PENDING)
+}
+
+enum DealStatus {
+  PENDING
+  APPROVED
+  HOLD
+  REJECTED
+}
+
+enum PaymentStatus {
+  PENDING
+  RECEIVED
+  FAILED
+  CANCELLED  // (optional) User or system canceled the payment
+}
+
+// ------------------------------------------------------ Withdrawl
+
+model Withdrawals {
+    id                         String   @id @default(uuid())
+    createdAt                  DateTime @default(now())
+    updatedAt                  DateTime @updatedAt
+    amount                     Decimal
+    currency                   String
+    userId                     String   @map("user_id") 
+    user                       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+    status                     WithdrawalStatus @default(PENDING)
+    walletBalance              Decimal?
+    adminNote                  String?
+}
+
+enum WithdrawalStatus {
+  APPROVED
+  PENDING
+  HOLD
+  REJECTED
+}
+
+
+
+// ------------------------------------------------------ Live Stream 
+
+model LiveStream {
+  id         String           @id @default(uuid())
+  goLiveAt   DateTime         // Mirrors the Product.goLiveAt
+  status     LiveStreamStatus
+  createdAt  DateTime         @default(now())
+  startAt    DateTime?
+  endAt      DateTime?
+
+  // Relations
+  userId     String
+  user       User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  productId  String           @unique // Each product has only one live stream
+  product    Product          @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+
+enum LiveStreamStatus {
+  LIVE_PENDING
+  LIVE
+  ENDED
+}
+
+// ------------------------------------------------------ Commissions
+
+model Referral {
+  id          String   @id @default(uuid()) 
+  referrerId  String   @map("referrer_id")   
+  referredId  String   @map("referred_id") 
+  createdAt   DateTime @default(now())    
+  updatedAt   DateTime @updatedAt      
+  conversion  Boolean @default(false)
+
+  referrer    User     @relation("UserReferrer", fields: [referrerId], references: [id], onDelete: Cascade)
+  referred    User     @relation("UserReferred", fields: [referredId], references: [id], onDelete: Cascade)
+
+  @@unique([referredId])
+}
+
+
+
+// ------------------------------------------------------ Transactions
+
+model Transaction {
+  id            String   @id @default(uuid()) 
+  userId        String   @map("user_id") 
+  transactionId String   @unique 
+  amount        Float    
+  currency      String   
+  status        TransactionStatus @default(PENDING)  
+  createdAt     DateTime @default(now()) 
+  type          TransactionType @default(SUBSCRIPTION)
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+enum TransactionType {
+  SUBSCRIPTION
+  DEAL
+  PAYOUT
+}
+
+// ------------------------------------------------------ KYC
+
+model Kyc {
+  id                         String   @id @default(uuid())
+  userId                     String   @unique @map("user_id")
+  user                       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Bank Details
+  iban                       String?
+  accountNumber              String?
+  swiftCode                  String?
+  routingNumber              String?
+
+  // Business Details
+  entityName                 String?
+  commercialRegNumber        String?
+  crExpiryDate               DateTime?
+  incorporationDate          DateTime?
+  countryOfIncorporation     String?
+  typeOfEntity               String?
+  registeredAddress          String?
+  operationalAddress         String?
+
+  // Contact Person
+  contactPersonName          String?
+  designation                String?
+  contactNumber              String?
+  emailAddress               String?
+  website                    String?
+
+  // Compliance
+  politicallyExposed         Boolean?
+  underSanctions             Boolean?
+
+  // File Uploads
+  tradeLicenseUrl            String?
+  passportCopiesUrl          String?
+  boardResolutionUrl         String?
+  proofOfAddressUrl          String?
+  additionalDocumentsUrl     String?
+
+  // Consent
+  thirdPartyConsent          Boolean
+  agreedToTerms              Boolean
+
+  // Relation to Owners
+  owners                     KycOwners[]
+
+  createdAt                  DateTime @default(now())
+  updatedAt                  DateTime @updatedAt
+}
+
+model KycOwners {
+  id                 String   @id @default(uuid())
+  kycId              String   @map("kyc_id")
+  kyc                Kyc      @relation(fields: [kycId], references: [id], onDelete: Cascade)
+
+  fullName           String
+  role               String
+  nationality        String
+  shareholding       Float
+  passportNumber     String
+  idDocumentUrl      String?
+
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}

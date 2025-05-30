@@ -1,0 +1,12 @@
+-- AlterTable
+ALTER TABLE `User` ADD COLUMN `address` VARCHAR(191) NULL,
+    ADD COLUMN `city` VARCHAR(191) NULL,
+    ADD COLUMN `dateOfBirth` DATETIME(3) NULL,
+    ADD COLUMN `emiratesId` VARCHAR(191) NULL,
+    ADD COLUMN `gender` VARCHAR(191) NULL,
+    ADD COLUMN `joinReason` VARCHAR(191) NULL,
+    ADD COLUMN `occupation` VARCHAR(191) NULL,
+    ADD COLUMN `phoneNumber` VARCHAR(191) NULL,
+    ADD COLUMN `referralSource` VARCHAR(191) NULL,
+    ADD COLUMN `state` VARCHAR(191) NULL,
+    ADD COLUMN `zipCode` VARCHAR(191) NULL;
