@@ -130,7 +130,7 @@ export const AccountMenu: React.FC<AccountMenuProps> = ({ }) => {
           onClick={handleSupport}
           className="self-stretch mt-4 text-left hover:text-[#E95744] transition-colors cursor-pointer"
         >
-          Contact support
+          Contact support 
         </button>
       </div>
 
