@@ -28,7 +28,8 @@ export async function GET(req: Request) {
         referralId: true,
         role: true, 
         avatarUrl : true, 
-        kycDone : true
+        kycDone : true, 
+        id: true,
       },
     });
 

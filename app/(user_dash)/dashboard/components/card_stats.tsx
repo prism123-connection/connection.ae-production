@@ -22,7 +22,6 @@ const CardStats = ({ className }: { className: string }) => {
         setTotalMembers(response.totalMembers);
         setPaidMembers(response.paidReferrals);
       }
-      console.log("response: ", response);
     } catch {
       setError(true);
     } finally {
